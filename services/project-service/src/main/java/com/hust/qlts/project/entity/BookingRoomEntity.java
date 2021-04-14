@@ -25,13 +25,13 @@ public class BookingRoomEntity extends Auditable<String> {
     private Long EmployeeId;
 
     @Column(name = "booking_date")
-    private Date booking_date;
+    private Long booking_date;
 
     @Column(name = "booking_checkin")
-    private Date booking_checkin;
+    private Long booking_checkin;
 
     @Column(name = "booking_checkout")
-    private Date booking_checkout;
+    private Long booking_checkout;
 
     @Column(name = "advance_amount")
     private Double advance_amount;

@@ -14,44 +14,50 @@ import java.util.List;
 
 @NoArgsConstructor
 
-public class HumanResourcesEntity extends Auditable<String>{
+public class HumanResourcesEntity extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "HUMAN_RESOURCES_ID")
+    @Column(name = "human_resource_id")
     private Long humanResourceId;
 
-    @Column(name = "CODE")
+    @Column(name = "code")
     private String code;
 
-    @Column(name = "FULLNAME")
+    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "STATUS")
+    @Column(name = "status")
     private Integer status;
 
-    @Column(name = "NOTE")
+    @Column(name = "note")
     private String note;
 
-    @Column(name = "USERNAME")
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "IS_NEW")
+    @Column(name = "is_new")
     private Integer isNew;
 
-    @Column(name = "VERIFY_KEY")
+    @Column(name = "verify_key")
     private String verifyKey;
 
-    @Column(name = "PHONE")
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "DATE_OF_BIRTH")
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
+
+    @Column(name = "cmt")
+    private String cmt;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "ROLE")
     private String role;
