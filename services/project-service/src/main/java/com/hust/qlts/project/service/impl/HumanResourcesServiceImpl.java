@@ -7,6 +7,9 @@ import com.hust.qlts.project.dto.ICusTomDto;
 import com.hust.qlts.project.entity.HumanResourcesEntity;
 import com.hust.qlts.project.service.HumanResourcesService;
 import common.ResultResp;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service(value = "humanResourcesService")
-public class HumanResourcesServiceImpl implements HumanResourcesService {
+public class HumanResourcesServiceImpl implements HumanResourcesService, UserDetailsService {
     @Override
     public List<HumanResourcesDTO> getListHumanResourceByNameOrCode(DTOSearch dto) {
         return null;
@@ -122,6 +125,11 @@ public class HumanResourcesServiceImpl implements HumanResourcesService {
 
     @Override
     public List<ICusTomDto> listAll() {
+        return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return null;
     }
 }

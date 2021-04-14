@@ -3,6 +3,7 @@ package com.hust.qlts.project.controller;
 import com.hust.qlts.project.common.CoreUtils;
 import com.hust.qlts.project.config.security.JWTProvider;
 import com.hust.qlts.project.dto.DTOSearch;
+import com.hust.qlts.project.dto.HumanResourcesDTO;
 import com.hust.qlts.project.service.AuthenService;
 import com.hust.qlts.project.service.HumanResourcesService;
 import common.CommonUtils;
@@ -69,18 +70,7 @@ public class HumanResourcesController {
         return new ResponseEntity(resourcesService.getUserInfo(username), HttpStatus.OK);
     }
 
-    // TanNV get HumanResourcesShowDTO danh sach
-    @PostMapping("/searchHumanResources")
-    public ResponseEntity<List<HumanResourcesShowDTO>> searchHumanResources(@RequestBody HumanResourcesShowDTO dto) {
-        log.info("----------------api searchHumanResources nhan su-----------------");
-        try {
-            log.info("----------------api searchHumanResources nhan su Ok-----------------");
-            return new ResponseEntity(resourcesService.getPageHumanResourcesSeach(dto), HttpStatus.OK);
-        } catch (Exception e) {
-            log.info("----------------api searchHumanResources nhan su fail-----------------");
-            throw e;
-        }
-    }
+
 
     /// khoa nhan su
     @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
@@ -261,16 +251,7 @@ public class HumanResourcesController {
 
     }
 
-    @GetMapping("/human-history")
-    public List<HistoryDTO> getHumanHistory() {
-        return resourcesService.getHumanHistory();
-    }
 
-    @GetMapping("/human-history/{id}")
-    public List<HistoryDTO> getHumanHistoryById(@PathVariable("id") Long id) {
-        log.info("<-- api get historybyid: start, ", id);
-        return resourcesService.getHumanHistoryById(id);
-    }
 //    @GetMapping("/getHumanResources/{projectId}")
 //    public ResultResp getListHumanResources(@PathVariable("projectId") Long projectId) {
 //        try {

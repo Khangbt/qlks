@@ -1,6 +1,7 @@
 package com.hust.qlts.project.controller;
 
 import com.hust.qlts.project.config.security.JWTProvider;
+import com.hust.qlts.project.dto.HumanResourcesDTO;
 import com.hust.qlts.project.dto.UserLoginDTO;
 import com.hust.qlts.project.entity.HumanResourcesEntity;
 import com.hust.qlts.project.repository.jparepository.HumanResourcesRepository;

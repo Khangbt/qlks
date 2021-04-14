@@ -1,6 +1,7 @@
 package com.hust.qlts.project.repository.customreporsitory;
 
 import com.hust.qlts.project.dto.DTOSearch;
+import com.hust.qlts.project.dto.HumanResourcesDTO;
 import common.AppParams;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -139,127 +140,6 @@ public class HumanResourcesCustomRepository {
         return listDto;
     }
 
-    public List<HumanResourcesShowDTO> getlistHumanResources(HumanResourcesShowDTO dto) {
-        log.info("------------------------sql get list HumanResources--------------------------");
-
-        StringBuilder sql = new StringBuilder();
-        sql.append(" select    ");
-        sql.append(" hr.HUMAN_RESOURCES_ID as humanResourceId,         ");
-        sql.append(" hr.FULLNAME as name,             ");
-        sql.append(" ps.NAME position,            ");
-        sql.append(" pr.NAME as part,              ");
-        sql.append(" hr.STATUS as active,                 ");
-        sql.append(" hr.DATE_GRADUATE as dategraduate,            ");
-
-
-        sql.append(" hr.EMAIL as email,      ");
-        sql.append(" hr.NOTE as note,      ");
-        sql.append(" hr.CODE as code,         ");
-        sql.append(" hr.PASSWORD as password    ,     ");
-        sql.append(" pr.ID as parId     ,");
-        sql.append(" hr.PHONE as phone     , " +
-                "   hr.DATE_OF_BIRTH   as pppp  , ");
-        sql.append(" hr.IS_NEW ");
-        sql.append(" from HUMAN_RESOURCES as hr              ");
-        sql.append(" LEFT JOIN POSITION as ps on hr.POSITION_ID = ps.ID                ");
-        sql.append(" LEFT JOIN PART as pr on hr.PART_ID = pr.ID              ");
-
-
-        sql.append("  where hr.STATUS != 3 ");
-        if (null != dto.getActive()) {
-            sql.append(" and hr.STATUS = :active  ");
-        }
-        if (null != dto.getHumanResourceId()) {
-            sql.append(" and( hr.HUMAN_RESOURCES_ID = :humanResourceId )");
-        }
-        if (null != dto.getPositionId()) {
-            sql.append(" and( hr.POSITION_ID = :positionId )");
-        }
-
-        if (null != dto.getPartId()) {
-            sql.append(" and( hr.PART_ID = :partId )");
-        }
-
-
-        sql.append(" ORDER BY hr.LAST_MODIFIED_DATE DESC ");
-        Query query = em.createNativeQuery(sql.toString());
-        Query queryCount = em.createNativeQuery(sql.toString());
-
-        if (null != dto.getActive()) {
-            query.setParameter("active", dto.getActive());
-            queryCount.setParameter("active", dto.getActive());
-        }
-        if (null != dto.getHumanResourceId()) {
-            query.setParameter("humanResourceId", dto.getHumanResourceId());
-            queryCount.setParameter("humanResourceId", dto.getHumanResourceId());
-        }
-        if (null != dto.getPositionId()) {
-            query.setParameter("positionId", dto.getPositionId());
-            queryCount.setParameter("positionId", dto.getPositionId());
-        }
-//        if (null != dto.getExperience()) {
-//            query.setParameter("experience", dto.getExperience());
-//            queryCount.setParameter("experience", dto.getExperience());
-//        }
-        if (null != dto.getPartId()) {
-            query.setParameter("partId", dto.getPartId());
-            queryCount.setParameter("partId", dto.getPartId());
-        }
-
-
-        if (dto.getPage() != null && dto.getPageSize() != null) {
-            query.setFirstResult((dto.getPage().intValue() - 1) * dto.getPageSize().intValue());
-            query.setMaxResults(dto.getPageSize().intValue());
-            dto.setTotalRecord((long) queryCount.getResultList().size());
-        }
-
-        List<Object[]> lstObject = query.getResultList();
-
-        return convertObjectToDtoShow(lstObject);
-    }
-
-    //TanNV convert object to dto
-    public List<HumanResourcesShowDTO> convertObjectToDtoShow(List<Object[]> lstObject) {
-        log.info("-------------------------convert dto----------------------------");
-        List<HumanResourcesShowDTO> listDto = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(lstObject)) {
-            for (Object[] obj : lstObject) {
-                HumanResourcesShowDTO humanResourcesDTO = new HumanResourcesShowDTO();
-                humanResourcesDTO.setHumanResourceId((BigInteger) obj[0]);
-                humanResourcesDTO.setName((String) obj[1]);
-                humanResourcesDTO.setPosition((String) obj[2]);
-                humanResourcesDTO.setPart((String) obj[3]);
-                humanResourcesDTO.setStatus((Integer) obj[4]);
-                if ((Integer) obj[4] == 1) {
-                    humanResourcesDTO.setStatuss("Đang làm việc");
-                } else if ((Integer) obj[4] == 2) {
-                    humanResourcesDTO.setStatuss("Đã thôi việc");
-
-                }
-
-                humanResourcesDTO.setDategraduate((Integer) obj[5]);
-
-                humanResourcesDTO.setEmail((String) obj[6]);
-                humanResourcesDTO.setNote((String) obj[7]);
-                humanResourcesDTO.setCode((String) obj[8]);
-                humanResourcesDTO.setPassword((String) obj[9]);
-                if(obj[10]!=null){
-                    humanResourcesDTO.setPartId(Long.valueOf(String.valueOf(obj[10])));
-                }
-                if(obj[11]!=null){
-                    humanResourcesDTO.setPhone((String) obj[11]);
-                }
-                if(obj[12]!=null){
-                    humanResourcesDTO.setDateOfBirth((Date) obj[12]);
-                }
-                humanResourcesDTO.setIsNew((Integer) obj[13]);
-                humanResourcesDTO.setTyleDto("HUMMER");
-                listDto.add(humanResourcesDTO);
-            }
-        }
-
-        return listDto;
-    }
 
     // get thong tin nhan su
     public List<HumanResourcesDTO> getHumanResources(DTOSearch dto) {
