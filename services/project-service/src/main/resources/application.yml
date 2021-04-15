@@ -1,5 +1,5 @@
 server:
-  port: 8061
+  port: 8063
   servlet:
     context-path: /project-service
 eureka:
@@ -77,9 +77,9 @@ urlForgotPassword: http://localhost:8080/qlts/#/forgot-password/
 #host cross
 #hostCross: http://192.168.1.194:8080
 #host tomcat
-hostCross: http://localhost:8080
+#hostCross: http://localhost:8080
 
-#hostCross: http://localhost:9003
+hostCross: http://localhost:9003
 
 #folder-upload
 #folderUpload: /home/iist/services/qlda-service-phase2/fileUpload/
