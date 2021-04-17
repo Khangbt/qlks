@@ -1,15 +1,16 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
-import {LoginService} from 'app/core/login/login.service';
-import {TranslateService} from "@ngx-translate/core";
-import {JhiEventManager} from "ng-jhipster";
-import {CommonApiService} from 'app/core/services/common-api/common-api.service';
-import {Router} from '@angular/router';
-import {NgxSpinnerService} from "ngx-spinner";
-import {ToastService} from "app/shared/services/toast.service";
-import {ChangePasswordComponent} from "app/layouts/navbar/change-password/change-password.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ForgotPasswordComponent} from "app/account/login/forgot-password/forgot-password.component";
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { LoginService } from 'app/core/login/login.service';
+import { TranslateService } from '@ngx-translate/core';
+import { JhiEventManager } from 'ng-jhipster';
+import { CommonApiService } from 'app/core/services/common-api/common-api.service';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from 'app/shared/services/toast.service';
+import { ChangePasswordComponent } from 'app/layouts/navbar/change-password/change-password.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ForgotPasswordComponent } from 'app/account/login/forgot-password/forgot-password.component';
+import { ReCaptcha2Component, ReCaptchaV3Service } from 'ngx-captcha';
 
 @Component({
   selector: 'jhi-login',
@@ -17,6 +18,7 @@ import {ForgotPasswordComponent} from "app/account/login/forgot-password/forgot-
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements AfterViewInit, OnInit {
+  @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
   loginForm = this.fb.group({
     username: [''],
     password: [''],
@@ -40,9 +42,8 @@ export class LoginComponent implements AfterViewInit, OnInit {
     private spinner: NgxSpinnerService,
     private toastService: ToastService,
     private modalService: NgbModal,
-  ) {
-
-  }
+    private reCaptchaV3Service: ReCaptchaV3Service
+  ) {}
 
   ngOnInit(): void {
     const user: any = localStorage.getItem('RememberUser') ? JSON.parse(localStorage.getItem('RememberUser')) : '';
@@ -50,11 +51,11 @@ export class LoginComponent implements AfterViewInit, OnInit {
       this.loginForm = this.fb.group({
         username: [user.username],
         password: [user.password],
-        remember: [user.remember]
+        remember: [user.remember],
+        recaptcha: ''
       });
     }
   }
-
 
   ngAfterViewInit() {
     // this.user = this.parseJwt('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MjEiLCJodW1hblJlc291cmNlSWQiOjUsInVzZXJuYW1lIjoidGVzdDIxIiwibGlzdFBlcm1pc3Npb24iOlt7ImF1dGhvcml0eSI6ImNuMyJ9LHsiYXV0aG9yaXR5IjoiY240In1dLCJjcmVhdGVkIjoxNTk0OTg2MDI4MjMyLCJpYXQiOjE1OTQ5ODYwMjgsImV4cCI6MTU5NTE2NjAyOH0.FQCIdXEEuzfFHu__YZwLP6MsBsokh5DNI33r7A2T5dQ');
@@ -66,7 +67,17 @@ export class LoginComponent implements AfterViewInit, OnInit {
     setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
   }
 
+  getcapcha() {
+    console.warn();
+    // this.loginForm.set
+  }
   login() {
+    const response = this.captchaElem.getResponse();
+    if (response.length === 0) {
+      console.warn(response);
+      return;
+    }
+
     this.spinner.show();
     if (!this.loginForm.get('username').value && this.loginForm.get('password').value) {
       this.isError = true;
@@ -83,9 +94,11 @@ export class LoginComponent implements AfterViewInit, OnInit {
     }
     const data = {
       email: this.loginForm.get('username').value,
-      password: this.loginForm.get('password').value
+      password: this.loginForm.get('password').value,
+      recaptchare: response
     };
-    this.loginService.login(data).subscribe(res => {
+    this.loginService.login(data).subscribe(
+      res => {
         this.isError = false;
         this.authenticationError = false;
         // this.formStoringService.set(STORAGE_KEYS.CURRENT_USER_ADMIN, res);
@@ -93,20 +106,22 @@ export class LoginComponent implements AfterViewInit, OnInit {
           name: 'authenticationSuccess',
           content: 'Sending Authentication Success'
         });
-        console.warn(96, "Data", data)
+        console.warn(96, 'Data', data);
         if (this.loginForm.get('remember').value) {
-          console.warn(98, "Form", this.loginForm.value)
+          console.warn(98, 'Form', this.loginForm.value);
           localStorage.setItem('RememberUser', JSON.stringify(this.loginForm.value));
         } else {
           if (localStorage.getItem('RememberUser')) {
-            localStorage.removeItem('RememberUser')
+            localStorage.removeItem('RememberUser');
           }
         }
         this.getUserLogin(data, res);
-      }, () => {
+      },
+      () => {
         this.spinner.hide();
         this.isError = true;
         this.errorMsg = this.translateService.instant('login.messages.error.authentication');
+        this.captchaElem.resetCaptcha();
       }
     );
   }
@@ -115,8 +130,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
     // this.token = data.data;
     this.token = res.data;
     this.getUserPermission(data, this.token);
-
-
   }
 
   getUserPermission(data, token) {
@@ -124,9 +137,9 @@ export class LoginComponent implements AfterViewInit, OnInit {
       res => {
         if (res && res.body && res.body) {
           const userData: any = res.body ? res.body : '';
-          localStorage.setItem("user", JSON.stringify(res.body));
-          localStorage.setItem("token", token);
-          console.warn(129, "UserData", res.body);
+          localStorage.setItem('user', JSON.stringify(res.body));
+          localStorage.setItem('token', token);
+          console.warn(129, 'UserData', res.body);
 
           if (userData.status === 0) {
             // console.warn(108, "isActive", userData.isActive);
@@ -137,7 +150,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
             // console.warn(113, "status", userData.isActive);
             if (userData.isNew === 0) {
               this.spinner.hide();
-              console.warn(140,userData);
+              console.warn(140, userData);
               this.router.navigate(['/system-categories/human-resources']);
             } else {
               this.spinner.hide();
@@ -159,13 +172,12 @@ export class LoginComponent implements AfterViewInit, OnInit {
           //     this.openChangePassword();
           //   }
           // }
-
         }
-
       },
       error => {
         this.spinner.hide();
-      })
+      }
+    );
   }
 
   openChangePassword() {
@@ -184,9 +196,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
       backdrop: 'static',
       keyboard: false
     });
-    modalRef.result.then(result => {
-
-    }).catch(() => {
-    });
+    modalRef.result.then(result => {}).catch(() => {});
   }
 }

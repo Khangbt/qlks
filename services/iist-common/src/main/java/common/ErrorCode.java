@@ -97,4 +97,8 @@ public class ErrorCode {
     public static final ObjectError VERIFY_KEY_NOT_FOUND = new ObjectError("BK0047", Constants.VERIFY_KEY_NOT_FOUND);
     public static final ObjectError START_OR_END_PROJECT_NULL = new ObjectError("BK0048",Constants.START_OR_END_PROJECT_NULL);
     public static final ObjectError ESTIMATE_NULL = new ObjectError("BK0049", Constants.ESTIMATE_NULL);
+
+
+    public static final ObjectError CAPCHA_FAILED = new ObjectError("KH001", "Lỗi cap cha");
+
 }
