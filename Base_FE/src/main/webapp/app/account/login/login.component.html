@@ -7,7 +7,7 @@
     <div class="col-md-4 bg-white">
       <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
         <div class="text-center">
-          <img src="../../../assets/img/news_logo_soict_25_years.png" alt="logo" width="280">
+          <img src="../../../assets/img/error-message-popover.png" alt="logo" width="280">
         </div>
         <h5 class="p-t-35 custom-login-label">Đăng nhập</h5>
         <form class="form pt-3" role="form" (ngSubmit)="login()" [formGroup]="loginForm" novalidate autocomplete="off">
@@ -32,7 +32,14 @@
                      placeholder="Nhập mật khẩu đăng nhập" formControlName="password"
                      required>
             </div>
-          </div>
+          </div>       
+          <ngx-recaptcha2 #captchaElem
+                [siteKey]="'6LdwZa0aAAAAAMOXVPT8RRaWQUjleVeioD33NPUv'"
+                (success)="getcapcha()"
+                [useGlobalDomain]="false"
+                
+                formControlName="recaptcha">
+          </ngx-recaptcha2>
           <div>
             <input type="checkbox" name="remember" id="remember" style=""
                    formControlName="remember">

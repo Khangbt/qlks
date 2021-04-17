@@ -1,5 +1,6 @@
 package com.hust.qlts.project.controller;
 
+import com.hust.qlts.project.common.exception.CapchaException;
 import com.hust.qlts.project.config.security.JWTProvider;
 import com.hust.qlts.project.dto.HumanResourcesDTO;
 import com.hust.qlts.project.dto.UserLoginDTO;
@@ -38,9 +39,10 @@ public class AuthenController {
 
     @PostMapping("/login")
     public ResultResp login(@RequestBody UserLoginDTO userLoginDTO) {
-        try {
-                String token = authenService.login(userLoginDTO);
+        try {String token = authenService.login(userLoginDTO);
             return ResultResp.success(token);
+        }catch (CapchaException e){
+            return ResultResp.badRequest(ErrorCode.CAPCHA_FAILED);
         } catch (Exception e) {
             return ResultResp.badRequest(ErrorCode.AUTHENTICATION_FAILED);
         }

@@ -1,5 +1,6 @@
 package com.hust.qlts.project.service.impl;
 
+import com.hust.qlts.project.common.exception.CapchaException;
 import com.hust.qlts.project.config.security.JWTConstants;
 import com.hust.qlts.project.config.security.JWTProvider;
 import com.hust.qlts.project.entity.HumanResourcesEntity;
@@ -37,6 +38,9 @@ public class AuthenServiceImpl implements AuthenService {
     private final Logger log = LogManager.getLogger(AuthenServiceImpl.class);
 
     @Autowired
+    private CaptchaService captchaService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -57,8 +61,11 @@ public class AuthenServiceImpl implements AuthenService {
     private String urlForgotPassword;
 
     @Override
-    public String login(UserLoginDTO userLoginDTO) {
-
+    public String login(UserLoginDTO userLoginDTO) throws CapchaException {
+        boolean captchaVerified = captchaService.verify(userLoginDTO.getRecaptchare());
+        if(!captchaVerified){
+            throw new CapchaException("exx");
+        }
         try {
             UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(upToken);

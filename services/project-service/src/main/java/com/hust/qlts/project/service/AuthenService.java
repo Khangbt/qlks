@@ -1,5 +1,6 @@
 package com.hust.qlts.project.service;
 
+import com.hust.qlts.project.common.exception.CapchaException;
 import com.hust.qlts.project.dto.UserLoginDTO;
 import common.ObjectError;
 
@@ -7,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface AuthenService {
-    String login(UserLoginDTO userLoginDTO);
+    String login(UserLoginDTO userLoginDTO) throws CapchaException;
 
     String register(UserLoginDTO userLoginDTO);
 
