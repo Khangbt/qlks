@@ -1,19 +1,19 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {JhiLanguageService} from 'ng-jhipster';
-import {LOCAL_STORAGE, SessionStorageService} from 'ngx-webstorage';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { JhiLanguageService } from 'ng-jhipster';
+import { LOCAL_STORAGE, SessionStorageService } from 'ngx-webstorage';
 
-import {VERSION} from 'app/app.constants';
-import {ProfileService} from 'app/layouts/profiles/profile.service';
-import {JhiLanguageHelper} from 'app/core/language/language.helper';
-import {FormStoringService} from 'app/shared/services/form-storing.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ToastService} from 'app/shared/services/toast.service';
-import {CommonApiService} from 'app/core/services/common-api/common-api.service';
-import {MENU_TITLE} from 'app/shared/constants/sidebar-menu.constants';
-import {STORAGE_KEYS} from 'app/shared/constants/storage-keys.constants';
-import {STATUS} from 'app/shared/constants/app-params.constants';
-import {ProjectManagementService} from 'app/core/services/project-management/project-management.service';
+import { VERSION } from 'app/app.constants';
+import { ProfileService } from 'app/layouts/profiles/profile.service';
+import { JhiLanguageHelper } from 'app/core/language/language.helper';
+import { FormStoringService } from 'app/shared/services/form-storing.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'app/shared/services/toast.service';
+import { CommonApiService } from 'app/core/services/common-api/common-api.service';
+import { MENU_TITLE } from 'app/shared/constants/sidebar-menu.constants';
+import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
+import { STATUS } from 'app/shared/constants/app-params.constants';
+import { ProjectManagementService } from 'app/core/services/project-management/project-management.service';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -35,104 +35,124 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     url: '/system-categories/supplier-resources',
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
-  asset = {
-    name: MENU_TITLE.HRM.ASSET,
-    url: '/system-categories/asset-resources',
-    class: 'fa-home',
-    resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
 
   department = {
     name: MENU_TITLE.HRM.DEPARTMENT,
     url: '/system-categories/department-resources',
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
 
   warehouse = {
     name: MENU_TITLE.HRM.WAREHOUSE,
     url: '/system-categories/warehouse-resources',
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
-
-
-
-
+  };
 
   groupPermission = {
     name: MENU_TITLE.GROUP_PERMISSION.GP,
     url: '/system-categories/group-permissions',
     class: 'fa-street-view',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
+
+  asset = {
+    name: MENU_TITLE.HRM.ASSET,
+    url: '/system-categories/asset-resource',
+    class: 'fa-home',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
   humanResources = {
     name: MENU_TITLE.HRM.USER_MANAGEMENT,
     url: '/system-categories/human-resources',
     class: 'fa-users',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
+
+  room = {
+    name: MENU_TITLE.HRM.ROOM,
+    url: '/system-categories/room-resources',
+    class: 'fa-users',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
+  roomType = {
+    name: MENU_TITLE.HRM.ROOM_TYPE,
+    url: '/system-categories/room-type-resources',
+    class: 'fa-users',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
+  service = {
+    name: MENU_TITLE.HRM.SERVICE,
+    url: '/system-categories/service-resources',
+    class: 'fa-users',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
   riskList = {
     name: MENU_TITLE.RISKLIST.VIEW_LIST,
     url: '/system-categories/project-management/risk-list',
     class: 'fa-asterisk',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   projectManager = {
     name: MENU_TITLE.HRM.PROJECT_MANAGEMENT,
     url: '/system-categories/project-management',
     class: 'fa-product-hunt',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   partnerManager = {
     name: MENU_TITLE.PARTNER_MANAGEMENT.NAME,
     url: '/system-categories/partner-management',
     class: 'fa-handshake-o',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   chartManager = {
     name: MENU_TITLE.CHART_MANAGEMENT.NAME,
     url: '/system-categories/chart',
     class: 'fa-bar-chart',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   issuesMember = {
     name: MENU_TITLE.ISSUES_MEMBER.NAME,
     url: '/system-categories/issues-member',
     class: 'fa-question-circle',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   resourcesManagement = {
     name: MENU_TITLE.RESOURCES_MANAGEMENT.NAME,
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   resourcesManagementProject = {
     name: MENU_TITLE.RESOURCES_MANAGEMENT_PROJECT.NAME,
     url: '/system-categories/resources-management',
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
+  };
   resourcesManagementHumanResource = {
     name: MENU_TITLE.RESOURCES_MANAGEMENT_HUMAN_RESOURCE.NAME,
     url: '/system-categories/resources-human',
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
-  requestform={
+  };
+  requestform = {
     name: MENU_TITLE.REQUEST_FORM.NAME,
     url: '/system-categories/request-form',
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
-  listDevice={
-    name:MENU_TITLE.LIST_DEVICE.NAME,
-    url:'/system-categories/list-device',
+  };
+  listDevice = {
+    name: MENU_TITLE.LIST_DEVICE.NAME,
+    url: '/system-categories/list-device',
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
-  }
-  user:any;
+  };
+  user: any;
   constructor(
     private languageService: JhiLanguageService,
     private languageHelper: JhiLanguageHelper,
@@ -184,11 +204,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.isNavbarCollapsed = true;
   }
 
-  isAuthenticated() {
-  }
+  isAuthenticated() {}
 
-  login() {
-  }
+  login() {}
 
   logout() {
     this.collapseNavbar();
@@ -265,10 +283,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   //   this.projectManagementService.navigation(null);
   // }
 
-  getUser(){
+  getUser() {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
-  getRoll(){
+  getRoll() {
     return true;
   }
 }

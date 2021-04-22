@@ -55,17 +55,40 @@
       </li>
 
 
+      <li *jhiHasPermission="1">
+        <a [routerLink]="asset.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{asset.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="asset.class"></i>
+        </span>
+      </li>
 
-<!--      <li>-->
-<!--        <a [routerLink]="partnerManager.url" routerLinkActive="active-link, text-white">-->
-<!--          <span class="title">{{partnerManager.name}}</span>-->
-<!--        </a>-->
-<!--        <span class="icon-thumbnail">-->
-<!--          <i class="fa" [ngClass]="partnerManager.class"></i>-->
-<!--        </span>-->
-<!--      </li>-->
+      <li *jhiHasPermission="1">
+        <a [routerLink]="room.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{room.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="room.class"></i>
+        </span>
+      </li>
+      <li *jhiHasPermission="1">
+        <a [routerLink]="roomType.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{roomType.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="roomType.class"></i>
+        </span>
+      </li>
 
-
+      <li *jhiHasPermission="1">
+        <a [routerLink]="service.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{service.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="service.class"></i>
+        </span>
+      </li>
 
       <li *jhiHasPermission="1">
         <a [routerLink]="supplier.url" routerLinkActive="active-link, text-white">
@@ -85,14 +108,6 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1" >
-        <a [routerLink]="asset.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{asset.name}}</span>
-        </a>
-        <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="asset.class"></i>
-        </span>
-      </li>
       <li *jhiHasPermission="1" >
         <a [routerLink]="warehouse.url" routerLinkActive="active-link, text-white">
           <span class="title">{{warehouse.name}}</span>

@@ -21,11 +21,16 @@ public class AssetEntity extends Auditable<String> {
     private String assetCode;
 
     @Column(name = "asset_name")
-    private String asset_name;
+    private String assetname;
 
     @Column(name = "note")
     private String note;
 
     @Column(name = "amount")
     private Integer amount;
+
+    @Column(name = "status")
+    private Integer status;
+
+
 }
