@@ -6,15 +6,106 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetDTO {
+public class AssetDTO     {
 
     private Long assetId;
 
     private String assetCode;
 
-    private String asset_name;
+    private String assetname;
 
     private String note;
 
     private Integer amount;
+
+    private Integer page;
+    private Integer status;
+
+    private Integer pageSize;
+
+    private Long totalRecord;
+    private Long departmentId;
+    private String tyleDto;
+
+
+
+    public Long getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
+    }
+
+    public String getAssetCode() {
+        return assetCode;
+    }
+
+    public void setAssetCode(String assetCode) {
+        this.assetCode = assetCode;
+    }
+
+    public String getAsset_name() {
+        return assetname;
+    }
+
+    public void setAsset_name(String asset_name) {
+        this.assetname = asset_name;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Long getTotalRecord() {
+        return totalRecord;
+    }
+
+    public void setTotalRecord(Long totalRecord) {
+        this.totalRecord = totalRecord;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getTyleDto() {
+        return tyleDto;
+    }
+
+    public void setTyleDto(String tyleDto) {
+        this.tyleDto = tyleDto;
+    }
 }
