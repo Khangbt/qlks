@@ -1,0 +1,260 @@
+<jhi-spinner></jhi-spinner>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <button class="btn btn-link btn-custom-bg" ngbTooltip="{{'common.tooltip.home' | translate}}" routerLink="">
+      <i aria-hidden="true" class="fa fa-home icon-breadcrumb"></i>
+    </button>
+  </li>
+  <li class="breadcrumb-item active">Quản lý nhân sự</li>
+</ol>
+<perfect-scrollbar (window:resize)="onResize()" [style.max-height.px]="height" class="ps">
+  <div class="page-content" id="organizationCategories">
+    <div class="card mb-1">
+      <div class="card-header">
+        <a aria-expanded="true" data-toggle="collapse" href="#search"><span
+          jhiTranslate="common.card.title.search"></span></a>
+      </div>
+      <div class="collapse show" id="search">
+        <div class="card-body">
+          <form [formGroup]="form" autocomplete="off" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label custom-label-right">Nhân sự</label>
+                  <div class="col-sm-9 form-custom-select">
+                    <ng-select (clear)="onClearHuman()"
+                               (close)="onSearchHuman()" (search)="onSearHuman($event)" [items]="listHuman | async"
+                               [searchFn]="customSearchHunan"
+                               bindLabel="code" bindValue="humanResourceId"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               formControlName="humanResourceId"
+                               jhiAutoFocusField
+                               jhiAutoFocusField
+                               notFoundText="{{( searchHuman ?   'common.select.notFoundText' :  'common.select.required') | translate }}"
+                               placeholder="Nhập mã, họ tên hoặc email">
+                      <ng-template let-item="item" ng-option-tmp>
+                        {{item.code }} - {{item.fullName}}  - {{item.email}} <br/>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label custom-label-right">Bộ phận</label>
+                  <div class="col-sm-9">
+                    <ng-select [items]="partList"
+                               [multiple]="false" bindLabel="name" bindValue="id"
+                               class="cursor-text scroll-ng-select"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               formControlName="partId"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="--Tất cả--">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label custom-label-right">Trạng thái</label>
+                  <div class="col-sm-9">
+                    <ng-select [items]="cities"
+                               [multiple]="false" bindLabel="name" bindValue="id"
+                               class="cursor-text scroll-ng-select"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               formControlName="active"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="--Tất cả--">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label custom-label-right">Chức danh</label>
+                  <div class="col-sm-9">
+                    <ng-select [items]="positionList"
+                               [multiple]="false" bindLabel="name" bindValue="id"
+                               class="cursor-text scroll-ng-select"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               formControlName="positionId"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="--Tất cả--">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+
+              <button (click)="onSearchData()" class="btn btn-primary" type="button">
+                <i aria-hidden="true" class="fa fa-search mr-2"></i><span
+                jhiTranslate="common.button.search">Tìm kiếm</span>
+              </button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a aria-expanded="true" data-toggle="collapse" href="#dataTable"><span
+          jhiTranslate="userGroup.titleTable"></span></a>
+      </div>
+
+      <div class="collapse show" id="dataTable">
+
+        <div class="card-body pt-2 pb-0 px-2">
+
+          <div class="row d-flex justify-content-end pr-1">
+            <!--            <button *jhiHasPermission="['resource.qlns_import']" type="button" class="btn btn-primary"-->
+            <!--                    style="margin-right: 0.7%"-->
+            <!--                    (click)="importExcel()">-->
+            <!--              <i class="fa fa-upload mr-2" aria-hidden="true"></i><span>Import excel</span>-->
+            <!--            </button>-->
+            <button (click)="openModalAddUser('add',null)"
+                    *jhiHasPermission="1" class="btn btn-primary"
+                    type="button">
+              <i aria-hidden="true" class="fa fa-plus mr-2">
+              </i><span jhiTranslate="common.button.add">Thêmm mới</span>
+            </button>
+            <div class="d-inline-block choose-column" ngbDropdown ngbTooltip="Ẩn/hiện cột">
+              <button class="btn btn-primary btn-view-column ml-2" id="dropdownBasic1" ngbDropdownToggle placement="top"
+                      type="button">
+                <i aria-hidden="true" class="fa fa-list"></i>
+              </button>
+              <div aria-labelledby="dropdownBasic1" ngbDropdownMenu>
+                <perfect-scrollbar [style.max-height.vh]="SHOW_HIDE_COL_HEIGHT" class="ps">
+                  <ng-container *ngFor="let col of columns; let i = index">
+                    <div class="custom-control custom-checkbox ">
+                      <input (click)="toggleColumns(col)" [checked]="col.isShow" class="custom-control-input"
+                             id="check{{ i }}"
+                             type="checkbox"/>
+                      <label class="custom-control-label cursor-pointer" for="check{{ i }}">
+                        {{ col.value }}
+                      </label>
+                    </div>
+                  </ng-container>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <perfect-scrollbar class="ps" id="scrollbarTable">
+              <table class="table table-bordered table-hover table-striped" id="tableCustoms">
+                <thead>
+                <tr [(ascending)]="reverse" [(predicate)]="predicate" class="text-center" jhiSort>
+                  <th class="small-width-table" jhiTranslate="userGroup.orderNumber" scope="col">STT</th>
+                  <th class="medium-width-table action-width-four-icon custom-width" scope="col">Hành động</th>
+                  <th *ngIf="this.columns[0]?.isShow" class="large-width-table" style="width: 100px">
+                    <span>Mã tài sản</span>
+                  </th>
+                  <th *ngIf="this.columns[1]?.isShow" class="large-width-table" style="width: 150px">
+                    <span>Tên tài sản</span>
+                  </th>
+                  <!--                  <th class="large-width-table" *ngIf="this.columns[2]?.isShow" style="width: 150px"><span>Chức danh</span>-->
+                  <!--                  </th>-->
+                  <th *ngIf="this.columns[2]?.isShow" class="large-width-table" style="width: 150px">
+                    <span>Bộ phận</span>
+                  </th>
+                  <th *ngIf="this.columns[3]?.isShow" class="large-width-table" style="width: 100px">
+                    <span>Trạng thái</span>
+                  </th>
+                  <!--                  <th class="large-width-table" *ngIf="this.columns[5]?.isShow" style="width: 150px; "><span>Thời gian tốt nghiệp</span>-->
+                  <!--                  </th>-->
+                  <th *ngIf="this.columns[4]?.isShow" class="large-width-table" style="width: 150px"><span>Email</span>
+                  </th>
+                  <th *ngIf="this.columns[5]?.isShow" class="large-width-table" style="width: 150px">
+                    <span>Số điện thoại</span>
+                  </th>
+                  <th *ngIf="this.columns[6]?.isShow" class="large-width-table" style="width: 150px">
+                    <span>Ngày Sinh</span>
+                  </th>
+                  <th *ngIf="this.columns[7]?.isShow" class="large-width-table"><span>Ghi chú</span>
+                  </th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let item of listHumanResourcse; index as i">
+                <tr>
+                  <td class="text-center">{{itemsPerPage * (page - 1) + i + 1}}</td>
+                  <td class="text-center four-icon medium-width-table">
+                    <div class="group-action">
+                      <button (click)="openModalAddUser('detail',item)" class="btn btn-light"
+                              ngbTooltip="Xem thông tin nhân sự"
+                              placement="top">
+                        <i aria-hidden="true" class="fa fa fa-info icon-color-blue"></i>
+                      </button>
+                      <button (click)="openModalAddUser('update',item)"
+                              *jhiHasPermission="item" class="btn btn-light"
+                              ngbTooltip="{{'common.tooltip.action.update' | translate}}"
+                              placement="top">
+                        <i aria-hidden="true" class="fa fa-pencil-square-o icon-update"></i></button>
+
+                      <button (click)="deleteHumanResource(item)"
+                              *jhiHasMultiPermission="item" class="btn btn-light"
+                              ngbTooltip="{{'common.tooltip.action.delete' | translate}}"
+                              placement="top">
+                        <i aria-hidden="true" class="fa fa-trash icon-color-red"></i></button>
+
+                      <button (click)="onLock(item)"
+                              *jhiHasMultiPermission="item" class="btn btn-light"
+                              onclick="this.blur();"
+                              placement="top">
+                        <i *ngIf="item.status == 1" aria-hidden="true" class="fa fa fa-unlock icon-color-blue "
+                           ngbTooltip="Khóa"> </i>
+                        <i *ngIf="item.status == 2" aria-hidden="true"
+                           class="fa fa icon-color-blue fa-lock" ngbTooltip="Mở khóa"
+                           style="color:#0273d4 !important;"></i>
+                      </button>
+
+                      <!--                      <button *jhiHasMultiPermission="item"-->
+                      <!--                               class="btn btn-light" placement="top"-->
+                      <!--                               (click)="onResetPassword(item)">-->
+                      <!--                        <i *ngIf="item.password == null" class="fa fa-key icon-color-blue" aria-hidden="true"-->
+                      <!--                           ngbTooltip="Cấp mật khẩu mới"></i>-->
+                      <!--                      </button>-->
+
+                    </div>
+                  </td>
+                  <td *ngIf="this.columns[0]?.isShow">{{item.code}}</td>
+                  <td *ngIf="this.columns[1]?.isShow">{{item.name}}</td>
+                  <!--                  <td *ngIf="this.columns[2]?.isShow">{{item.position}}</td>-->
+                  <td *ngIf="this.columns[2]?.isShow">{{item.part}}</td>
+                  <td *ngIf="this.columns[3]?.isShow">{{item.statuss}}</td>
+                  <!--                  <td *ngIf="this.columns[5]?.isShow" style="text-align: center">{{item.dategraduate}}</td>-->
+                  <td *ngIf="this.columns[4]?.isShow">{{item.email }}</td>
+                  <td *ngIf="this.columns[5]?.isShow" style="text-align: left">{{item.phone}}</td>
+                  <td *ngIf="this.columns[7]?.isShow" style="text-align: left">{{item.note}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </perfect-scrollbar>
+          </div>
+
+          <div *ngIf="!totalItems || totalItems === 0"
+               class="row justify-content-start py-2 pl-1  table-footer no-data">
+            <p class="item-count" jhiTranslate="common.table.noData"></p>
+          </div>
+          <div [hidden]="totalItems === 0" class="d-flex justify-content-end table-footer">
+            <div class="row justify-content-center">
+              <p class="item-count">{{'common.table.totalItems'| translate}} {{totalItems}}</p>
+              <ngb-pagination (pageChange)="loadPage(page)" *ngIf="totalItems" [(page)]="page"
+                              [boundaryLinks]="true"
+                              [collectionSize]="totalItems" [maxSize]="maxSizePage" [pageSize]="itemsPerPage"
+                              [rotate]="true">
+              </ngb-pagination>
+              <jhi-page-size (onChangePageSize)="changePageSize($event)"></jhi-page-size>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</perfect-scrollbar>
