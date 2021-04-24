@@ -153,7 +153,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
           clientsClaim: true,
           skipWaiting: true,
         }),
-        new BaseHrefWebpackPlugin({ baseHref: '/qlda-phase2/' })
+        new BaseHrefWebpackPlugin({ baseHref: '/qlts/' })
     ],
     mode: 'production'
 });

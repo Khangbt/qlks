@@ -4,9 +4,11 @@ import com.hust.qlts.project.common.exception.CapchaException;
 import com.hust.qlts.project.config.security.JWTConstants;
 import com.hust.qlts.project.config.security.JWTProvider;
 import com.hust.qlts.project.entity.HumanResourcesEntity;
+import com.hust.qlts.project.entity.LoginEntity;
 import com.hust.qlts.project.repository.jparepository.HumanResourcesRepository;
 import com.hust.qlts.project.service.AuthenService;
 import com.hust.qlts.project.dto.UserLoginDTO;
+import com.hust.qlts.project.service.LoginService;
 import common.Constants;
 import common.ErrorCode;
 import common.ObjectError;
@@ -28,8 +30,11 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -60,19 +65,36 @@ public class AuthenServiceImpl implements AuthenService {
     @Value("${urlForgotPassword}")
     private String urlForgotPassword;
 
+    @Autowired
+    private LoginService loginService;
+
     @Override
-    public String login(UserLoginDTO userLoginDTO) throws CapchaException {
+    public String login(UserLoginDTO userLoginDTO) throws CapchaException, LoginException {
         boolean captchaVerified = captchaService.verify(userLoginDTO.getRecaptchare());
-        if(!captchaVerified){
+        if (!captchaVerified) {
             throw new CapchaException("exx");
         }
+        LoginEntity entity = loginService.getUser(userLoginDTO.getEmail());
+        if (entity != null) {
+            if (entity.getRequetFail() == 3 & (entity.getTime() + 600000 > new Date().getTime())) {
+                throw new LoginException("exx");
+            }
+        }
+
         try {
             UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(upToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             HumanResourcesEntity humanResourcesEntity = resourcesRepository.findByEmail2(userLoginDTO.getEmail());
-            return  jwtProvider.generateToken(humanResourcesEntity);
+            loginService.saveSucc(entity);
+            return jwtProvider.generateToken(humanResourcesEntity);
         } catch (Exception e) {
+            if(entity==null){
+                loginService.saveFailFirst(userLoginDTO.getEmail());
+            }else {
+                loginService.saveAddFail(entity);
+            }
+
             e.printStackTrace();
             throw e;
         }
@@ -108,7 +130,7 @@ public class AuthenServiceImpl implements AuthenService {
                     "Hệ thống Quản lý dự án của ***** gửi đến anh chị thông tin như sau:\n" +
                     "Anh/chị click link phía dưới để nhận mật khẩu mới:\n" +
                     "Link truy cập hệ thống:" + urlForgotPassword + email + "/" + key + "\n" +
-                    "Họ và tên: " + en.getFullName()+ "\n" +
+                    "Họ và tên: " + en.getFullName() + "\n" +
                     "Tên đăng nhập: " + en.getEmail() + "\n" +
                     "Trân trọng!";
             message.setText(subject, "UTF-8");
