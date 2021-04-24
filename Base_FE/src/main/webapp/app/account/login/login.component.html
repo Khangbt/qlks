@@ -13,7 +13,7 @@
         <form class="form pt-3" role="form" (ngSubmit)="login()" [formGroup]="loginForm" novalidate autocomplete="off">
           <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isError">
             {{errorMsg}}
-            <button type="button" class="close ml-0" data-dismiss="alert" aria-label="Close">
+            <button type="button" class="close ml-0"  (click)="checkError()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -37,7 +37,6 @@
                 [siteKey]="'6LdwZa0aAAAAAMOXVPT8RRaWQUjleVeioD33NPUv'"
                 (success)="getcapcha()"
                 [useGlobalDomain]="false"
-                
                 formControlName="recaptcha">
           </ngx-recaptcha2>
           <div>
@@ -45,7 +44,7 @@
                    formControlName="remember">
             <label for="remember">Lưu lại đăng nhập</label>
           </div>
-          <button class="btn btn-primary btn-cons m-t-10 w-100 p-2" type="submit">Đăng nhập
+          <button class="btn btn-primary btn-cons m-t-10 w-100 p-2" type="submit" [disabled]="this.distable">Đăng nhập
           </button>
           <div>
             <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20">

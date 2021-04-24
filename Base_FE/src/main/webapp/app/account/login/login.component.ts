@@ -29,7 +29,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
   token = '';
   user: any;
   authenticationError: boolean;
-
+  distable = true;
   constructor(
     private fb: FormBuilder,
     private translateService: TranslateService,
@@ -68,16 +68,19 @@ export class LoginComponent implements AfterViewInit, OnInit {
   }
 
   getcapcha() {
-    console.warn();
-    // this.loginForm.set
-  }
-  login() {
     const response = this.captchaElem.getResponse();
     if (response.length === 0) {
       console.warn(response);
       return;
+    } else {
+      this.distable = false;
     }
-
+    // this.loginForm.set
+  }
+  checkError() {
+    this.isError = false;
+  }
+  login() {
     this.spinner.show();
     if (!this.loginForm.get('username').value && this.loginForm.get('password').value) {
       this.isError = true;
@@ -90,6 +93,11 @@ export class LoginComponent implements AfterViewInit, OnInit {
     } else if (!this.loginForm.get('username').value && !this.loginForm.get('password').value) {
       this.isError = true;
       this.errorMsg = this.translateService.instant('login.messages.error.inputAllField');
+      return;
+    }
+    const response = this.captchaElem.getResponse();
+    if (response.length === 0) {
+      console.warn(response);
       return;
     }
     const data = {
@@ -117,10 +125,16 @@ export class LoginComponent implements AfterViewInit, OnInit {
         }
         this.getUserLogin(data, res);
       },
-      () => {
+      err => {
         this.spinner.hide();
+        console.log(err);
+        if (err.status === 302) {
+          this.errorMsg = 'Tài khoản đang hiện tại bị khóa vui lòng đợi 10p đăng nhập lại';
+        } else {
+          this.errorMsg = this.translateService.instant('login.messages.error.authentication');
+        }
         this.isError = true;
-        this.errorMsg = this.translateService.instant('login.messages.error.authentication');
+        this.distable = true;
         this.captchaElem.resetCaptcha();
       }
     );

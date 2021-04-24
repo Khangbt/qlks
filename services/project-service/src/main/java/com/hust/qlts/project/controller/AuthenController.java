@@ -20,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.LoginException;
+
 @RestController
 @RequestMapping("/authen")
 @CrossOrigin(origins = "*")
@@ -38,9 +40,11 @@ public class AuthenController {
     private JWTProvider jwtProvider;
 
     @PostMapping("/login")
-    public ResultResp login(@RequestBody UserLoginDTO userLoginDTO) {
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
         try {String token = authenService.login(userLoginDTO);
             return ResultResp.success(token);
+        }catch (LoginException e){
+             return new ResponseEntity<>(HttpStatus.FOUND);
         }catch (CapchaException e){
             return ResultResp.badRequest(ErrorCode.CAPCHA_FAILED);
         } catch (Exception e) {
