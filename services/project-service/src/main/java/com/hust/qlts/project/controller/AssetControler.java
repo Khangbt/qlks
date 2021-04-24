@@ -16,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +51,7 @@ public class AssetControler {
     }
     @PostMapping("/add")
     public ResultResp createHR(@RequestBody AssetDTO partnerDTO, HttpServletRequest request) {
-        log.info("----------------api searchAsser-----------------");
+        log.info("----------------api searchAsset-----------------");
 
 
         try {
@@ -63,4 +64,30 @@ public class AssetControler {
         return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
     }
 
+    @GetMapping("/get-asset-by-id/{id}")
+    public ResultResp getOneById(@PathVariable("id") Long id) {
+        log.info("<-- api updateAsset: start, ", id);
+        try {
+            return ResultResp.success(assetService.findById(id));
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
+        } catch (Exception e) {
+            log.error("<--- api find AssetResources: error, ");
+            e.printStackTrace();
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
+
+    }
+    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
+    @GetMapping("/deleteAsset/{id}")
+    public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
+        log.info("----------------api delete nhan su-----------------");
+        try {
+            return ResultResp.success(assetService.delete(id));
+
+        } catch (CustomExceptionHandler e) {
+            log.info("----------------api delete nhan su faile-----------------");
+            return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);
+        }
+    }
 }

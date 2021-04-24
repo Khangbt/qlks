@@ -1,8 +1,9 @@
 package com.hust.qlts.project.repository.customreporsitory;
 
 
+
 import com.hust.qlts.project.dto.AssetDTO;
-import com.hust.qlts.project.entity.AssetEntity;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,24 +29,20 @@ public class AssetCustomRepository  {
         log.info("---------------------sql get kho nhan su------------------");
 
         StringBuilder sql = new StringBuilder();
-        sql.append("select  ");
-        sql.append(" wa.WAREHOUSE_ASSET_ID,   ");
-        sql.append(" wa.NAME_ASSET,  ");
-        sql.append(" wa.CODE,  ");
-        sql.append(" wa.INFORMATION,   ");
-        sql.append(" wa.PRICE, ");
-        sql.append(" wa.UNIT, ");
-        sql.append(" wa.STATUS,   ");
-        sql.append(" wa.DAY_INPUT, ");
-        sql.append(" wa.ASSER_STATUS, ");
-        sql.append(" w.NAME,  ");
-        sql.append(" w.ADDRESS ");
-        if(valueDb=="1"){
-            sql.append(" from WAREHOUSE_ASSET  wa ");
-        }else {
-            sql.append(" from warehouse_asset  wa ");
+        sql.append("SELECT a.asset_id ," +
+                " a.asset_code ," +
+                "        a.asset_name ," +
+                "        a.status ," +
+                "        a.amount,  "+
+                "        a.note "+
+                "FROM asset a " +
+                " where 1 = 1 and a.status = 1 "
+        );
 
-        }
+//        if (StringUtils.isNotBlank(dto.getAssetCode())){
+//            sql.append(" and  a.asset_code");
+//        }
+
 //        sql.append(" from WAREHOUSE_ASSET  wa ");
         Query query = em.createNativeQuery(sql.toString());
         Query queryCount = em.createNativeQuery(sql.toString());
@@ -64,17 +61,13 @@ public class AssetCustomRepository  {
         if (CollectionUtils.isNotEmpty(objects)) {
             for (Object[] obj : objects) {
                 AssetDTO assetDTO = new AssetDTO();
-//                assetDTO.setAssetID((BigInteger) obj[0]);
-//                assetDTO.setName((String) obj[1]);
-//                assetDTO.setCode((String) obj[2]);
-//                assetDTO.setInformation((String) obj[3]);
-//                assetDTO.setPrice((String) obj[4]);
-//                assetDTO.setUnit((String) obj[5]);
-//                assetDTO.setStatus((String) obj[6]);
-//                assetDTO.setDayinput((Date) obj[7]);
-//                assetDTO.setAssetStatus((String) obj[8]);
-//                assetDTO.setWarehouseName((String) obj[9]);
-//                assetDTO.setWarehouseAddress((String) obj[10]);
+                assetDTO.setAssetId(((BigInteger) obj[0]).longValue());
+                assetDTO.setAssetCode((String) obj[1]);
+                assetDTO.setAssetname((String) obj[2]);
+                assetDTO.setStatus((Integer) obj[3]);
+                assetDTO.setAmount((Integer) obj[4]);
+                assetDTO.setNote((String) obj[5]);
+
                 list.add(assetDTO);
             }
         }
