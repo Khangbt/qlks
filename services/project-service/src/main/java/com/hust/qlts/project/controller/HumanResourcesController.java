@@ -103,7 +103,6 @@ public class HumanResourcesController {
 
     // Xoa nhan su
     @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
-
     @DeleteMapping("/deleteHumanResources/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
         String username = authenService.getEmailCurrentlyLogged(request);

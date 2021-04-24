@@ -45,12 +45,12 @@ public class AssetDTO     {
         this.assetCode = assetCode;
     }
 
-    public String getAsset_name() {
+    public String getAssetname() {
         return assetname;
     }
 
-    public void setAsset_name(String asset_name) {
-        this.assetname = asset_name;
+    public void setAssetname(String assetname) {
+        this.assetname = assetname;
     }
 
     public String getNote() {

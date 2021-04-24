@@ -1,9 +1,5 @@
 export class AssetModel {
-
-  assetID?: any;
-  assetStatus?: any;
   code?: any;
-  dayinput?: any;
   departmentId?: any;
   information?: any;
   name?: any;
@@ -13,7 +9,13 @@ export class AssetModel {
   status?: any;
   totalRecord?: any;
   unit?: any;
-  warehouseAddress?: any;
-  warehouseID?: any;
-  warehouseName?: any;
+  assetId?: any;
+
+  assetCode?: any;
+
+  assetname?: any;
+
+  note?: any;
+  amount?: any;
+  tyleDto?: any;
 }

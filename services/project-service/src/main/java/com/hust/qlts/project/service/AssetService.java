@@ -12,7 +12,7 @@ public interface AssetService {
     DataPage<AssetDTO> getPagePartSeach(AssetDTO dto);
     AssetDTO create(AssetDTO partnerDTO);
     AssetDTO update(AssetDTO partnerDTO);
-    Boolean delete (Long id);
+    AssetDTO delete (Long id);
     AssetDTO findById(Long Id);
     AssetDTO findByCode(String code);
 }

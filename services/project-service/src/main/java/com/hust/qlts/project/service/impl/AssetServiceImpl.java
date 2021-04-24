@@ -64,7 +64,7 @@ public class AssetServiceImpl implements AssetService {
         else if (null != assetEntity) {
             //TODO: Update  nha cung cấp
             assetEntity.setAssetId(Long.valueOf(dto.getAssetId()));
-            assetEntity.setAssetname(dto.getAsset_name());
+            assetEntity.setAssetname(dto.getAssetname());
             assetEntity.setAssetCode(dto.getAssetCode());
             assetEntity.setAmount(dto.getAmount());
             assetEntity.setNote(dto.getNote());
@@ -73,7 +73,7 @@ public class AssetServiceImpl implements AssetService {
         else if (dto.getAssetId() == null) {
             //TODO: create nha cung cap
             assetEntity = new AssetEntity();
-            assetEntity.setAssetname(dto.getAsset_name());
+            assetEntity.setAssetname(dto.getAssetname());
             assetEntity.setAssetCode(dto.getAssetCode());
             assetEntity.setAmount(dto.getAmount());
             assetEntity.setNote(dto.getNote());
@@ -90,13 +90,27 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        return null;
+    public AssetDTO delete(Long id) {
+        AssetDTO dto =  convertEntitytoDTO(assetRepository.findById(id).get());
+        if (null == dto) {
+            throw new CustomExceptionHandler(ErrorCode.CREATED_HR_FALSE.getCode(), HttpStatus.BAD_REQUEST);
+        }else{
+            AssetEntity assetEntity = new AssetEntity();
+            assetEntity.setAssetId(Long.valueOf(dto.getAssetId()));
+            assetEntity.setAssetname(dto.getAssetname());
+            assetEntity.setAssetCode(dto.getAssetCode());
+            assetEntity.setAmount(dto.getAmount());
+            assetEntity.setNote(dto.getNote());
+            assetEntity.setStatus(0);
+            assetRepository.save(assetEntity);
+            return dto;
+        }
     }
 
     @Override
     public AssetDTO findById(Long Id) {
-        return null;
+        return convertEntitytoDTO(assetRepository.findById(Id).get());
+
     }
 
     @Override
@@ -107,7 +121,7 @@ public class AssetServiceImpl implements AssetService {
     public AssetDTO convertEntitytoDTO(AssetEntity assetEntity) {
         AssetDTO dto = new AssetDTO();
         dto.setAssetCode(assetEntity.getAssetCode());
-        dto.setAsset_name(assetEntity.getAssetname());
+        dto.setAssetname(assetEntity.getAssetname());
         dto.setAmount(assetEntity.getAmount());
         dto.setNote(assetEntity.getNote());
         dto.setAssetId(assetEntity.getAssetId());
