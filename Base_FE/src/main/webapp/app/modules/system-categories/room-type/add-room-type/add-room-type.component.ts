@@ -7,11 +7,12 @@ import { ToastService } from 'app/shared/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JhiEventManager } from 'ng-jhipster';
 import { SysUserService } from 'app/core/services/system-management/sys-user.service';
-import { AssetApiService } from 'app/core/services/asset-api/asset-api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { FormStoringService } from 'app/shared/services/form-storing.service';
 import { Router } from '@angular/router';
+import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
+import { RoomTypeApiServiceService } from 'app/core/services/room-type/room-type-api-service.service';
 
 @Component({
   selector: 'jhi-add-room-type',
@@ -29,6 +30,12 @@ export class AddRoomTypeComponent implements OnInit {
   maxlength = 4;
   isDuplicateUserCode = false;
   title = '';
+  checkBoll = false;
+  isYear = false;
+  yy: number;
+  years: number[] = [];
+  userDetail: any;
+  post: Date;
 
   ////////////////////////
   constructor(
@@ -41,10 +48,10 @@ export class AddRoomTypeComponent implements OnInit {
     private modalService: NgbModal,
     private eventManager: JhiEventManager,
     private sysUserService: SysUserService,
-    private apiService: AssetApiService,
     private translateService: TranslateService,
     private datepipe: DatePipe,
     private formStoringService: FormStoringService,
+    private roomTypeApiServiceService: RoomTypeApiServiceService,
     protected router: Router
   ) {
     this.height = this.heightService.onResize();
@@ -73,20 +80,16 @@ export class AddRoomTypeComponent implements OnInit {
       }
     }
     this.spinner.show();
-    this.apiService.save(this.form.value).subscribe(
+    this.roomTypeApiServiceService.save(this.form.value).subscribe(
       res => {
         if (this.type === 'add') {
           this.toastService.openSuccessToast('Thêm mới thành công !');
         }
         if (this.type === 'update') {
-          if (this.oldEmail !== this.form.value.email) {
-            this.toastService.openSuccessToast('Thông tin đăng nhập mới đã được gửi về địa chỉ email ' + this.form.value.email);
-          } else {
-            this.toastService.openSuccessToast('Sửa thành công !');
-          }
+          this.toastService.openSuccessToast('Sửa thành công !');
         }
 
-        this.router.navigate(['system-categories/human-resources']);
+        this.router.navigate(['system-categories/room-type-resources']);
         this.activeModal.dismiss();
       },
       err => {
@@ -196,27 +199,73 @@ export class AddRoomTypeComponent implements OnInit {
     // }
   }
 
+  getUserDetail(id) {
+    this.roomTypeApiServiceService.getInfo(id).subscribe(
+      res => {
+        this.userDetail = res.data;
+
+        this.oldEmail = this.userDetail.email ? this.userDetail.email : '';
+
+        this.setDataDefault();
+      },
+      err => {
+        this.userDetail = null;
+      }
+    );
+  }
+
+  setDataDefault() {
+    this.form.patchValue(this.userDetail);
+    this.post = new Date(this.userDetail);
+    // if (this.userDetail.dateGraduate) {
+    //   this.form.get('experience').setValue(new Date().getFullYear() - toNumber(this.userDetail.dateGraduate));
+    // }
+    // if (this.userDetail.dateMajor) {
+    //   this.form.get('majorExperience').setValue(new Date().getFullYear() - toNumber(this.userDetail.dateMajor));
+    // }
+  }
+
+  getYear() {
+    const todays = new Date();
+    this.yy = todays.getFullYear();
+    for (let i = this.yy; i >= 1970; i--) {
+      this.years.push(i);
+    }
+  }
+
+  xetDataUer() {
+    const userToken: any = this.formStoringService.get(STORAGE_KEYS.USER);
+    if (userToken.role === 'ROLE_ADMINPART') {
+      // this.form.get("partId").setValue(userToken.partId)
+      this.checkBoll = true;
+    } else {
+      this.checkBoll = false;
+    }
+  }
+
   private buildForm() {
     if (this.type === 'add') {
-      this.title = 'Thêm mới nhân sự';
+      this.title = 'Thêm mới loại phòng';
     } else if (this.type === 'update') {
-      this.title = 'Sửa nhân sự';
-    } else this.title = 'Xem chi tiết nhân sự';
+      this.title = 'Sửa loại phòng';
+    } else this.title = 'Xem chi tiết loại phòng';
 
     this.form = this.formBuilder.group({
-      assetId: null,
-      amount: null,
-      assetCode: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)])],
-      assetname: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
+      roomTypeId: null,
+      hourPrice: null,
+      code: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)])],
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
       status: 1,
+      dayPrice: null,
+      nightPrice: null,
       note: ['', Validators.maxLength(1000)]
     });
-    // if (this.id) {
-    //   this.getUserDetail(this.id);
-    //   this.xetDataUer()
-    // } else {
-    //   this.xetDataUer()
-    // }
-    // this.getYear();
+    if (this.id) {
+      this.getUserDetail(this.id);
+      this.xetDataUer();
+    } else {
+      this.xetDataUer();
+    }
+    this.getYear();
   }
 }

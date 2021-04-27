@@ -18,10 +18,10 @@
                    formControlName="assetCode"
                    maxlength="255" type="text"
             />
-            <!--            <jhi-error-messages *ngIf="formControl['code'].hasError('required')"-->
-            <!--                                [displayError]="isFieldValid('code')"-->
-            <!--                                errorMsg="{{ 'user.validate.code.required' | translate }}">-->
-            <!--            </jhi-error-messages>-->
+            <jhi-error-messages *ngIf="formControl['assetCode'].hasError('required')"
+                                [displayError]="isFieldValid('assetCode')"
+                                errorMsg="{{ 'user.validate.code.required' | translate }}">
+            </jhi-error-messages>
             <!--            <jhi-error-messages *ngIf="formControl['code'].hasError('maxlength')"-->
             <!--                                [displayError]="isFieldValid('code')"-->
             <!--                                errorMsg="{{ 'user.validate.code.maxlength' | translate }}">-->
@@ -42,10 +42,10 @@
                    class="form-control"
                    formControlName="assetname"
                    maxlength="255" type="text"/>
-            <!--            <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
-            <!--                                [displayError]="isFieldValid('fullName')"-->
-            <!--                                errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->
-            <!--            </jhi-error-messages>-->
+            <jhi-error-messages *ngIf="formControl['assetname'].hasError('required')"
+                                [displayError]="isFieldValid('assetname')"
+                                errorMsg="{{ 'user.validate.fullName.required' | translate }}">
+            </jhi-error-messages>
             <!--            <jhi-error-messages *ngIf="formControl['fullName'].hasError('maxlength')"-->
             <!--                                [displayError]="isFieldValid('fullName')"-->
             <!--                                errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">-->
@@ -56,7 +56,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Số tiền </label>
+            <label class="form-control-label ">Số tiền </label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
                    class="form-control"
                    formControlName="amount"
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Ghi chú </label>
+            <label class="form-control-label ">Ghi chú </label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
                    class="form-control"
                    formControlName="note"

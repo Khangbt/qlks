@@ -3,6 +3,7 @@ package com.hust.qlts.project.repository.customreporsitory;
 
 
 import com.hust.qlts.project.dto.AssetDTO;
+import com.thoughtworks.xstream.mapper.Mapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -39,13 +40,27 @@ public class AssetCustomRepository  {
                 " where 1 = 1 and a.status = 1 "
         );
 
-//        if (StringUtils.isNotBlank(dto.getAssetCode())){
-//            sql.append(" and  a.asset_code");
-//        }
+        if (StringUtils.isNotBlank(dto.getAssetCode())){
+            sql.append("  and (( lower(a.asset_code) LIKE :assetCode ) or ( lower(a.asset_name) LIKE :assetCode ))");
+        }
+        if (dto.getAmount() != null){
+            sql.append(" and a.amount = :amount ");
+        }
 
-//        sql.append(" from WAREHOUSE_ASSET  wa ");
+
         Query query = em.createNativeQuery(sql.toString());
         Query queryCount = em.createNativeQuery(sql.toString());
+
+        if (StringUtils.isNotBlank(dto.getAssetCode())){
+            query.setParameter("assetCode", "%" + dto.getAssetCode() + "%");
+            queryCount.setParameter("assetCode", "%" + dto.getAssetCode() + "%");
+
+        }
+        if (dto.getAmount() != null){
+            query.setParameter("amount", dto.getAmount());
+            queryCount.setParameter("amount", dto.getAmount());
+        }
+
         if (dto.getPage() != null && dto.getPageSize() != null) {
             query.setFirstResult((dto.getPage().intValue() - 1) * dto.getPageSize().intValue());
             query.setMaxResults(dto.getPageSize().intValue());

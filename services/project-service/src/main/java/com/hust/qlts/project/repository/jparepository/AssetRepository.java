@@ -11,6 +11,6 @@ public interface AssetRepository extends JpaRepository<AssetEntity, Long> {
     AssetEntity findByCode(String code);
 
     @Query(value = "select * from asset where asset_id=?1 and STATUS= 1 ", nativeQuery = true)
-    AssetEntity findByID(String code);
+    AssetEntity findByID(Long id);
 
 }

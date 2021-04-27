@@ -20,7 +20,7 @@ export class AssetApiService {
     return this.http.post<any>(SERVER_API + '/asset/add', data);
   }
 
-  deleteAsset(id?: any): Observable<any> {
+  deleteAsset(id): Observable<any> {
     return this.http.get<any>(SERVER_API + '/asset/deleteAsset/' + id);
   }
 

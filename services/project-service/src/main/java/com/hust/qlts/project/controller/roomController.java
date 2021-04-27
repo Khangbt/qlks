@@ -1,61 +1,50 @@
 package com.hust.qlts.project.controller;
 
-
-
-import com.hust.qlts.project.common.CoreUtils;
-import com.hust.qlts.project.dto.AssetDTO;
+import com.hust.qlts.project.dto.RoomDTO;
 import com.hust.qlts.project.service.AssetService;
+import com.hust.qlts.project.service.RoomService;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/asset")
+@RequestMapping("/room")
 @CrossOrigin("*")
-public class AssetControler {
-    private final Logger log = LogManager.getLogger(AssetControler.class);
-
+public class roomController {
+    private final Logger log = LogManager.getLogger(roomController.class);
     @Autowired
-    AssetService assetService;
+    RoomService roomService;
 
-    @PostMapping ("/searchAseet")
-    public ResponseEntity<List<AssetDTO>> searchAseer(@RequestBody AssetDTO assetDTO){
+    @PostMapping("/searchRoom")
+    public ResponseEntity<List<RoomDTO>> searchAseer(@RequestBody RoomDTO RoomDTO){
         log.info("----------------api searchAsser-----------------");
         try {
-            log.info("----------------api searchAsser Ok-----------------");
+            log.info("----------------api searchRoom Ok-----------------");
 
-            return new ResponseEntity(assetService.searchAsser(assetDTO), HttpStatus.OK);
+            return new ResponseEntity(roomService.searchAsser(RoomDTO), HttpStatus.OK);
 
         }catch (Exception e){
-            log.info("----------------api searchAsser thất bại-----------------");
+            log.info("----------------api searchRoom thất bại-----------------");
 
             throw  e;
         }
     }
     @PostMapping("/add")
-    public ResultResp createHR(@RequestBody AssetDTO partnerDTO, HttpServletRequest request) {
-        log.info("----------------api searchAsset-----------------");
+    public ResultResp createHR(@RequestBody RoomDTO partnerDTO, HttpServletRequest request) {
+        log.info("----------------api addRoom-----------------");
 
 
         try {
-            return ResultResp.success(ErrorCode.CREATED_HR_OK, assetService.create(partnerDTO));
+            return ResultResp.success(ErrorCode.CREATED_HR_OK, roomService.create(partnerDTO));
 
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
@@ -64,11 +53,11 @@ public class AssetControler {
         return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
     }
 
-    @GetMapping("/get-asset-by-id/{id}")
+    @GetMapping("/get-room-by-id/{id}")
     public ResultResp getOneById(@PathVariable("id") Long id) {
-        log.info("<-- api updateAsset: start, ", id);
+        log.info("<-- api updateRoom: start, ", id);
         try {
-            return ResultResp.success(assetService.findById(id));
+            return ResultResp.success(roomService.findById(id));
 
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
@@ -79,11 +68,11 @@ public class AssetControler {
         }
 
     }
-    @GetMapping("/deleteAsset/{id}")
+    @GetMapping("/deleteRoom/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
-        log.info("----------------api delete nhan su-----------------");
+        log.info("----------------api delete phong -----------------");
         try {
-            return ResultResp.success(assetService.delete(id));
+            return ResultResp.success(roomService.delete(id));
 
         } catch (CustomExceptionHandler e) {
             log.info("----------------api delete nhan su faile-----------------");

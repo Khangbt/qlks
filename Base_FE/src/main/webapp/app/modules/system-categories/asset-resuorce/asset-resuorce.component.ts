@@ -161,6 +161,21 @@ export class AssetResuorceComponent implements OnInit {
     this.height = this.heightService.onResizeWithoutFooter();
   }
 
+  private buidForm() {
+    this.form = this.formBuilder.group({
+      assetId: [],
+      assetCode: [],
+      assetname: [''],
+      note: [null],
+      amount: []
+    });
+  }
+
+  private paginateUserList(res) {
+    this.totalItems = res.dataCount;
+    this.listAseetResourcse = res.data;
+  }
+
   openModalAddUser(type?: string, selectedData?: any) {
     const modalRef = this.modalService.open(AddAssetComponent, {
       size: 'lg',
@@ -180,20 +195,5 @@ export class AssetResuorceComponent implements OnInit {
       .catch(() => {
         this.loadAll();
       });
-  }
-
-  private buidForm() {
-    this.form = this.formBuilder.group({
-      assetId: [],
-      assetCode: [],
-      assetname: [''],
-      note: [null],
-      amount: []
-    });
-  }
-
-  private paginateUserList(res) {
-    this.totalItems = res.dataCount;
-    this.listAseetResourcse = res.data;
   }
 }

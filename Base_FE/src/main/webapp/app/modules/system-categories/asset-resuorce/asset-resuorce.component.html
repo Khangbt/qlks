@@ -5,7 +5,7 @@
       <i aria-hidden="true" class="fa fa-home icon-breadcrumb"></i>
     </button>
   </li>
-  <li class="breadcrumb-item active">Quản lý nhân sự</li>
+  <li class="breadcrumb-item active">Quản lý tài sản</li>
 </ol>
 <perfect-scrollbar (window:resize)="onResize()" [style.max-height.px]="height" class="ps">
   <div class="page-content" id="organizationCategories">
@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label custom-label-right">Mã tài sản</label>
+                  <label class="col-sm-3 col-form-label custom-label-right">Mã hoặc tên tài sản</label>
                   <div class="col-sm-9">
                     <input class="form-control" formControlName="assetCode" type="text"/>
                   </div>
@@ -29,11 +29,11 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label custom-label-right">Tên tài sản</label>
+                  <label class="col-sm-3 col-form-label custom-label-right">Giá </label>
                   <div class="col-sm-9">
-                    <input class="form-control" formControlName="assetname"
-                           type="text"
-                    />
+                    <input class="form-control"
+                           formControlName="amount"
+                           type="number"/>
 
                   </div>
                 </div>

@@ -97,10 +97,10 @@ public class AssetServiceImpl implements AssetService {
         }else{
             AssetEntity assetEntity = new AssetEntity();
             assetEntity.setAssetId(Long.valueOf(dto.getAssetId()));
-            assetEntity.setAssetname(dto.getAssetname());
-            assetEntity.setAssetCode(dto.getAssetCode());
-            assetEntity.setAmount(dto.getAmount());
-            assetEntity.setNote(dto.getNote());
+//            assetEntity.setAssetname(dto.getAssetname());
+//            assetEntity.setAssetCode(dto.getAssetCode());
+//            assetEntity.setAmount(dto.getAmount());
+//            assetEntity.setNote(dto.getNote());
             assetEntity.setStatus(0);
             assetRepository.save(assetEntity);
             return dto;

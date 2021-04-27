@@ -1,8 +1,7 @@
-<p>add-room-type works!</p>
 <!--</div>-->
 <div [handle]="handle" class="modal-import" jhiModalDrag>
   <div #handle class="modal-header">
-    <h5 class="modal-title mt-0">Thêm mới tài sản</h5>
+    <h5 class="modal-title mt-0">{{title}}</h5>
     <button #closeBtn (click)="onCancel()" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -12,17 +11,17 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Mã tài sản</label>
+            <label class="form-control-label required">Mã loại phong</label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
                    [readOnly]="type === 'detail'||type==='update'"
                    class="form-control"
-                   formControlName="assetCode"
+                   formControlName="code"
                    maxlength="255" type="text"
             />
-            <!--            <jhi-error-messages *ngIf="formControl['code'].hasError('required')"-->
-            <!--                                [displayError]="isFieldValid('code')"-->
-            <!--                                errorMsg="{{ 'user.validate.code.required' | translate }}">-->
-            <!--            </jhi-error-messages>-->
+            <jhi-error-messages *ngIf="formControl['code'].hasError('required')"
+                                [displayError]="isFieldValid('code')"
+                                errorMsg="{{ 'user.validate.code.required' | translate }}">
+            </jhi-error-messages>
             <!--            <jhi-error-messages *ngIf="formControl['code'].hasError('maxlength')"-->
             <!--                                [displayError]="isFieldValid('code')"-->
             <!--                                errorMsg="{{ 'user.validate.code.maxlength' | translate }}">-->
@@ -38,15 +37,15 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Tên tài sản</label>
+            <label class="form-control-label required">Tên loại phòng </label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
                    class="form-control"
-                   formControlName="assetname"
+                   formControlName="name"
                    maxlength="255" type="text"/>
-            <!--            <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
-            <!--                                [displayError]="isFieldValid('fullName')"-->
-            <!--                                errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->
-            <!--            </jhi-error-messages>-->
+            <jhi-error-messages *ngIf="formControl['name'].hasError('required')"
+                                [displayError]="isFieldValid('name')"
+                                errorMsg="{{ 'user.validate.fullName.required' | translate }}">
+            </jhi-error-messages>
             <!--            <jhi-error-messages *ngIf="formControl['fullName'].hasError('maxlength')"-->
             <!--                                [displayError]="isFieldValid('fullName')"-->
             <!--                                errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">-->
@@ -57,10 +56,10 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Số tiền </label>
+            <label class="form-control-label ">Giá phòng theo ngày</label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
                    class="form-control"
-                   formControlName="amount"
+                   formControlName="dayPrice"
                    type="number"/>
             <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
             <!--                                  [displayError]="isFieldValid('fullName')"-->
@@ -74,7 +73,43 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label required">Ghi chú </label>
+            <label class="form-control-label ">Giá phòng đêm</label>
+            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
+                   class="form-control"
+                   formControlName="nightPrice"
+                   type="text"/>
+            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
+            <!--                                  [displayError]="isFieldValid('fullName')"-->
+            <!--                                  errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->
+            <!--              </jhi-error-messages>-->
+            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('maxlength')"-->
+            <!--                                  [displayError]="isFieldValid('fullName')"-->
+            <!--                                  errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">-->
+            <!--              </jhi-error-messages>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Giá phòng theo giờ</label>
+            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
+                   class="form-control"
+                   formControlName="hourPrice"
+                   type="number"/>
+            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
+            <!--                                  [displayError]="isFieldValid('fullName')"-->
+            <!--                                  errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->
+            <!--              </jhi-error-messages>-->
+            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('maxlength')"-->
+            <!--                                  [displayError]="isFieldValid('fullName')"-->
+            <!--                                  errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">-->
+            <!--              </jhi-error-messages>-->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">nghi chú</label>
             <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
                    class="form-control"
                    formControlName="note"
@@ -90,7 +125,6 @@
           </div>
         </div>
       </div>
-
 
     </form>
   </div>

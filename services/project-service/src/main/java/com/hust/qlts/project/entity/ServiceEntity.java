@@ -18,10 +18,10 @@ public class ServiceEntity extends Auditable<String> {
     private Long serviceId;
 
     @Column(name = "service_code")
-    private Integer service_code;
+    private String servicecode;
 
     @Column(name = "service_name")
-    private Integer service_name;
+    private String servicename;
 
     @Column(name = "price")
     private Double price;
@@ -31,4 +31,6 @@ public class ServiceEntity extends Auditable<String> {
 
     @Column(name = "note")
     private String note;
+    @Column(name = "status")
+    private Integer status;
 }

@@ -86,11 +86,7 @@ export class AddAssetComponent implements OnInit {
           this.toastService.openSuccessToast('Thêm mới thành công !');
         }
         if (this.type === 'update') {
-          if (this.oldEmail !== this.form.value.email) {
-            this.toastService.openSuccessToast('Thông tin đăng nhập mới đã được gửi về địa chỉ email ' + this.form.value.email);
-          } else {
-            this.toastService.openSuccessToast('Sửa thành công !');
-          }
+          this.toastService.openSuccessToast('Sửa thành công !');
         }
 
         this.router.navigate(['system-categories/asset-resource']);
