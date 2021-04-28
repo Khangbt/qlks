@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { JhiResolvePagingParams } from 'ng-jhipster';
 import { HumanResourcesComponent } from 'app/modules/system-categories/human-resources/human-resources.component';
+import { BookRoomComponent } from './book-room/book-room.component';
 import { RoomComponent } from 'app/modules/system-categories/room/room.component';
 import { RoomTypeComponent } from 'app/modules/system-categories/room-type/room-type.component';
 import { ServiceComponent } from 'app/modules/system-categories/service/service.component';
@@ -18,6 +19,18 @@ const routes: Routes = [
     data: {
       pageTitle: 'organizationCategories.title',
       url: 'system-categories/human-resources'
+    }
+  },
+  {
+    path: 'book-room',
+    component: BookRoomComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/book-room'
     }
   },
 

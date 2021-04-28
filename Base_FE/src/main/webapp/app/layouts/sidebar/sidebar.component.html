@@ -116,7 +116,14 @@
           <i class="fa" [ngClass]="warehouse.class"></i>
         </span>
       </li>
-
+      <li>
+        <a [routerLink]="bookRoom.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{bookRoom.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="bookRoom.class"></i>
+        </span>
+      </li>
       <li *jhiHasPermission="1">
         <a [routerLink]="requestform.url" routerLinkActive="active-link, text-white">
           <span class="title">{{requestform.name}}</span>
