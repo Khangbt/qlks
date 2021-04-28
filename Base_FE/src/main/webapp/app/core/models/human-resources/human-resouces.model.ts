@@ -1,4 +1,5 @@
 export class HumanResouces {
+  dateOfBirth?: any;
   humanResourceId?: any;
   code?: any;
   fullName?: any;
@@ -27,6 +28,9 @@ export class HumanResouces {
   lstPermission?: any;
   role?: any;
   resourcesUsed?: any;
+  contractCode?: any;
+  taxCode?: any;
+  cmt?: any;
 
   dategraduate?: any; // thoi gian tot nghiep
   datemajor?: any; // thoi gian bat dau lam chuyen mon
@@ -55,5 +59,4 @@ export class HumanResouces {
   type: any;
   website: any;
   humanresources: any;
-  dateOfBirth: any;
 }

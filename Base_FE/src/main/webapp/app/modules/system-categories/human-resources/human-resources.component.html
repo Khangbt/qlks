@@ -20,7 +20,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label custom-label-right" >Nhân sự</label>
+                  <label class="col-sm-3 col-form-label custom-label-right" >Nhân viên</label>
                   <div class="col-sm-9 form-custom-select">
                     <ng-select [items]="listHuman | async"
                                clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}" jhiAutoFocusField placeholder="Nhập mã, họ tên hoặc email"
@@ -40,14 +40,14 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label custom-label-right" >Bộ phận</label>
+                  <label class="col-sm-3 col-form-label custom-label-right" >Chức danh</label>
                   <div class="col-sm-9">
                     <ng-select class="cursor-text scroll-ng-select"
-                               bindLabel="name" formControlName="partId" bindValue="id"
+                               bindLabel="name" formControlName="positionId" bindValue="id"
                                notFoundText="{{ 'common.select.notFoundText' | translate }}"
                                clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
                                placeholder="--Tất cả--"
-                               [items]="partList"
+                               [items]="positionList"
                                [multiple]="false">
                     </ng-select>
                   </div>
@@ -71,28 +71,13 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group row">
-                  <label class="col-sm-3 col-form-label custom-label-right">Chức danh</label>
-                  <div class="col-sm-9">
-                    <ng-select class="cursor-text scroll-ng-select"
-                               bindLabel="name" formControlName="positionId"  bindValue="id"
-                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
-                               placeholder="--Tất cả--"
-                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
-                               [items]="positionList"
-                               [multiple]="false">
-                    </ng-select>
-                  </div>
-                </div>
               </div>
             </div>
             <div class="d-flex justify-content-center">
-
               <button type="button" class="btn btn-primary" (click)="onSearchData()">
                 <i class="fa fa-search mr-2" aria-hidden="true"></i><span
                 jhiTranslate="common.button.search">Tìm kiếm</span>
               </button>
-
             </div>
           </form>
         </div>
@@ -114,7 +99,7 @@
                     (click)="importExcel()">
               <i class="fa fa-upload mr-2" aria-hidden="true"></i><span>Import excel</span>
             </button>
-            <button *jhiHasPermission="1"
+            <button
               type="button" class="btn btn-primary"
                     (click)="openModalAddUser('add',null)">
               <i class="fa fa-plus mr-2" aria-hidden="true">
@@ -140,8 +125,6 @@
               </div>
             </div>
           </div>
-
-
           <div class="row">
             <perfect-scrollbar id="scrollbarTable" class="ps">
               <table class="table table-bordered table-hover table-striped" id="tableCustoms">
@@ -153,21 +136,25 @@
                   </th>
                   <th class="large-width-table" *ngIf="this.columns[1]?.isShow" style="width: 150px"><span>Họ và tên</span>
                   </th>
-<!--                  <th class="large-width-table" *ngIf="this.columns[2]?.isShow" style="width: 150px"><span>Chức danh</span>-->
-<!--                  </th>-->
-                  <th class="large-width-table" *ngIf="this.columns[2]?.isShow" style="width: 150px"><span>Bộ phận</span>
+                  <th class="large-width-table" *ngIf="this.columns[2]?.isShow" style="width: 150px"><span>Chức danh</span>
                   </th>
-                  <th class="large-width-table" *ngIf="this.columns[3]?.isShow" style="width: 100px"><span>Trạng thái</span>
+                  <th class="large-width-table" *ngIf="this.columns[3]?.isShow" style="width: 150px"><span>Căn cước công dân</span>
                   </th>
-<!--                  <th class="large-width-table" *ngIf="this.columns[5]?.isShow" style="width: 150px; "><span>Thời gian tốt nghiệp</span>-->
-<!--                  </th>-->
-                  <th class="large-width-table" *ngIf="this.columns[4]?.isShow" style="width: 150px"><span>Email</span>
+                  <th class="large-width-table" *ngIf="this.columns[4]?.isShow" style="width: 150px"><span>Mã số hợp đồng</span>
                   </th>
-                  <th class="large-width-table" *ngIf="this.columns[5]?.isShow" style="width: 150px"><span>Số điện thoại</span>
+                  <th class="large-width-table" *ngIf="this.columns[5]?.isShow" style="width: 150px"><span>Mã số thuế</span>
                   </th>
-                  <th class="large-width-table" *ngIf="this.columns[6]?.isShow" style="width: 150px"><span>Ngày Sinh</span>
+                  <th class="large-width-table" *ngIf="this.columns[6]?.isShow" style="width: 150px"><span>Địa chỉ</span>
                   </th>
-                  <th class="large-width-table" *ngIf="this.columns[7]?.isShow" ><span>Ghi chú</span>
+                  <th class="large-width-table" *ngIf="this.columns[7]?.isShow" style="width: 150px"><span>Trạng thái</span>
+                  </th>
+                  <th class="large-width-table" *ngIf="this.columns[8]?.isShow" style="width: 150px"><span>Email</span>
+                  </th>
+                  <th class="large-width-table" *ngIf="this.columns[9]?.isShow" style="width: 150px"><span>Số điện thoại</span>
+                  </th>
+                  <th class="large-width-table" *ngIf="this.columns[10]?.isShow" style="width: 150px"><span>Ngày sinh</span>
+                  </th>
+                  <th class="large-width-table" *ngIf="this.columns[11]?.isShow" ><span>Ghi chú</span>
                   </th>
                 </tr>
                 </thead>
@@ -181,19 +168,19 @@
                               (click)="openModalAddUser('detail',item)">
                         <i class="fa fa fa-info icon-color-blue" aria-hidden="true"></i>
                       </button>
-                      <button *jhiHasPermission="item"
+
+                      <button
                               class="btn btn-light" placement="top"
                               ngbTooltip="{{'common.tooltip.action.update' | translate}}"
                               (click)="openModalAddUser('update',item)">
                         <i class="fa fa-pencil-square-o icon-update" aria-hidden="true"></i></button>
 
-                      <button *jhiHasMultiPermission="item"
+                      <button
                               class="btn btn-light" placement="top"
                               ngbTooltip="{{'common.tooltip.action.delete' | translate}}"
                               (click)="deleteHumanResource(item)">
                         <i  class="fa fa-trash icon-color-red" aria-hidden="true"></i></button>
-
-                      <button *jhiHasMultiPermission="item"
+                      <button
                                 class="btn btn-light" placement="top"
                               (click)="onLock(item)"
                               onclick="this.blur();">
@@ -202,34 +189,33 @@
                         <i *ngIf="item.status == 2" class="fa fa icon-color-blue fa-lock"
                            style="color:#0273d4 !important;" aria-hidden="true" ngbTooltip="Mở khóa"></i>
                       </button>
-
-
-                      <button *jhiHasMultiPermission="item"
+                      <button
                               class="btn btn-light" placement="top"
                               (click)="onResetPassword(item)"
                               onclick="this.blur();">
                       <i *ngIf="item.password != null" class="fa fa-refresh icon-color-blue" aria-hidden="true"
                          ngbTooltip="Đặt lại mật khẩu"></i>
                       </button>
-<!--                      <button *jhiHasMultiPermission="item"-->
-<!--                               class="btn btn-light" placement="top"-->
-<!--                               (click)="onResetPassword(item)">-->
-<!--                        <i *ngIf="item.password == null" class="fa fa-key icon-color-blue" aria-hidden="true"-->
-<!--                           ngbTooltip="Cấp mật khẩu mới"></i>-->
-<!--                      </button>-->
-
+                      <button
+                               class="btn btn-light" placement="top"
+                               (click)="onResetPassword(item)">
+                        <i *ngIf="item.password == null" class="fa fa-key icon-color-blue" aria-hidden="true"
+                           ngbTooltip="Cấp mật khẩu mới"></i>
+                      </button>
                     </div>
                   </td>
                   <td *ngIf="this.columns[0]?.isShow">{{item.code}}</td>
                   <td *ngIf="this.columns[1]?.isShow">{{item.name}}</td>
-<!--                  <td *ngIf="this.columns[2]?.isShow">{{item.position}}</td>-->
-                  <td *ngIf="this.columns[2]?.isShow">{{item.part}}</td>
-                  <td *ngIf="this.columns[3]?.isShow">{{item.statuss}}</td>
-<!--                  <td *ngIf="this.columns[5]?.isShow" style="text-align: center">{{item.dategraduate}}</td>-->
-                  <td *ngIf="this.columns[4]?.isShow" >{{item.email }}</td>
-                  <td *ngIf="this.columns[5]?.isShow" style="text-align: left">{{item.phone}}</td>
-                  <td *ngIf="this.columns[6]?.isShow" style="text-align: left">{{convertDate(item.dateOfBirth)}}</td>
-                  <td *ngIf="this.columns[7]?.isShow" style="text-align: left">{{item.note}}</td>
+                  <td *ngIf="this.columns[2]?.isShow">{{item.position}}</td>
+                  <td *ngIf="this.columns[3]?.isShow">{{item.cmt}}</td>
+                  <td *ngIf="this.columns[4]?.isShow" >{{item.contractCode }}</td>
+                  <td *ngIf="this.columns[5]?.isShow" >{{item.taxCode }}</td>
+                  <td *ngIf="this.columns[6]?.isShow" >{{item.address}}</td>
+                  <td *ngIf="this.columns[7]?.isShow" >{{item.statuss}}</td>
+                  <td *ngIf="this.columns[8]?.isShow" >{{item.email}}</td>
+                  <td *ngIf="this.columns[9]?.isShow" >{{item.phone}}</td>
+                  <td *ngIf="this.columns[10]?.isShow" >{{convertDate(item.dateOfBirth)}}</td>
+                  <td *ngIf="this.columns[11]?.isShow" >{{item.note}}</td>
                 </tr>
                 </tbody>
               </table>

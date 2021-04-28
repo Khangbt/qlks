@@ -59,8 +59,17 @@ public class HumanResourcesEntity extends Auditable<String> {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "contract_code")
+    private String contractCode;
+
+    @Column(name = "tax_code")
+    private String taxCode;
+
     @Column(name = "ROLE")
     private String role;
+
+    @Column(name = "position_id")
+    private String positionId;
     @Transient
     public List<GrantedAuthority> authorities;
 

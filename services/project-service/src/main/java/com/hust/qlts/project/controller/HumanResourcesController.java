@@ -4,6 +4,7 @@ import com.hust.qlts.project.common.CoreUtils;
 import com.hust.qlts.project.config.security.JWTProvider;
 import com.hust.qlts.project.dto.DTOSearch;
 import com.hust.qlts.project.dto.HumanResourcesDTO;
+import com.hust.qlts.project.dto.HumanResourcesShowDTO;
 import com.hust.qlts.project.service.AuthenService;
 import com.hust.qlts.project.service.HumanResourcesService;
 import common.CommonUtils;
@@ -63,6 +64,17 @@ public class HumanResourcesController {
         }
     }
 
+    @PostMapping("/searchHumanResources")
+    public ResponseEntity<List<HumanResourcesShowDTO>> searchHumanResources(@RequestBody HumanResourcesShowDTO dto) {
+        log.info("----------------api searchHumanResources nhan su-----------------");
+        try {
+            log.info("----------------api searchHumanResources nhan su Ok-----------------");
+            return new ResponseEntity(resourcesService.getPageHumanResourcesSeach(dto), HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("----------------api searchHumanResources nhan su fail-----------------");
+            throw e;
+        }
+    }
     // API GET thong tin user dang nhap
     @GetMapping("/getUserInfo")
     public ResponseEntity<HumanResourcesDTO> getUserInfo(@RequestParam("username") String username) {
@@ -70,14 +82,11 @@ public class HumanResourcesController {
         return new ResponseEntity(resourcesService.getUserInfo(username), HttpStatus.OK);
     }
 
-
-
     /// khoa nhan su
     @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
 
     @DeleteMapping("/lockHumanResources/{id}")
     public ResultResp lockProject(@PathVariable("id") Long id ,HttpServletRequest request) {
-
         String username = authenService.getEmailCurrentlyLogged(request);
         log.info("----------------api delete nhan su-----------------");
         try {
@@ -123,6 +132,10 @@ public class HumanResourcesController {
         }
     }
 
+    @GetMapping("/getPosition")
+    public ResultResp getHumanPosition() {
+        return ResultResp.success(resourcesService.position());
+    }
 
     // get thong tin nhan su
     @PostMapping("/getHumanResources")
@@ -153,8 +166,6 @@ public class HumanResourcesController {
             return ResultResp.badRequest(ErrorCode.OLD_PASSWORD_FAILE);
         }
     }
-
-
     @PutMapping("/changePassword")
     public ResultResp changePasswordHumanResouces(@RequestBody HumanResourcesDTO humanResourcesDTO) {
         try {
@@ -168,15 +179,12 @@ public class HumanResourcesController {
         } catch (Exception e) {
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
-
     }
 
     @GetMapping("/getDepartment")
     public ResultResp getDepartment() {
         return ResultResp.success(null);
     }
-
-
 
     @GetMapping("/getMajor")
     public ResultResp getHumanMajor() {
@@ -188,29 +196,24 @@ public class HumanResourcesController {
         log.info("<--- api createNewHr: start,", humanResourcesDTO);
         //lấy ra username đang đăng nhập
         String username = authenService.getEmailCurrentlyLogged(request);
-
         try {
             return ResultResp.success(ErrorCode.CREATED_HR_OK, resourcesService.create(username, humanResourcesDTO));
-
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
                 return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
         }
         return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
     }
-
     @PutMapping(value = "/update")
     public ResultResp updateHr(@RequestBody HumanResourcesDTO humanResourcesDTO) {
         log.info("<-- api updateHumanResources: start, ", humanResourcesDTO);
         try {
             return ResultResp.success(ErrorCode.UPDATED_OK, resourcesService.update(humanResourcesDTO));
-
         } catch (Exception e) {
             log.error("<--- api updateHumanResources: error, ");
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
-
     @GetMapping(value = "/check-email/{email}")
     public ResultResp checkEmail(@PathVariable("email") String email) {
         log.info("<-- api check duplicate Email: start, ");
@@ -222,7 +225,6 @@ public class HumanResourcesController {
             return ResultResp.badRequest(ErrorCode.EMAIL_IS_EXIST);
         }
     }
-
     @GetMapping(value = "/check-usercode/{code}")
     public ResultResp checkUsername(@PathVariable("code") String code) {
         log.info("<-- api check duplicate code: start, ");
@@ -234,7 +236,6 @@ public class HumanResourcesController {
             return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
         }
     }
-
     @GetMapping("/get-human-by-id/{id}")
     public ResultResp getOneById(@PathVariable("id") Long id) {
         log.info("<-- api updateHumanResources: start, ", id);
@@ -247,19 +248,15 @@ public class HumanResourcesController {
             e.printStackTrace();
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
-
     }
-
-
-//    @GetMapping("/getHumanResources/{projectId}")
-//    public ResultResp getListHumanResources(@PathVariable("projectId") Long projectId) {
-//        try {
-//            return ResultResp.success(resourcesService.getListHumanResources(projectId));
-//        } catch (CustomExceptionHandler ex) {
-//            return ResultResp.badRequest((ObjectError) ex.getData());
-//        }
-//    }
-
+    @GetMapping("/getHumanResources/{projectId}")
+    public ResultResp getListHumanResources(@PathVariable("projectId") Long projectId) {
+        try {
+            return ResultResp.success(resourcesService.getListHumanResources(projectId));
+        } catch (CustomExceptionHandler ex) {
+            return ResultResp.badRequest((ObjectError) ex.getData());
+        }
+    }
     @GetMapping("/getLeader/{projectId}")
     public ResultResp getLeaderFromProject(@PathVariable("projectId") Long projectId) {
         try {
@@ -269,13 +266,11 @@ public class HumanResourcesController {
         }
     }
 
-
     private String getFileFromURL(String path) {
         URL url = this.getClass().getResource(path);
         assert url != null;
         return url.getPath();
     }
-
 
     @GetMapping("/dowloadfiledata")
     public ResponseEntity<?> getFileForm() {
@@ -303,27 +298,23 @@ public class HumanResourcesController {
         }
     }
 
-    @GetMapping("/getHumanResources/{projectId}")
+    /*@GetMapping("/getHumanResources/{projectId}")
     public ResultResp getListHumanResources(@PathVariable("projectId") Long projectId){
         try{
             return ResultResp.success(resourcesService.getListHumanResources(projectId));
         }catch (CustomExceptionHandler ex){
             return ResultResp.badRequest((ObjectError) ex.getData());
         }
-    }
-
-
+    }*/
 
     @RequestMapping(value = "/doImport", method = RequestMethod.POST)
     public ResponseEntity<?> importExcel(@RequestParam("file") MultipartFile file) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         byte[] result = resourcesService.importExcel(file);
         if (!Objects.isNull(result)) {
-
             String fileNameExcel = "KQ_IMPORT_NHAN_SU" +
                     CoreUtils.castDateToStringByPattern(new Date(), "yyMMdd") + "_" +
                     CoreUtils.castDateToStringByPattern(new Date(), "hhmmss") + ".xlsx";
-
             headers.add("File", fileNameExcel);
 //            headers.add("totalRecord", String.valueOf(result.getTotalRecord()));
 //            headers.add("successRecord", String.valueOf(result.getImportSuccessRecord()));
