@@ -196,7 +196,9 @@ export class RoomTypeComponent implements OnInit {
       dayPrice: [],
       nightPrice: [],
       hourPrice: [],
-      status: []
+      status: [],
+      roomCode: [],
+      roomType: []
     });
   }
 
