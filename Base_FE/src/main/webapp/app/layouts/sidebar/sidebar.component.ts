@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   };
   asset = {
     name: MENU_TITLE.HRM.ASSET,
-    url: '/system-categories/asset-resources',
+    url: '/system-categories/asset-resource',
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
