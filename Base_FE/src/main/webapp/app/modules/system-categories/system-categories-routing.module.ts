@@ -33,7 +33,6 @@ const routes: Routes = [
       url: 'system-categories/book-room'
     }
   },
-
   {
     path: 'asset-resource',
     component: AssetResuorceComponent,

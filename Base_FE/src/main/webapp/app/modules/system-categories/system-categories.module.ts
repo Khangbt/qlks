@@ -23,17 +23,16 @@ import { ServiceResourcesModule } from 'app/modules/system-categories/service/se
 import { BookRoomModule } from './book-room/book-room.module';
 @NgModule({
   declarations: [
-    ImportExcelHumanResourceComponent
+    ImportExcelHumanResourceComponent,
+    RoomTypeComponent,
 
-    // RoomTypeComponent,
+    ServiceComponent,
 
-    // ServiceComponent,
+    RoomComponent,
 
-    // RoomComponent,
+    AssetResuorceComponent,
 
-    // AssetResuorceComponent,
-
-    // AddRoomComponent
+    AddRoomComponent
     // CustomerComponent,
   ],
   imports: [
@@ -44,7 +43,7 @@ import { BookRoomModule } from './book-room/book-room.module';
     ChartsModule,
     HumanResourcesModule,
     NgxQRCodeModule,
-    // AssetResourcesModule,
+    AssetResourcesModule,
     RoomResourcesModule,
     RoomTypeResourcesModule,
     ServiceResourcesModule,
