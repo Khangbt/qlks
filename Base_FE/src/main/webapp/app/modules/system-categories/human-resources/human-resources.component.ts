@@ -1,26 +1,26 @@
-import {Component, EventEmitter, OnInit, Output} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HeightService} from 'app/shared/services/height.service';
-import {HumanResourcesApiService} from 'app/core/services/Human-resources-api/human-resources-api.service';
-import {from, Observable, of, Subject, Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {REGEX_PATTERN, REGEX_REPLACE_PATTERN} from 'app/shared/constants/pattern.constants';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {JhiEventManager} from 'ng-jhipster';
-import {ToastService} from 'app/shared/services/toast.service';
-import {ITEMS_PER_PAGE, MAX_SIZE_PAGE} from 'app/shared/constants/pagination.constants';
-import {ConfirmModalComponent} from "app/shared/components/confirm-modal/confirm-modal.component";
-import {AddHumanResourcesComponent} from "app/modules/system-categories/human-resources/add-human-resources/add-human-resources.component";
-import {APP_PARAMS_CONFIG} from 'app/shared/constants/app-params.constants';
-import {HttpResponse} from '@angular/common/http';
-import {SHOW_HIDE_COL_HEIGHT} from 'app/shared/constants/perfect-scroll-height.constants';
-import {HumanResouces} from "app/core/models/human-resources/human-resouces.model";
-import {debounceTime} from "rxjs/operators";
-import {TIME_OUT} from "app/shared/constants/set-timeout.constants";
-import {OrganizationCategoriesService} from "app/core/services/system-management/organization-categories.service";
-import {CommonService} from "app/shared/services/common.service";
-import {ImportExcelHumanResourceComponent} from "app/modules/system-categories/human-resources/import-excel-human-resource/import-excel-human-resource.component";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HeightService } from 'app/shared/services/height.service';
+import { HumanResourcesApiService } from 'app/core/services/Human-resources-api/human-resources-api.service';
+import { from, Observable, of, Subject, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { REGEX_PATTERN, REGEX_REPLACE_PATTERN } from 'app/shared/constants/pattern.constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { JhiEventManager } from 'ng-jhipster';
+import { ToastService } from 'app/shared/services/toast.service';
+import { ITEMS_PER_PAGE, MAX_SIZE_PAGE } from 'app/shared/constants/pagination.constants';
+import { ConfirmModalComponent } from 'app/shared/components/confirm-modal/confirm-modal.component';
+import { AddHumanResourcesComponent } from 'app/modules/system-categories/human-resources/add-human-resources/add-human-resources.component';
+import { APP_PARAMS_CONFIG } from 'app/shared/constants/app-params.constants';
+import { HttpResponse } from '@angular/common/http';
+import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height.constants';
+import { HumanResouces } from 'app/core/models/human-resources/human-resouces.model';
+import { debounceTime } from 'rxjs/operators';
+import { TIME_OUT } from 'app/shared/constants/set-timeout.constants';
+import { OrganizationCategoriesService } from 'app/core/services/system-management/organization-categories.service';
+import { CommonService } from 'app/shared/services/common.service';
+import { ImportExcelHumanResourceComponent } from 'app/modules/system-categories/human-resources/import-excel-human-resource/import-excel-human-resource.component';
 
 @Component({
   selector: 'jhi-human-resources',
@@ -47,25 +47,23 @@ export class HumanResourcesComponent implements OnInit {
 
   debouncer: Subject<string> = new Subject<string>();
   positionList: any[] = [];
-  cities = [
-    {id: 1, name: 'Đang làm việc'},
-    {id: 2, name: 'Đã thôi việc'},
-
-  ];
+  cities = [{ id: 1, name: 'Đang làm việc' }, { id: 2, name: 'Đã thôi việc' }];
   searchForm: any;
   SHOW_HIDE_COL_HEIGHT = SHOW_HIDE_COL_HEIGHT;
   listHumanResourcse: HumanResouces[] = [];
   columns = [
-    {key: 0, value: "Mã số nhân sự", isShow: true},
-    {key: 1, value: "Họ và tên", isShow: true},
-    // {key: 2, value: "Chức danh", isShow: true},
-    {key: 2, value: "Bộ phận", isShow: false},
-    {key: 3, value: "Trạng thái", isShow: true},
-    // {key: 5, value: "Thời gian tốt nghiệp", isShow: false},
-    {key: 4, value: "Email", isShow: true},
-    {key: 5, value: "Số điện thoại", isShow: false},
-    {key: 6, value: "Ngày Sinh", isShow: false},
-    {key: 7, value: "Ghi chú", isShow: false},
+    { key: 0, value: 'Mã số nhân sự', isShow: true },
+    { key: 1, value: 'Họ và tên', isShow: true },
+    { key: 2, value: 'Chức danh', isShow: true },
+    { key: 3, value: 'Căn cước công dân', isShow: false },
+    { key: 4, value: 'Mã số hợp đồng', isShow: false },
+    { key: 5, value: 'Mã số thuế', isShow: false },
+    { key: 6, value: 'Địa chỉ', isShow: false },
+    { key: 7, value: 'Trạng thái', isShow: true },
+    { key: 8, value: 'Email', isShow: true },
+    { key: 9, value: 'Số điện thoại', isShow: false },
+    { key: 10, value: 'Ngày Sinh', isShow: false },
+    { key: 11, value: 'Ghi chú', isShow: true }
   ];
   centerList: any[] = [];
   listHuman = new Observable<any[]>();
@@ -93,7 +91,7 @@ export class HumanResourcesComponent implements OnInit {
     private eventManager: JhiEventManager,
     private toastService: ToastService,
     // private sysUserService: SysUserService
-    private commonService: CommonService,
+    private commonService: CommonService
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.maxSizePage = MAX_SIZE_PAGE;
@@ -107,29 +105,24 @@ export class HumanResourcesComponent implements OnInit {
     });
   }
 
-
   ngOnInit() {
     this.buidForm();
     this.searchForm = {};
-    this.getPartList();
+    // this.getPartList();
     this.onResize();
     this.loadAll();
     this.registerChange();
     this.getPositionList();
     this.debounceOnSearch5();
-
   }
 
   permissionCheck(permission?: string) {
     return this.commonService.havePermission(permission);
   }
 
-
   toggleColumns(col) {
     col.isShow = !col.isShow;
   }
-
-
 
   // search theo ma nhan su
   onSearHuman(event) {
@@ -146,20 +139,15 @@ export class HumanResourcesComponent implements OnInit {
     this.debouncer5.pipe(debounceTime(TIME_OUT.DUE_TIME_SEARCH)).subscribe(value => this.loadDataOnSearchUnit5(value));
   }
 
-
   loadDataOnSearchUnit5(term) {
     const data = {
       keySearch: term.trim().toUpperCase(),
       type: 'PARTNER'
-    }
+    };
     this.humanResourcesApiService.getHumanResourcesInfo(data).subscribe(res => {
-      // this.organizationCategoriesService.getPartnerInfo(data).subscribe(res => {
       if (this.searchHuman) {
         const dataRes: any = res;
-
         this.listHuman = of(dataRes.sort((a, b) => a.fullName.localeCompare(b.fullName)));
-        // this.listHuman = of(dataRes.sort((a, b) => a.code.localeCompare(b.code)));
-
       } else {
         this.listHuman = of([]);
       }
@@ -185,11 +173,11 @@ export class HumanResourcesComponent implements OnInit {
 
   customSearchHunan(term: string, item: any): any {
     term = term.toLocaleLowerCase().trim();
-    return (item.fullName ? item.fullName.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term))
-      || (item.code ? item.code.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term))
-      || (item.email ? item.email.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term));
-    // || item.code.toLocaleLowerCase().indexOf(term) > -1
-    // || item.email.toLocaleLowerCase().indexOf(term) > -1;
+    return (
+      (item.fullName ? item.fullName.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term)) ||
+      (item.code ? item.code.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term)) ||
+      (item.email ? item.email.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term))
+    );
   }
 
   // lay du lieu bo phan
@@ -260,8 +248,7 @@ export class HumanResourcesComponent implements OnInit {
     );
   }
 
-
-// loa du lieu bang
+  // loa du lieu bang
   loadAll() {
     this.spinner.show();
     this.searchForm.humanResourceId = this.form.value.humanResourceId;
@@ -274,22 +261,17 @@ export class HumanResourcesComponent implements OnInit {
     //debugger;
     this.searchForm.page = this.page;
     this.searchForm.pageSize = this.itemsPerPage;
-    this.humanResourcesApiService
-
-      .searchHumanResources(
-        this.searchForm
-      )
-      .subscribe(
-        res => {
-          this.spinner.hide();
-          this.paginateUserList(res);
-        },
-        err => {
-          this.spinner.hide();
-          // this.toastService.openErrorToast(this.translateService.instant('common.toastr.messages.error.load'));
-          this.toastService.openErrorToast("loi");
-        }
-      );
+    this.humanResourcesApiService.searchHumanResources(this.searchForm).subscribe(
+      res => {
+        this.spinner.hide();
+        this.paginateUserList(res);
+      },
+      err => {
+        this.spinner.hide();
+        // this.toastService.openErrorToast(this.translateService.instant('common.toastr.messages.error.load'));
+        this.toastService.openErrorToast('loi');
+      }
+    );
   }
 
   private paginateUserList(res) {
@@ -352,7 +334,7 @@ export class HumanResourcesComponent implements OnInit {
     return result;
   }
 
-//////////////////////////////////////////
+  //////////////////////////////////////////
   setValueToField(item, data) {
     this.form.get(item).setValue(data);
   }
@@ -366,7 +348,7 @@ export class HumanResourcesComponent implements OnInit {
   }
 
   onLock(data) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {centered: true, backdrop: 'static'});
+    const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
     if (data.status === 1) {
       modalRef.componentInstance.type = 'deactivate';
       modalRef.componentInstance.param = 'nhân sự';
@@ -382,29 +364,31 @@ export class HumanResourcesComponent implements OnInit {
   }
 
   onLock1(ids) {
-    this.humanResourcesApiService.lockHumanResources(ids).subscribe(res => {
-      this.spinner.show();
-      if (res.data) {
-        this.spinner.hide();
-        this.getHumanHistory();
-        if (res.data.code === "BK0010") {
-          this.toastService.openSuccessToast("Mở khóa nhân sự thành công!");
-        } else if (res.data.code === "BK009") {
-
-          this.toastService.openSuccessToast("Khóa nhân sự thành công!");
+    this.humanResourcesApiService.lockHumanResources(ids).subscribe(
+      res => {
+        this.spinner.show();
+        if (res.data) {
+          this.spinner.hide();
+          this.getHumanHistory();
+          if (res.data.code === 'BK0010') {
+            this.toastService.openSuccessToast('Mở khóa nhân sự thành công!');
+          } else if (res.data.code === 'BK009') {
+            this.toastService.openSuccessToast('Khóa nhân sự thành công!');
+          }
+          this.loadAll();
         }
-        this.loadAll();
+      },
+      error => {
+        this.spinner.hide();
+        // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
+        this.toastService.openErrorToast('Xóa nhân sự thất bại');
       }
-    }, error => {
-      this.spinner.hide();
-      // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
-      this.toastService.openErrorToast("Xóa nhân sự thất bại");
-    });
+    );
   }
 
-// xoa nhan su
+  // xoa nhan su
   deleteHumanResource(data) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {centered: true, backdrop: 'static'});
+    const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
     modalRef.componentInstance.type = 'delete';
     modalRef.componentInstance.param = 'nhân sự';
     modalRef.componentInstance.onCloseModal.subscribe(value => {
@@ -416,30 +400,29 @@ export class HumanResourcesComponent implements OnInit {
   }
 
   deleteHumanResource1(ids) {
-    this.humanResourcesApiService.deleteHumanResources(ids).subscribe(res => {
-      this.spinner.show();
-      if (res.data) {
+    this.humanResourcesApiService.deleteHumanResources(ids).subscribe(
+      res => {
+        this.spinner.show();
+        if (res.data) {
+          this.spinner.hide();
+          this.toastService.openSuccessToast('Xóa nhân sự thành công!');
+          this.loadAll();
+          this.getHumanHistory();
+        }
+      },
+      error => {
         this.spinner.hide();
-        this.toastService.openSuccessToast("Xóa nhân sự thành công!");
-        this.loadAll();
-        this.getHumanHistory();
+        this.toastService.openErrorToast('Nhân sự đang tham gia dự án, không được phép xóa');
       }
-    }, error => {
-      this.spinner.hide();
-      // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
-     // this.toastService.openErrorToast("Xóa nhân sự thất bại, có rằng buộc dữ liệu");
-      this.toastService.openErrorToast("Nhân sự đang tham gia dự án, không được phép xóa");
-    });
+    );
   }
-
 
   onResetPassword(data) {
     // if(data.statusOverview !==14){
     //   this.toastService.openErrorToast('Trạng thái dự án khác Chưa bắt đầu khảo sát, không được phép xóa!');
     // }else{
-    const modalRef = this.modalService.open(ConfirmModalComponent, {centered: true, backdrop: 'static'});
+    const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
     if (data.password != null) {
-
       modalRef.componentInstance.type = 'reset';
       modalRef.componentInstance.param = 'mật khẩu';
       modalRef.componentInstance.onCloseModal.subscribe(value => {
@@ -456,16 +439,14 @@ export class HumanResourcesComponent implements OnInit {
         }
       });
     }
-
   }
 
-
-// resetpassword
+  // resetpassword
   resetpassword(item) {
     this.spinner.show();
     this.humanResourcesApiService.resetpassword(item.humanResourceId).subscribe(res => {
       if (res.data) {
-        this.toastService.openSuccessToast('Mật khẩu mới đã được gửi tới email ' + item.email + ", xin vui lòng check email!");
+        this.toastService.openSuccessToast('Mật khẩu mới đã được gửi tới email ' + item.email + ', xin vui lòng check email!');
         this.spinner.hide();
         this.getHumanHistory();
       } else {
@@ -476,7 +457,6 @@ export class HumanResourcesComponent implements OnInit {
       }
     });
   }
-
 
   private buidForm() {
     this.form = this.formBuilder.group({
@@ -490,7 +470,11 @@ export class HumanResourcesComponent implements OnInit {
       departmentId: [],
       experience: [],
       lstMajorId: [],
-      lstHumanResourcesId: []
+      lstHumanResourcesId: [],
+      cmt: [],
+      address: [],
+      contractCode: [],
+      taxCode: []
     });
   }
 
@@ -500,14 +484,16 @@ export class HumanResourcesComponent implements OnInit {
       backdrop: 'static',
       keyboard: false
     });
-    modalRef.componentInstance.type = "import";
-    modalRef.result.then(result => {
-      if (result) {
+    modalRef.componentInstance.type = 'import';
+    modalRef.result
+      .then(result => {
+        if (result) {
+          this.loadAll();
+        }
+      })
+      .catch(() => {
         this.loadAll();
-      }
-    }).catch(() => {
-      this.loadAll();
-    });
+      });
   }
 
   getValueOfField(item) {
@@ -530,14 +516,13 @@ export class HumanResourcesComponent implements OnInit {
     });
     modalRef.componentInstance.type = 'add';
     modalRef.componentInstance.data = {};
-    modalRef.componentInstance.onCloseModal.subscribe(value => {
-    });
+    modalRef.componentInstance.onCloseModal.subscribe(value => {});
   }
 
   getHumanHistory() {
     this.humanResourcesApiService.getHistoryList().subscribe(
       res => {
-        console.warn(+res)
+        console.warn(+res);
         if (res) {
           this.historyList = res;
           //debugger;
@@ -555,16 +540,16 @@ export class HumanResourcesComponent implements OnInit {
 
   convertDate(str) {
     if (str === null || str === '') {
-      return "";
+      return '';
     } else {
       const date = new Date(str);
-      return (date.getDate() < 10 ? ('0' +
-        date.getDate()) : (date.getDate())) +
+      return (
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
         '/' +
-        (date.getMonth() < 9 ? ('0' +
-          (date.getMonth() + 1)) : (date.getMonth() + 1)) +
+        (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
         '/' +
-        date.getFullYear();
+        date.getFullYear()
+      );
       // return [date.getFullYear(), mnth, day].join('-');
     }
   }
@@ -579,16 +564,16 @@ export class HumanResourcesComponent implements OnInit {
     const newValue = JSON.parse(item.valueNew);
     const oldValue = JSON.parse(item.valueOld);
     let result = '';
-    if (newValue){
+    if (newValue) {
       if (newValue.code) {
-        result += newValue.code + " - ";
+        result += newValue.code + ' - ';
       }
       if (newValue.fullName) {
         result += newValue.fullName;
       }
     } else if (oldValue) {
       if (oldValue.code) {
-        result += oldValue.code + " - ";
+        result += oldValue.code + ' - ';
       }
       if (oldValue.fullName) {
         result += oldValue.fullName;
@@ -600,19 +585,17 @@ export class HumanResourcesComponent implements OnInit {
   onKeyInput(event) {
     const value = this.getValueOfField('experience');
     let valueChange = event.target.value;
-      const parseStr = valueChange.split('');
-      if (parseStr[0] === '0') {
-        valueChange = valueChange.replace('0', '');
-      } else {
-        valueChange = valueChange.replace(REGEX_REPLACE_PATTERN.INTEGER, '');
-      }
+    const parseStr = valueChange.split('');
+    if (parseStr[0] === '0') {
+      valueChange = valueChange.replace('0', '');
+    } else {
+      valueChange = valueChange.replace(REGEX_REPLACE_PATTERN.INTEGER, '');
+    }
     if (value !== valueChange) {
       this.setValueToField('experience', valueChange);
       return false;
     }
   }
-
-
 
   /*duc*/
   openModalAddUser(type?: string, selectedData?: any) {
@@ -623,25 +606,22 @@ export class HumanResourcesComponent implements OnInit {
     });
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.id = selectedData ? selectedData.humanResourceId : null;
-    console.warn("tesst"+modalRef.componentInstance.id)
+    console.warn('tesst' + modalRef.componentInstance.id);
 
-    modalRef.result.then(result => {
-      if (result) {
+    modalRef.result
+      .then(result => {
+        if (result) {
+          this.loadAll();
+        }
+      })
+      .catch(() => {
         this.loadAll();
-      }
-    }).catch(() => {
-      this.loadAll();
-    });
-
+      });
   }
 
   openAddHuman(type, selectedData) {
     this.commonService.setDataTranfer('type', type);
     this.commonService.setDataTranfer('id', selectedData ? selectedData.humanResourceId : null);
     this.router.navigate(['system-categories/add-human-resources']);
-
   }
-
-
-
 }

@@ -20,6 +20,8 @@ public interface HumanResourcesService {
 
     HumanResourcesDTO update(HumanResourcesDTO humanResourcesDTO);
 
+    DataPage<HumanResourcesShowDTO> getPageHumanResourcesSeach(HumanResourcesShowDTO dto);
+
     HumanResourcesDTO findById(Long Id);
 
     List<HistoryDTO> getHumanHistory();
@@ -55,5 +57,7 @@ public interface HumanResourcesService {
     byte[] importExcel(MultipartFile file) throws IOException;
 
     List<ICusTomDto> listAll();
+
+    List<IPositionDTO> position();
 
 }

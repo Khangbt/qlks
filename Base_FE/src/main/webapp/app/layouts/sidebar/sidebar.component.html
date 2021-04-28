@@ -55,6 +55,15 @@
       </li>
 
 
+      <li *jhiHasPermission="1">
+        <a [routerLink]="test1.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{test1.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="test1.class"></i>
+        </span>
+      </li>
+
 
 <!--      <li>-->
 <!--        <a [routerLink]="partnerManager.url" routerLinkActive="active-link, text-white">-->
