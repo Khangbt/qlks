@@ -90,14 +90,7 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1">
-        <a [routerLink]="supplier.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{supplier.name}}</span>
-        </a>
-        <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="supplier.class"></i>
-        </span>
-      </li>
+      
 
       <li *jhiHasPermission="3">
         <a [routerLink]="department.url" routerLinkActive="active-link, text-white">
@@ -108,31 +101,16 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1" >
-        <a [routerLink]="warehouse.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{warehouse.name}}</span>
+ 
+      <li>
+        <a [routerLink]="bookRoom.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{bookRoom.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="warehouse.class"></i>
+          <i class="fa" [ngClass]="bookRoom.class"></i>
         </span>
       </li>
-
-      <li *jhiHasPermission="1">
-        <a [routerLink]="requestform.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{requestform.name}}</span>
-        </a>
-        <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="requestform.class"></i>
-        </span>
-      </li>
-      <li *jhiHasPermission="2">
-        <a [routerLink]="listDevice.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{listDevice.name}}</span>
-        </a>
-        <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="listDevice.class"></i>
-        </span>
-      </li>
+    
 
       <div class="clearfix"></div>
     </ul>

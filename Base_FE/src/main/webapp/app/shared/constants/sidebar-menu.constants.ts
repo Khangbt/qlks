@@ -59,5 +59,8 @@ export const MENU_TITLE = {
   },
   LIST_DEVICE: {
     NAME: 'Danh muc tài sản  '
+  },
+  BOOK_ROOM: {
+    NAME: 'Đặt phòng'
   }
 };

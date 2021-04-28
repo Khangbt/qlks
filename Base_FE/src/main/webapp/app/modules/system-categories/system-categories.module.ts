@@ -20,10 +20,10 @@ import { AddRoomComponent } from './room/add-room/add-room.component';
 import { RoomResourcesModule } from 'app/modules/system-categories/room/room-resources.module';
 import { RoomTypeResourcesModule } from 'app/modules/system-categories/room-type/room-type-resources.module';
 import { ServiceResourcesModule } from 'app/modules/system-categories/service/service-resources.module';
+import { BookRoomModule } from './book-room/book-room.module';
 @NgModule({
   declarations: [
     ImportExcelHumanResourceComponent,
-
     RoomTypeComponent,
 
     ServiceComponent,
@@ -46,7 +46,8 @@ import { ServiceResourcesModule } from 'app/modules/system-categories/service/se
     AssetResourcesModule,
     RoomResourcesModule,
     RoomTypeResourcesModule,
-    ServiceResourcesModule
+    ServiceResourcesModule,
+    BookRoomModule
   ],
   entryComponents: [ImportExcelHumanResourceComponent],
   exports: [],

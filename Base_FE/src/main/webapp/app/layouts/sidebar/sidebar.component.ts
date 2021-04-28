@@ -152,6 +152,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     class: 'fa-tachometer',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
+
+  bookRoom = {
+    name: MENU_TITLE.BOOK_ROOM.NAME,
+    url: '/system-categories/book-room',
+    class: 'fa-tachometer',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
   user: any;
   constructor(
     private languageService: JhiLanguageService,
