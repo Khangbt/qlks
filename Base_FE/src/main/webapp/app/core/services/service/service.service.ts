@@ -6,25 +6,25 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AssetApiService {
+export class ServiceService {
   private baseUri = SERVER_API;
   private token = localStorage.getItem('token');
 
   constructor(private http: HttpClient) {}
 
-  searchAsset(searchForm?: any): Observable<any> {
-    return this.http.post(this.baseUri + '/asset/searchAseet', searchForm);
+  searchService(searchForm?: any): Observable<any> {
+    return this.http.post(this.baseUri + '/service/searchService', searchForm);
   }
 
   save(data): Observable<any> {
-    return this.http.post<any>(SERVER_API + '/asset/add', data);
+    return this.http.post<any>(SERVER_API + '/service/add', data);
   }
 
-  deleteAsset(id): Observable<any> {
-    return this.http.get<any>(SERVER_API + '/asset/deleteAsset/' + id);
+  deleteService(id): Observable<any> {
+    return this.http.get<any>(SERVER_API + '/service/deleteService/' + id);
   }
 
   getInfo(Id): Observable<any> {
-    return this.http.get(SERVER_API + '/asset/get-asset-by-id/' + Id);
+    return this.http.get(SERVER_API + '/service/get-service-by-id/' + Id);
   }
 }

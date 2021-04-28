@@ -10,13 +10,20 @@ import lombok.NoArgsConstructor;
 public class ServiceDTO extends AuditingDTO<String>{
     private Long serviceId;
 
-    private Integer service_code;
+    private String servicecode;
 
-    private Integer service_name;
+    private String servicename;
 
     private Double price;
 
     private String unit;
 
     private String note;
+    private Integer page;
+    private Integer status;
+    private Integer pageSize;
+
+    private Long totalRecord;
+    private Long departmentId;
+    private String tyleDto;
 }

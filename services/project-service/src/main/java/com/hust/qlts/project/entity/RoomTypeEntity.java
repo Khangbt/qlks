@@ -18,17 +18,23 @@ public class RoomTypeEntity extends Auditable<String> {
     private Long roomTypeId;
 
     @Column(name = "code")
-    private Long code;
+    private String code;
 
     @Column(name = "name")
-    private Long name;
+    private String name;
 
     @Column(name = "day_price")
-    private Double dayPrice;
+    private Long dayPrice;
 
     @Column(name = "night_price")
     private Long nightPrice;
 
     @Column(name = "hour_price")
     private Long hourPrice;
+
+    @Column(name = "status")
+    private Integer status;
+
+    @Column(name = "note")
+    private String note;
 }

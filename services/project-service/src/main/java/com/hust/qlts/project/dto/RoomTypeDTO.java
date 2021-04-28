@@ -10,13 +10,21 @@ import lombok.NoArgsConstructor;
 public class RoomTypeDTO extends AuditingDTO<String>{
     private Long roomTypeId;
 
-    private Long code;
+    private String code;
 
-    private Long name;
+    private String name;
 
-    private Double dayPrice;
+    private Long dayPrice;
 
     private Long nightPrice;
-
+    private String note;
     private Long hourPrice;
+    private Integer status;
+    private Integer page;
+
+    private Integer pageSize;
+
+    private Long totalRecord;
+    private Long departmentId;
+    private String tyleDto;
 }

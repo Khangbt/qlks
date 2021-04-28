@@ -18,22 +18,25 @@ public class RoomEntity extends Auditable<String> {
     private Long roomId;
 
     @Column(name = "max_number")
-    private Integer max_number;
+    private Integer maxNumber;
 
     @Column(name = "floor_number")
-    private Integer floor_number;
+    private Integer floorNumber;
 
     @Column(name = "room_code")
-    private String room_code;
+    private String roomCode;
+
+    @Column(name = "room_name")
+    private String roomName;
 
     @Column(name = "status")
     private Integer status;
 
     @Column(name = "room_type")
-    private Integer room_type;
+    private Integer roomType;
 
     @Column(name = "note")
-    private Integer note;
+    private String note;
 
     //verson
 }
