@@ -63,7 +63,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     class: 'fa-street-view',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
-
   humanResources = {
     name: MENU_TITLE.HRM.USER_MANAGEMENT,
     url: '/system-categories/human-resources',

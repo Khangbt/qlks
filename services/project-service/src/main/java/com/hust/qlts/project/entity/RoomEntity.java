@@ -23,6 +23,8 @@ public class RoomEntity extends Auditable<String> {
     @Column(name = "room_name")
     private String room_name;
 
+
+
     @Column(name = "floor_number")
     private Integer floorNumber;
 
