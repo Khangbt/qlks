@@ -65,6 +65,15 @@
       </li>
 
       <li *jhiHasPermission="1">
+        <a [routerLink]="customer.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{customer.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="customer.class"></i>
+        </span>
+      </li>
+
+      <li *jhiHasPermission="1">
         <a [routerLink]="room.url" routerLinkActive="active-link, text-white">
           <span class="title">{{room.name}}</span>
         </a>
@@ -90,7 +99,7 @@
         </span>
       </li>
 
-      
+
 
       <li *jhiHasPermission="3">
         <a [routerLink]="department.url" routerLinkActive="active-link, text-white">
@@ -101,7 +110,7 @@
         </span>
       </li>
 
- 
+
       <li>
         <a [routerLink]="bookRoom.url" routerLinkActive="active-link, text-white">
           <span class="title">{{bookRoom.name}}</span>
@@ -110,7 +119,9 @@
           <i class="fa" [ngClass]="bookRoom.class"></i>
         </span>
       </li>
-    
+
+
+
 
       <div class="clearfix"></div>
     </ul>

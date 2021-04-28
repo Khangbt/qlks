@@ -51,6 +51,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     resourceCode: 'menu.hddt_qlht_chdn'
   };
 
+  customer = {
+    name: MENU_TITLE.HRM.CUSTOMER,
+    url: '/system-categories/customer-resources',
+    class: 'fa-home',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
   groupPermission = {
     name: MENU_TITLE.GROUP_PERMISSION.GP,
     url: '/system-categories/group-permissions',

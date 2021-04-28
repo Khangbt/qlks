@@ -21,6 +21,7 @@ import { RoomResourcesModule } from 'app/modules/system-categories/room/room-res
 import { RoomTypeResourcesModule } from 'app/modules/system-categories/room-type/room-type-resources.module';
 import { ServiceResourcesModule } from 'app/modules/system-categories/service/service-resources.module';
 import { BookRoomModule } from './book-room/book-room.module';
+import { CustomerComponent } from './customer/customer.component';
 @NgModule({
   declarations: [
     ImportExcelHumanResourceComponent,
@@ -32,7 +33,9 @@ import { BookRoomModule } from './book-room/book-room.module';
 
     AssetResuorceComponent,
 
-    AddRoomComponent
+    AddRoomComponent,
+
+    CustomerComponent
     // CustomerComponent,
   ],
   imports: [

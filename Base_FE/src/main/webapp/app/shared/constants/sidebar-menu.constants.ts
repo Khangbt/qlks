@@ -14,7 +14,8 @@ export const MENU_TITLE = {
     ADD_USER: 'Thêm mới thông tin nhân sự',
     EDIT_USER: 'Sửa thông tin nhân sự',
     VIEWS_USER: 'Xem thông tin nhân sự',
-    USER_OF_PROJECT: 'Nguồn lực nhân sự dự án'
+    USER_OF_PROJECT: 'Nguồn lực nhân sự dự án',
+    CUSTOMER: 'Quản lý khách hàng'
   },
   AUTHORITIES: {
     VIEW_LIST: 'Phân quyền hệ thống',
