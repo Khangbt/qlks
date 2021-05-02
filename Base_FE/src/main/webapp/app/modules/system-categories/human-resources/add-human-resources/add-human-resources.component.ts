@@ -1,29 +1,26 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DatePipe} from "@angular/common";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable, of, Subject} from "rxjs";
-import {HeightService} from "app/shared/services/height.service";
-import {HumanResourcesApiService} from "app/core/services/Human-resources-api/human-resources-api.service";
-import {NgbActiveModal, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {NgxSpinnerService} from "ngx-spinner";
-import {JhiEventManager} from "ng-jhipster";
-import {ToastService} from "app/shared/services/toast.service";
-import {CommonService} from "app/shared/services/common.service";
-import {ITEMS_PER_PAGE} from "app/shared/constants/pagination.constants";
-import {debounceTime} from "rxjs/operators";
-import {TIME_OUT} from "app/shared/constants/set-timeout.constants";
-import {SysUserService} from "app/core/services/system-management/sys-user.service";
-import {TranslateService} from "@ngx-translate/core";
-import {HttpResponse} from "@angular/common/http";
-import {STATUS_CODE} from "app/shared/constants/status-code.constants";
-import {REGEX_PATTERN} from "app/shared/constants/pattern.constants";
-import {ConfirmModalComponent} from "app/shared/components/confirm-modal/confirm-modal.component";
-import {Router} from "@angular/router";
-import {toNumber} from "ng-zorro-antd";
-import {STORAGE_KEYS} from "app/shared/constants/storage-keys.constants";
-import {FormStoringService} from "app/shared/services/form-storing.service";
-import { formatDate } from '@angular/common';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, of, Subject } from 'rxjs';
+import { HeightService } from 'app/shared/services/height.service';
+import { HumanResourcesApiService } from 'app/core/services/Human-resources-api/human-resources-api.service';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { JhiEventManager } from 'ng-jhipster';
+import { ToastService } from 'app/shared/services/toast.service';
+import { CommonService } from 'app/shared/services/common.service';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
+import { debounceTime } from 'rxjs/operators';
+import { TIME_OUT } from 'app/shared/constants/set-timeout.constants';
+import { SysUserService } from 'app/core/services/system-management/sys-user.service';
+import { TranslateService } from '@ngx-translate/core';
+import { HttpResponse } from '@angular/common/http';
+import { STATUS_CODE } from 'app/shared/constants/status-code.constants';
+import { REGEX_PATTERN } from 'app/shared/constants/pattern.constants';
+import { ConfirmModalComponent } from 'app/shared/components/confirm-modal/confirm-modal.component';
+import { Router } from '@angular/router';
+import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
+import { FormStoringService } from 'app/shared/services/form-storing.service';
 
 @Component({
   selector: 'jhi-add-human-resources',
@@ -35,13 +32,13 @@ export class AddHumanResourcesComponent implements OnInit {
   oldEmail: any;
   @Input() type;
   @Input() id: any;
-  @Output() passEntry: EventEmitter<any> = new EventEmitter()
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
   ngbModalRef: NgbModalRef;
   form: FormGroup;
   listUnit$ = new Observable<any[]>();
   unitSearch;
   debouncer: Subject<string> = new Subject<string>();
-  roleList: any[] = []
+  roleList: any[] = [];
   departmentList: any[] = [];
   partList: any[] = [];
   majorList: any[] = [];
@@ -51,7 +48,7 @@ export class AddHumanResourcesComponent implements OnInit {
   isDuplicateEmail = false;
   isDuplicateUserCode = false;
   height: number;
-  post:Date;
+  post: Date;
   name: string;
   maxlength = 4;
   isError = false;
@@ -64,14 +61,17 @@ export class AddHumanResourcesComponent implements OnInit {
   yy: number;
   years: number[] = [];
   checkBoll = false;
-  statusList = [{
-    id: 1,
-    status: 'Đang làm việc'
-  }, {
-    id: 2,
-    status: 'Đã thôi việc'
-  }];
-  title ="";
+  statusList = [
+    {
+      id: 1,
+      status: 'Đang làm việc'
+    },
+    {
+      id: 2,
+      status: 'Đã thôi việc'
+    }
+  ];
+  title = '';
   constructor(
     public activeModal: NgbActiveModal,
     private heightService: HeightService,
@@ -86,9 +86,9 @@ export class AddHumanResourcesComponent implements OnInit {
     private translateService: TranslateService,
     private datepipe: DatePipe,
     private formStoringService: FormStoringService,
-    protected router: Router,
+    protected router: Router
   ) {
-    this.height = this.heightService.onResize()
+    this.height = this.heightService.onResize();
   }
 
   get formControl() {
@@ -101,26 +101,19 @@ export class AddHumanResourcesComponent implements OnInit {
     this.debounceOnSearch();
     this.getRoleList();
     this.getPositionList();
-    // this.getMajorList();
-    this.getPartList();
-    // this.getHistory();
-
+    // this.getPartList();
   }
 
   private getRoleList() {
-    this.roleList = [{"id": 1, "name": "USER"}, {"id": 2, "name": "ADMIN"}]
+    this.roleList = [{ id: 1, name: 'USER' }, { id: 2, name: 'ADMIN' }];
   }
 
   private buildForm() {
-
-      if (this.type === 'add') {
-        this.title = "Thêm mới nhân sự";
-      }else if(this.type ==="update"){
-        this.title = "Sửa nhân sự";
-      }else
-        this.title = "Xem chi tiết nhân sự";
-
-
+    if (this.type === 'add') {
+      this.title = 'Thêm mới nhân sự';
+    } else if (this.type === 'update') {
+      this.title = 'Sửa nhân sự';
+    } else this.title = 'Xem chi tiết nhân sự';
     this.form = this.formBuilder.group({
       humanResourceId: null,
       username: null,
@@ -128,22 +121,23 @@ export class AddHumanResourcesComponent implements OnInit {
       fullName: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
       email: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
       positionId: [null, Validators.compose([Validators.required])],
-      partId: [null, Validators.compose([Validators.required])],
       roleId: [1],
+      cmt: ['', Validators.compose([Validators.required, Validators.maxLength(12)])],
+      address: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
+      contractCode: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
+      taxCode: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       status: this.statusList[0].id,
       note: ['', Validators.maxLength(1000)],
-      phone:[],
-      dateOfBirth:[],
+      phone: [],
+      dateOfBirth: []
     });
     if (this.id) {
       this.getUserDetail(this.id);
-      this.xetDataUer()
+      this.xetDataUer();
     } else {
-      this.xetDataUer()
+      this.xetDataUer();
     }
     this.getYear();
-
-
   }
 
   getDefaultData() {
@@ -154,35 +148,25 @@ export class AddHumanResourcesComponent implements OnInit {
       if (this.type !== 'add') {
         this.router.navigate(['system-categories/human-resources']);
       }
-
     }
   }
 
   setDataDefault() {
     this.form.patchValue(this.userDetail);
-    this.post=new Date(this.userDetail)
-    // if (this.userDetail.dateGraduate) {
-    //   this.form.get('experience').setValue(new Date().getFullYear() - toNumber(this.userDetail.dateGraduate));
-    // }
-    // if (this.userDetail.dateMajor) {
-    //   this.form.get('majorExperience').setValue(new Date().getFullYear() - toNumber(this.userDetail.dateMajor));
-    // }
-
-
+    this.post = new Date(this.userDetail);
   }
 
   getUserDetail(id) {
     this.humanResourceService.getInfo(id).subscribe(
       res => {
         this.userDetail = res.data;
-
         this.oldEmail = this.userDetail.email ? this.userDetail.email : '';
-
         this.setDataDefault();
-      }, err => {
+      },
+      err => {
         this.userDetail = null;
       }
-    )
+    );
   }
 
   debounceOnSearch() {
@@ -210,7 +194,7 @@ export class AddHumanResourcesComponent implements OnInit {
       res => {
         if (res) {
           this.departmentList = res.data;
-          const DEV = this.departmentList.find((item) => {
+          const DEV = this.departmentList.find(item => {
             return item.name === 'DEV';
           });
           this.idDev = DEV.id;
@@ -271,17 +255,15 @@ export class AddHumanResourcesComponent implements OnInit {
 
   dateGraduate() {
     if (this.form.value.dateGraduate) {
-
       if (this.form.value.dateGraduate > new Date().getFullYear()) {
         this.dateGraduateValid = true;
-        this.form.get("dateGraduate").reset();
-        this.form.get("experience").reset();
+        this.form.get('dateGraduate').reset();
+        this.form.get('experience').reset();
       } else {
         const experience = new Date().getFullYear() - this.form.value.dateGraduate;
         this.form.get('experience').setValue(experience);
         this.dateGraduateValid = false;
       }
-
     } else {
       return;
     }
@@ -291,17 +273,20 @@ export class AddHumanResourcesComponent implements OnInit {
     this.setValueToField(field, this.getValueOfField(field).trim());
     if (!REGEX_PATTERN.EMAIL.test(this.getValueOfField(field))) {
       if (this.getValueOfField(field) !== '') {
-        this.form.controls[field].setErrors({invalid: true});
+        this.form.controls[field].setErrors({ invalid: true });
       }
     } else {
       if (this.getValueOfField(field) !== '') {
         // check trùng
         if (this.type === 'add' || (this.type === 'update' && this.userDetail.email !== this.form.value.email)) {
-          this.humanResourceService.checkEmail(this.form.value.email).subscribe(res => {
-            this.isDuplicateEmail = false;
-          }, err => {
-            this.isDuplicateEmail = true;
-          });
+          this.humanResourceService.checkEmail(this.form.value.email).subscribe(
+            res => {
+              this.isDuplicateEmail = false;
+            },
+            err => {
+              this.isDuplicateEmail = true;
+            }
+          );
         }
       }
     }
@@ -310,25 +295,23 @@ export class AddHumanResourcesComponent implements OnInit {
   onBlurUserCode() {
     // if (this.type === 'add'&& this.userDetail.code !== this.form.value.code) {
     if (this.type === 'add') {
-
-      this.humanResourceService.checkUserCode(this.form.value.code).subscribe(res => {
-
-        this.isDuplicateUserCode = false;
-
-      }, err => {
-        this.isDuplicateUserCode = true;
-      });
+      this.humanResourceService.checkUserCode(this.form.value.code).subscribe(
+        res => {
+          this.isDuplicateUserCode = false;
+        },
+        err => {
+          this.isDuplicateUserCode = true;
+        }
+      );
     }
   }
 
   dateMajor() {
-
     if (this.form.value.dateMajor) {
-
       if (this.form.value.dateMajor > new Date().getFullYear()) {
         this.dateMajorValid = true;
-        this.form.get("dateMajor").reset();
-        this.form.get("majorExperience").reset();
+        this.form.get('dateMajor').reset();
+        this.form.get('majorExperience').reset();
       } else {
         const majorExperience = new Date().getFullYear() - this.form.value.dateMajor;
         this.form.get('majorExperience').setValue(majorExperience);
@@ -341,7 +324,6 @@ export class AddHumanResourcesComponent implements OnInit {
 
   dateRecruit() {
     if (this.type === 'add') {
-
       if (this.form.value.dateRecruitment) {
         if (new Date(this.form.value.dateRecruitment) > new Date()) {
           this.dateRecruitmentValid = true;
@@ -370,7 +352,6 @@ export class AddHumanResourcesComponent implements OnInit {
   }
 
   onCancel() {
-
     if (this.type === 'update') {
       if (
         this.form.value.humanResourceId === this.userDetail.humanResourceId &&
@@ -385,7 +366,7 @@ export class AddHumanResourcesComponent implements OnInit {
       ) {
         this.activeModal.dismiss();
       } else {
-        const modalRef = this.modalService.open(ConfirmModalComponent, {centered: true, backdrop: 'static'});
+        const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
         modalRef.componentInstance.type = 'confirm';
         modalRef.componentInstance.onCloseModal.subscribe(value => {
           if (value === true) {
@@ -404,11 +385,10 @@ export class AddHumanResourcesComponent implements OnInit {
         this.checkNull() &&
         this.form.value.status === this.statusList[0].id &&
         this.form.value.note === ''
-
       ) {
         this.activeModal.dismiss();
       } else {
-        const modalRef = this.modalService.open(ConfirmModalComponent, {centered: true, backdrop: 'static'});
+        const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
         modalRef.componentInstance.type = 'confirm';
         modalRef.componentInstance.onCloseModal.subscribe(value => {
           if (value === true) {
@@ -425,7 +405,6 @@ export class AddHumanResourcesComponent implements OnInit {
   onSubmitData() {
     if (this.form.invalid) {
       this.commonService.validateAllFormFields(this.form);
-      console.warn("aaaaaaa")
       return;
     }
     if (this.form.value.dateRecruitment === null) {
@@ -441,30 +420,25 @@ export class AddHumanResourcesComponent implements OnInit {
 
     if (this.form.value.departmentId === this.idDev && this.form.value.majorId === null) {
       this.majorRequired = true;
-      console.warn("123233")
       return;
     } else {
       this.majorRequired = false;
     }
 
     if (this.isDuplicateEmail) {
-      console.warn("duplicate");
-
       return;
     }
     if (this.type === 'add') {
       if (this.isDuplicateUserCode) {
-        console.warn("duplicate");
         return;
       }
     }
-    this.form.get("dateOfBirth").setValue(new Date(this.form.get("dateOfBirth").value))
+    this.form.get('dateOfBirth').setValue(new Date(this.form.get('dateOfBirth').value));
     this.spinner.show();
     this.form.value.dateRecruitment = this.datepipe.transform(this.form.value.dateRecruitment, 'yyyy-MM-dd');
     this.binDataUsername(this.form.value.email);
     this.humanResourceService.save(this.form.value).subscribe(
       res => {
-
         if (this.type === 'add') {
           this.toastService.openSuccessToast('Thêm mới thành công !');
         }
@@ -475,7 +449,6 @@ export class AddHumanResourcesComponent implements OnInit {
             this.toastService.openSuccessToast('Sửa thành công !');
           }
         }
-
         this.router.navigate(['system-categories/human-resources']);
         this.activeModal.dismiss();
       },
@@ -490,7 +463,7 @@ export class AddHumanResourcesComponent implements OnInit {
   }
 
   viewChangeStr(item) {
-    return "";
+    return '';
   }
 
   convertJson(value) {
@@ -509,7 +482,6 @@ export class AddHumanResourcesComponent implements OnInit {
 
   binDataUsername(email) {
     if (this.form.get('email').valid) {
-
       if (email.includes('.iist@gmail.com')) {
         this.form.value.username = email.slice(0, email.indexOf('.iist@gmail.com'));
       } else if (email.includes('@iist.vn')) {
@@ -538,7 +510,6 @@ export class AddHumanResourcesComponent implements OnInit {
     const value = this.getValueOfField(element);
     if (value) {
       this.setValueToField(element, value.trim());
-
     }
   }
 
@@ -552,24 +523,20 @@ export class AddHumanResourcesComponent implements OnInit {
 
   xetDataUer() {
     const userToken: any = this.formStoringService.get(STORAGE_KEYS.USER);
-    if (userToken.role === "ROLE_ADMINPART") {
-      this.form.get("partId").setValue(userToken.partId)
-      this.checkBoll = true
+    if (userToken.role === 'ROLE_ADMINPART') {
+      this.form.get('partId').setValue(userToken.partId);
+      this.checkBoll = true;
     } else {
-      this.checkBoll = false
+      this.checkBoll = false;
     }
-
-
   }
-  checkNull(){
-    if(this.checkBoll){
-      return true
+  checkNull() {
+    if (this.checkBoll) {
+      return true;
     }
-    if ( this.form.value.partId===null&&!this.checkBoll){
-      return true
+    if (this.form.value.partId === null && !this.checkBoll) {
+      return true;
     }
-    return false
+    return false;
   }
-
-
 }

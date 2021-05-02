@@ -54,14 +54,16 @@ export class HumanResourcesComponent implements OnInit {
   columns = [
     { key: 0, value: 'Mã số nhân sự', isShow: true },
     { key: 1, value: 'Họ và tên', isShow: true },
-    // {key: 2, value: "Chức danh", isShow: true},
-    { key: 2, value: 'Bộ phận', isShow: false },
-    { key: 3, value: 'Trạng thái', isShow: true },
-    // {key: 5, value: "Thời gian tốt nghiệp", isShow: false},
-    { key: 4, value: 'Email', isShow: true },
-    { key: 5, value: 'Số điện thoại', isShow: false },
-    { key: 6, value: 'Ngày Sinh', isShow: false },
-    { key: 7, value: 'Ghi chú', isShow: false }
+    { key: 2, value: 'Chức danh', isShow: true },
+    { key: 3, value: 'Căn cước công dân', isShow: false },
+    { key: 4, value: 'Mã số hợp đồng', isShow: false },
+    { key: 5, value: 'Mã số thuế', isShow: false },
+    { key: 6, value: 'Địa chỉ', isShow: false },
+    { key: 7, value: 'Trạng thái', isShow: true },
+    { key: 8, value: 'Email', isShow: true },
+    { key: 9, value: 'Số điện thoại', isShow: false },
+    { key: 10, value: 'Ngày Sinh', isShow: false },
+    { key: 11, value: 'Ghi chú', isShow: true }
   ];
   centerList: any[] = [];
   listHuman = new Observable<any[]>();
@@ -106,7 +108,7 @@ export class HumanResourcesComponent implements OnInit {
   ngOnInit() {
     this.buidForm();
     this.searchForm = {};
-    this.getPartList();
+    // this.getPartList();
     this.onResize();
     this.loadAll();
     this.registerChange();
@@ -143,12 +145,9 @@ export class HumanResourcesComponent implements OnInit {
       type: 'PARTNER'
     };
     this.humanResourcesApiService.getHumanResourcesInfo(data).subscribe(res => {
-      // this.organizationCategoriesService.getPartnerInfo(data).subscribe(res => {
       if (this.searchHuman) {
         const dataRes: any = res;
-
         this.listHuman = of(dataRes.sort((a, b) => a.fullName.localeCompare(b.fullName)));
-        // this.listHuman = of(dataRes.sort((a, b) => a.code.localeCompare(b.code)));
       } else {
         this.listHuman = of([]);
       }
@@ -179,8 +178,6 @@ export class HumanResourcesComponent implements OnInit {
       (item.code ? item.code.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term)) ||
       (item.email ? item.email.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term))
     );
-    // || item.code.toLocaleLowerCase().indexOf(term) > -1
-    // || item.email.toLocaleLowerCase().indexOf(term) > -1;
   }
 
   // lay du lieu bo phan
@@ -415,8 +412,6 @@ export class HumanResourcesComponent implements OnInit {
       },
       error => {
         this.spinner.hide();
-        // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
-        // this.toastService.openErrorToast("Xóa nhân sự thất bại, có rằng buộc dữ liệu");
         this.toastService.openErrorToast('Nhân sự đang tham gia dự án, không được phép xóa');
       }
     );
@@ -475,7 +470,11 @@ export class HumanResourcesComponent implements OnInit {
       departmentId: [],
       experience: [],
       lstMajorId: [],
-      lstHumanResourcesId: []
+      lstHumanResourcesId: [],
+      cmt: [],
+      address: [],
+      contractCode: [],
+      taxCode: []
     });
   }
 
@@ -598,6 +597,7 @@ export class HumanResourcesComponent implements OnInit {
     }
   }
 
+  /*duc*/
   openModalAddUser(type?: string, selectedData?: any) {
     const modalRef = this.modalService.open(AddHumanResourcesComponent, {
       size: 'lg',

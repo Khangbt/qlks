@@ -36,6 +36,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
+  asset = {
+    name: MENU_TITLE.HRM.ASSET,
+    url: '/system-categories/asset-resource',
+    class: 'fa-home',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
 
   department = {
     name: MENU_TITLE.HRM.DEPARTMENT,
@@ -64,14 +70,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     class: 'fa-street-view',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
-
-  asset = {
-    name: MENU_TITLE.HRM.ASSET,
-    url: '/system-categories/asset-resource',
-    class: 'fa-home',
-    resourceCode: 'menu.hddt_qlht_chdn'
-  };
-
   humanResources = {
     name: MENU_TITLE.HRM.USER_MANAGEMENT,
     url: '/system-categories/human-resources',
