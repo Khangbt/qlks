@@ -1,8 +1,10 @@
 package com.hust.qlts.project.service.impl;
 
+import com.hust.qlts.project.dto.AssetDTO;
 import com.hust.qlts.project.dto.DataPage;
 import com.hust.qlts.project.dto.RoomTypeDTO;
 import com.hust.qlts.project.dto.RoomTypeDTO;
+import com.hust.qlts.project.entity.AssetEntity;
 import com.hust.qlts.project.entity.RoomEntity;
 import com.hust.qlts.project.entity.RoomTypeEntity;
 import com.hust.qlts.project.repository.customreporsitory.RoomCustomRepository;
@@ -119,6 +121,17 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     public RoomTypeDTO findByCode(String code) {
         return null;
     }
+
+    @Override
+    public List<RoomTypeDTO> getRomtype() {
+        List<RoomTypeEntity> list = roomTypeRepository.findAll();
+        List<RoomTypeDTO> assetDTOList = new ArrayList<>();
+        for (RoomTypeEntity item: list) {
+            assetDTOList.add(convertEntitytoDTO(item));
+        }
+        return assetDTOList;
+    }
+
 
     public RoomTypeDTO convertEntitytoDTO(RoomTypeEntity roomEntity) {
         RoomTypeDTO dto = new RoomTypeDTO();

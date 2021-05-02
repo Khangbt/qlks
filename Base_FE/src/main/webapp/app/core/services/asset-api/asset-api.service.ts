@@ -27,4 +27,7 @@ export class AssetApiService {
   getInfo(Id): Observable<any> {
     return this.http.get(SERVER_API + '/asset/get-asset-by-id/' + Id);
   }
+  getAsseList(): Observable<any> {
+    return this.http.get(SERVER_API + '/asset/get-asset');
+  }
 }

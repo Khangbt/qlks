@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AssetRepository extends JpaRepository<AssetEntity, Long> {
     @Query(value = "select * from asset where asset_code=?1 and STATUS= 1 ", nativeQuery = true)
@@ -12,5 +14,8 @@ public interface AssetRepository extends JpaRepository<AssetEntity, Long> {
 
     @Query(value = "select * from asset where asset_id=?1 and STATUS= 1 ", nativeQuery = true)
     AssetEntity findByID(Long id);
+
+    @Query(value = "select * from asset where  STATUS= 1 ", nativeQuery = true)
+    List<AssetEntity> findAll();
 
 }

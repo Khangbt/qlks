@@ -86,6 +86,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     resourceCode: 'menu.hddt_qlht_chdn'
   };
 
+  promotion = {
+    name: MENU_TITLE.HRM.PROMOTION,
+    url: '/system-categories/promotion-resources',
+    class: 'fa-users',
+    resourceCode: 'menu.hddt_qlht_chdn'
+  };
+
   roomType = {
     name: MENU_TITLE.HRM.ROOM_TYPE,
     url: '/system-categories/room-type-resources',

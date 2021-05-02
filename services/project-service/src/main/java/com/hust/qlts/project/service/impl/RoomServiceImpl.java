@@ -4,10 +4,12 @@ import com.hust.qlts.project.dto.RoomDTO;
 import com.hust.qlts.project.dto.DataPage;
 import com.hust.qlts.project.dto.RoomDTO;
 import com.hust.qlts.project.entity.AssetEntity;
+import com.hust.qlts.project.entity.AssetRoomEntity;
 import com.hust.qlts.project.entity.RoomEntity;
 import com.hust.qlts.project.repository.customreporsitory.AssetCustomRepository;
 import com.hust.qlts.project.repository.customreporsitory.RoomCustomRepository;
 import com.hust.qlts.project.repository.jparepository.AssetRepository;
+import com.hust.qlts.project.repository.jparepository.AssetRoomRepository;
 import com.hust.qlts.project.repository.jparepository.RoomRepository;
 import com.hust.qlts.project.service.RoomService;
 import common.ErrorCode;
@@ -26,6 +28,8 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     RoomRepository roomRepository;
 
+    @Autowired
+    AssetRoomRepository assetRoomRepository;
     @Override
     public DataPage<RoomDTO> searchAsser(RoomDTO dto) {
         DataPage<RoomDTO> dtoDataPage = new DataPage<>();
@@ -86,6 +90,18 @@ public class RoomServiceImpl implements RoomService {
             roomEntity.setStatus(1);
         }
         roomRepository.save(roomEntity);
+        for (Long i: assetRoomRepository.deleteroomID(roomEntity.getRoomId())) {
+            assetRoomRepository.deleteById(i);
+        }
+        List<AssetRoomEntity> list = new ArrayList<>();
+        for (Long item : dto.getAssetId()) {
+            AssetRoomEntity assetRoomEntity = new AssetRoomEntity();
+            assetRoomEntity.setAssetid(item);
+            assetRoomEntity.setRoomid(roomEntity.getRoomId());
+            assetRoomEntity.setIsActive(1);
+            list.add(assetRoomEntity);
+        }
+        assetRoomRepository.saveAll(list);
         return convertEntitytoDTO(roomEntity);
 
     }
@@ -111,8 +127,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDTO findById(Long Id) {
-        return convertEntitytoDTO(roomRepository.findById(Id).get());
-
+        RoomDTO dto = convertEntitytoDTO(roomRepository.findById(Id).get());
+        dto.setAssetId(assetRoomRepository.findByroomID(Id));
+        return dto;
     }
 
     @Override

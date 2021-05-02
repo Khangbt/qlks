@@ -74,6 +74,15 @@
       </li>
 
       <li *jhiHasPermission="1">
+        <a [routerLink]="promotion.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{promotion.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="promotion.class"></i>
+        </span>
+      </li>
+
+      <li *jhiHasPermission="1">
         <a [routerLink]="room.url" routerLinkActive="active-link, text-white">
           <span class="title">{{room.name}}</span>
         </a>

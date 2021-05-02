@@ -3,6 +3,9 @@ package com.hust.qlts.project.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +31,7 @@ public class RoomDTO extends AuditingDTO<String>{
     private Long totalRecord;
     private Long departmentId;
     private String tyleDto;
+    private List<Long> assetId;
 
     public String getRoomName() {
         return roomName;

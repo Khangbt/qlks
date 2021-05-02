@@ -22,6 +22,8 @@ import { RoomTypeResourcesModule } from 'app/modules/system-categories/room-type
 import { ServiceResourcesModule } from 'app/modules/system-categories/service/service-resources.module';
 import { BookRoomModule } from './book-room/book-room.module';
 import { CustomerComponent } from './customer/customer.component';
+import { PromotionComponent } from './promotion/promotion.component';
+import { PromotionResourcesModule } from 'app/modules/system-categories/promotion/promotion-resources.module';
 @NgModule({
   declarations: [
     ImportExcelHumanResourceComponent,
@@ -35,7 +37,9 @@ import { CustomerComponent } from './customer/customer.component';
 
     AddRoomComponent,
 
-    CustomerComponent
+    CustomerComponent,
+
+    PromotionComponent
     // CustomerComponent,
   ],
   imports: [
@@ -50,7 +54,8 @@ import { CustomerComponent } from './customer/customer.component';
     RoomResourcesModule,
     RoomTypeResourcesModule,
     ServiceResourcesModule,
-    BookRoomModule
+    BookRoomModule,
+    PromotionResourcesModule
   ],
   entryComponents: [ImportExcelHumanResourceComponent],
   exports: [],
