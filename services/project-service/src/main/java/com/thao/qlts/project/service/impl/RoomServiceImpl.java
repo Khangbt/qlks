@@ -2,8 +2,10 @@ package com.thao.qlts.project.service.impl;
 
 import com.thao.qlts.project.dto.RoomDTO;
 import com.thao.qlts.project.dto.DataPage;
+import com.thao.qlts.project.entity.AssetRoomEntity;
 import com.thao.qlts.project.entity.RoomEntity;
 import com.thao.qlts.project.repository.customreporsitory.RoomCustomRepository;
+import com.thao.qlts.project.repository.jparepository.AssetRoomRepository;
 import com.thao.qlts.project.repository.jparepository.RoomRepository;
 import com.thao.qlts.project.service.RoomService;
 import common.ErrorCode;

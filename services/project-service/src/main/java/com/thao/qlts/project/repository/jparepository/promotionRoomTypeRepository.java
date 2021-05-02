@@ -1,6 +1,6 @@
-package com.hust.qlts.project.repository.jparepository;
+package com.thao.qlts.project.repository.jparepository;
 
-import com.hust.qlts.project.entity.promotionRoomTypeEntity;
+import com.thao.qlts.project.entity.promotionRoomTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

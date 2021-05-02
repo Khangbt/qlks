@@ -1,7 +1,8 @@
-package com.hust.qlts.project.service;
+package com.thao.qlts.project.service;
 
-import com.hust.qlts.project.dto.DataPage;
-import com.hust.qlts.project.dto.promotionDTO;
+
+import com.thao.qlts.project.dto.DataPage;
+import com.thao.qlts.project.dto.promotionDTO;
 
 public interface PromotionService {
     DataPage<promotionDTO> searchPromotion(promotionDTO dto);

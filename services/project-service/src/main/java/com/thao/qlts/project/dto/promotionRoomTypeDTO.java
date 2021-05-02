@@ -1,6 +1,6 @@
-package com.hust.qlts.project.dto;
+package com.thao.qlts.project.dto;
 
-import com.hust.qlts.project.dto.AuditingDTO;
+import com.thao.qlts.project.dto.AuditingDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,14 +1,14 @@
-package com.hust.qlts.project.service.impl;
+package com.thao.qlts.project.service.impl;
 
-import com.hust.qlts.project.dto.DataPage;
-import com.hust.qlts.project.dto.RoomDTO;
-import com.hust.qlts.project.dto.promotionDTO;
-import com.hust.qlts.project.entity.promotionEntity;
-import com.hust.qlts.project.entity.promotionRoomTypeEntity;
-import com.hust.qlts.project.repository.customreporsitory.promotionCustomRepository;
-import com.hust.qlts.project.repository.jparepository.PromotionRepository;
-import com.hust.qlts.project.repository.jparepository.promotionRoomTypeRepository;
-import com.hust.qlts.project.service.PromotionService;
+
+import com.thao.qlts.project.dto.DataPage;
+import com.thao.qlts.project.dto.promotionDTO;
+import com.thao.qlts.project.entity.promotionEntity;
+import com.thao.qlts.project.entity.promotionRoomTypeEntity;
+import com.thao.qlts.project.repository.customreporsitory.promotionCustomRepository;
+import com.thao.qlts.project.repository.jparepository.PromotionRepository;
+import com.thao.qlts.project.repository.jparepository.promotionRoomTypeRepository;
+import com.thao.qlts.project.service.PromotionService;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;

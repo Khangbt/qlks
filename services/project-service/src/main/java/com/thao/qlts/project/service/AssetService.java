@@ -1,10 +1,11 @@
-package com.hust.qlts.project.service;
+package com.thao.qlts.project.service;
 
-import com.hust.qlts.project.dto.AssetDTO;
-import com.hust.qlts.project.dto.DataPage;
-import org.springframework.web.multipart.MultipartFile;
+
+import com.thao.qlts.project.dto.AssetDTO;
+import com.thao.qlts.project.dto.DataPage;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public interface AssetService {

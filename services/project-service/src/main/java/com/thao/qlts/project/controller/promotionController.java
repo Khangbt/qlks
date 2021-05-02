@@ -1,8 +1,7 @@
-package com.hust.qlts.project.controller;
+package com.thao.qlts.project.controller;
 
-import com.hust.qlts.project.dto.promotionDTO;
-import com.hust.qlts.project.service.PromotionService;
-import com.hust.qlts.project.service.RoomService;
+import com.thao.qlts.project.dto.promotionDTO;
+import com.thao.qlts.project.service.PromotionService;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;

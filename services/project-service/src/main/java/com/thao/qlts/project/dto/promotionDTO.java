@@ -1,4 +1,4 @@
-package com.hust.qlts.project.dto;
+package com.thao.qlts.project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
