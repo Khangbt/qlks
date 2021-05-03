@@ -1,8 +1,7 @@
 package com.thao.qlts.project.controller;
 
-import com.thao.qlts.project.dto.RoomTypeDTO;
-import com.thao.qlts.project.entity.RoomTypeEntity;
-import com.thao.qlts.project.service.RoomTypeService;
+import com.thao.qlts.project.dto.promotionDTO;
+import com.thao.qlts.project.service.PromotionService;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
@@ -16,22 +15,20 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/roomType")
-@CrossOrigin("*")
-public class roomTypeController {
-    private final Logger log = LogManager.getLogger(roomController.class);
+@RequestMapping("/promotion")
+@CrossOrigin("*")public class promotionController {
+    private final Logger log = LogManager.getLogger(promotionController.class);
     @Autowired
-    RoomTypeService roomTypeService;
+    PromotionService service;
 
-    @PostMapping("/searchRoom")
-    public ResponseEntity<List<RoomTypeEntity>> searchAseer(@RequestBody RoomTypeDTO dto){
-        log.info("----------------api searchAsser-----------------");
+    @PostMapping("/searchPromotion")
+    public ResponseEntity<List<promotionDTO>> searchPromotion(@RequestBody promotionDTO promotionDTO){
+        log.info("----------------api searchPromotion-----------------");
         try {
             log.info("----------------api searchRoom Ok-----------------");
 
-            return new ResponseEntity(roomTypeService.searchRoom(dto), HttpStatus.OK);
+            return new ResponseEntity(service.searchPromotion(promotionDTO), HttpStatus.OK);
 
         }catch (Exception e){
             log.info("----------------api searchRoom thất bại-----------------");
@@ -40,12 +37,10 @@ public class roomTypeController {
         }
     }
     @PostMapping("/add")
-    public ResultResp createHR(@RequestBody RoomTypeDTO dto, HttpServletRequest request) {
-        log.info("----------------api addRoom-----------------");
-
-
+    public ResultResp createHR(@RequestBody promotionDTO partnerDTO, HttpServletRequest request) {
+        log.info("----------------api addPromotion-----------------");
         try {
-            return ResultResp.success(ErrorCode.CREATED_HR_OK, roomTypeService.create(dto));
+            return ResultResp.success(ErrorCode.CREATED_HR_OK, service.create(partnerDTO));
 
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
@@ -54,47 +49,28 @@ public class roomTypeController {
         return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
     }
 
-    @GetMapping("/get-room-by-id/{id}")
+    @GetMapping("/get-promotion-by-id/{id}")
     public ResultResp getOneById(@PathVariable("id") Long id) {
-        log.info("<-- api updateRoom: start, ", id);
+        log.info("<-- api updatePromotion: start, ", id);
         try {
-            return ResultResp.success(roomTypeService.findById(id));
-
+            return ResultResp.success(service.findById(id));
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
         } catch (Exception e) {
-            log.error("<--- api find AssetResources: error, ");
+            log.error("<--- api find PromotionResources: error, ");
             e.printStackTrace();
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
-
     }
-    @GetMapping("/deleteRoom/{id}")
+    @GetMapping("/deletePromotion/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
         log.info("----------------api delete phong -----------------");
         try {
-            return ResultResp.success(roomTypeService.delete(id));
+            return ResultResp.success(service.delete(id));
 
         } catch (CustomExceptionHandler e) {
             log.info("----------------api delete nhan su faile-----------------");
             return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);
         }
     }
-
-    @GetMapping("/get-room-tuype-All")
-    public ResultResp getAsset() {
-        log.info("<-- api updateAsset: start, ");
-        try {
-            return ResultResp.success(roomTypeService.getRomtype());
-
-        } catch (CustomExceptionHandler e) {
-            return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
-        } catch (Exception e) {
-            log.error("<--- api find AssetResources: error, ");
-            e.printStackTrace();
-            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
-        }
-
-    }
 }
-

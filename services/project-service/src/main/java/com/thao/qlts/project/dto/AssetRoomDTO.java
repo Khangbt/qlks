@@ -11,9 +11,9 @@ public class AssetRoomDTO extends AuditingDTO<String>{
 
     private Long assetRoomId;
 
-    private Long asset_id;
+    private Long assetID;
 
-    private Long room_id;
+    private Long roomID;
 
     private Integer isActive;
 }

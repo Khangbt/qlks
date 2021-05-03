@@ -7,6 +7,8 @@ import { RoomComponent } from 'app/modules/system-categories/room/room.component
 import { RoomTypeComponent } from 'app/modules/system-categories/room-type/room-type.component';
 import { ServiceComponent } from 'app/modules/system-categories/service/service.component';
 import { AssetResuorceComponent } from 'app/modules/system-categories/asset-resuorce/asset-resuorce.component';
+import { CustomerComponent } from 'app/modules/system-categories/customer/customer.component';
+import { PromotionComponent } from 'app/modules/system-categories/promotion/promotion.component';
 
 const routes: Routes = [
   {
@@ -45,7 +47,30 @@ const routes: Routes = [
       url: 'system-categories/asset-resource'
     }
   },
-
+  {
+    path: 'customer-resources',
+    component: CustomerComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/customer-resource'
+    }
+  },
+  {
+    path: 'promotion-resources',
+    component: PromotionComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/promotion-resource'
+    }
+  },
   {
     path: 'room-resources',
     component: RoomComponent,

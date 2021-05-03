@@ -1,7 +1,11 @@
 package com.thao.qlts.project.service;
 
+
 import com.thao.qlts.project.dto.AssetDTO;
 import com.thao.qlts.project.dto.DataPage;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public interface AssetService {
@@ -12,4 +16,5 @@ public interface AssetService {
     AssetDTO delete (Long id);
     AssetDTO findById(Long Id);
     AssetDTO findByCode(String code);
+    List<AssetDTO> getAsset();
 }

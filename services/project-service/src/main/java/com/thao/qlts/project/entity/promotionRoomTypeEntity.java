@@ -8,20 +8,20 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name ="asset_room")
+@Table(name ="promotion_roomType")
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetRoomEntity extends Auditable<String> {
+public class promotionRoomTypeEntity  extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "asset_room_id")
+    @Column(name = "promotion_roomType_id")
     private Long assetRoomId;
 
-    @Column(name = "asset_id")
-    private Long assetid;
+    @Column(name = "promotion_id")
+    private Long promotionid;
 
-    @Column(name = "room_id")
-    private Long roomid;
+    @Column(name = "roomType_id")
+    private Long roomTypeid;
 
     @Column(name = "is_active")
     private Integer isActive;

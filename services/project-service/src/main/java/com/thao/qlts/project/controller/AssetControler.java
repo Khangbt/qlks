@@ -81,4 +81,19 @@ public class AssetControler {
             return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);
         }
     }
+    @GetMapping("/get-asset")
+    public ResultResp getAsset() {
+        log.info("<-- api updateAsset: start, ");
+        try {
+            return ResultResp.success(assetService.getAsset());
+
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
+        } catch (Exception e) {
+            log.error("<--- api find AssetResources: error, ");
+            e.printStackTrace();
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
+
+    }
 }

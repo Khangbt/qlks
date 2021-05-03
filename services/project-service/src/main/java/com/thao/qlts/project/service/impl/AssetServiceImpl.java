@@ -110,12 +110,21 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public AssetDTO findById(Long Id) {
         return convertEntitytoDTO(assetRepository.findById(Id).get());
-
     }
 
     @Override
     public AssetDTO findByCode(String code) {
         return null;
+    }
+
+    @Override
+    public List<AssetDTO> getAsset() {
+        List<AssetEntity> list = assetRepository.findAll();
+        List<AssetDTO> assetDTOList = new ArrayList<>();
+        for (AssetEntity item: list) {
+            assetDTOList.add(convertEntitytoDTO(item));
+        }
+        return assetDTOList;
     }
 
     public AssetDTO convertEntitytoDTO(AssetEntity assetEntity) {

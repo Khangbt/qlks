@@ -116,6 +116,17 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         return null;
     }
 
+    @Override
+    public List<RoomTypeDTO> getRomtype() {
+        List<RoomTypeEntity> list = roomTypeRepository.findAll();
+        List<RoomTypeDTO> assetDTOList = new ArrayList<>();
+        for (RoomTypeEntity item: list) {
+            assetDTOList.add(convertEntitytoDTO(item));
+        }
+        return assetDTOList;
+    }
+
+
     public RoomTypeDTO convertEntitytoDTO(RoomTypeEntity roomEntity) {
         RoomTypeDTO dto = new RoomTypeDTO();
         dto.setRoomTypeId(roomEntity.getRoomTypeId());
