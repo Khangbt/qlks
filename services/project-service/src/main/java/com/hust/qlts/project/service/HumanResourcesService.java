@@ -36,6 +36,8 @@ public interface HumanResourcesService {
 
     ResultResp resetPassword(Long userID, String usernameAdmin);
 
+    void sendMailResetPassword(HumanResourcesDTO humanResourcesDTO, String password);
+
 //    DataPage<HumanResourcesShowDTO> getPageHumanResourcesSeach(HumanResourcesShowDTO dto);
 
     Boolean deleteHumanResources(Long id,String name);

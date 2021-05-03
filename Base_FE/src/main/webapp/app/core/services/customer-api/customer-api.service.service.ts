@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {SERVER_API} from "app/shared/constants/api-resource.constants";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {KeySearch} from "app/core/models/system-categories/keysearch.model";
+import { SERVER_API } from 'app/shared/constants/api-resource.constants';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { KeySearch } from 'app/core/models/system-categories/keysearch.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,7 @@ import {KeySearch} from "app/core/models/system-categories/keysearch.model";
 export class CustomerApiService {
   private baseUri = SERVER_API;
   private token = localStorage.getItem('token');
-  constructor(private http: HttpClient) {
-  }
-
+  constructor(private http: HttpClient) {}
 
   getListCustomer(obj: KeySearch): Observable<KeySearch> {
     return this.http.post<KeySearch>(this.baseUri + '/customer/getCustomerByCode', obj);
@@ -26,8 +24,7 @@ export class CustomerApiService {
   }
 
   update(data): Observable<HttpResponse<any>> {
-    return this.http.put<any>(SERVER_API + '/customer/update', data, {observe: 'response'});
-
+    return this.http.put<any>(SERVER_API + '/customer/update', data, { observe: 'response' });
   }
 
   deleteCustomer(id?: any): Observable<any> {
@@ -46,4 +43,7 @@ export class CustomerApiService {
     return this.http.get<HttpResponse<any>>(SERVER_API + '/customer/history');
   }
 
+  getAllCustomer(): Observable<any> {
+    return this.http.get<HttpResponse<any>>(SERVER_API + '/customer/get-all-customer');
+  }
 }

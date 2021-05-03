@@ -160,6 +160,7 @@ export class AddHumanResourcesComponent implements OnInit {
     this.humanResourceService.getInfo(id).subscribe(
       res => {
         this.userDetail = res.data;
+        console.log(this.userDetail);
         this.oldEmail = this.userDetail.email ? this.userDetail.email : '';
         this.setDataDefault();
       },
@@ -407,24 +408,6 @@ export class AddHumanResourcesComponent implements OnInit {
       this.commonService.validateAllFormFields(this.form);
       return;
     }
-    if (this.form.value.dateRecruitment === null) {
-      this.dateRecruitmentValid = true;
-    } else {
-      this.dateRecruitmentValid = false;
-    }
-    if (this.form.value.departmentId === this.idDev && this.form.value.majorId === null) {
-      this.majorRequired = true;
-    } else {
-      this.majorRequired = false;
-    }
-
-    if (this.form.value.departmentId === this.idDev && this.form.value.majorId === null) {
-      this.majorRequired = true;
-      return;
-    } else {
-      this.majorRequired = false;
-    }
-
     if (this.isDuplicateEmail) {
       return;
     }
@@ -435,7 +418,7 @@ export class AddHumanResourcesComponent implements OnInit {
     }
     this.form.get('dateOfBirth').setValue(new Date(this.form.get('dateOfBirth').value));
     this.spinner.show();
-    this.form.value.dateRecruitment = this.datepipe.transform(this.form.value.dateRecruitment, 'yyyy-MM-dd');
+    // this.form.value.dateRecruitment = this.datepipe.transform(this.form.value.dateRecruitment, 'yyyy-MM-dd');
     this.binDataUsername(this.form.value.email);
     this.humanResourceService.save(this.form.value).subscribe(
       res => {

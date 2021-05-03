@@ -10,8 +10,10 @@ import com.hust.qlts.project.repository.customreporsitory.RoomTypeCustomReposito
 import com.hust.qlts.project.repository.jparepository.RoomRepository;
 import com.hust.qlts.project.repository.jparepository.RoomTypeRepository;
 import com.hust.qlts.project.service.RoomTypeService;
+import com.hust.qlts.project.service.mapper.RoomTypeMapper;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     private RoomTypeCustomRepository roomCustomRepository;
     @Autowired
     RoomTypeRepository roomTypeRepository;
+    @Autowired
+    private RoomTypeMapper roomTypeMapper;
 
     @Override
     public DataPage<RoomTypeDTO> searchRoom(RoomTypeDTO dto) {
@@ -112,12 +116,31 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     @Override
     public RoomTypeDTO findById(Long Id) {
         return convertEntitytoDTO(roomTypeRepository.findById(Id).get());
+    }
 
+    @Override
+    public RoomTypeDTO findByIdAndType(Long id, Long type) {
+        RoomTypeDTO roomTypeDTO = roomTypeMapper.toDto(roomTypeRepository.findById(id).get());
+        if (null != roomTypeDTO){
+            if (type == 1L){
+                roomTypeDTO.setPrice(roomTypeDTO.getHourPrice());
+            }else if (type == 2L){
+                roomTypeDTO.setPrice(roomTypeDTO.getDayPrice());
+            }else if (type == 3L){
+                roomTypeDTO.setPrice(roomTypeDTO.getNightPrice());
+            }
+        }
+        return roomTypeDTO;
     }
 
     @Override
     public RoomTypeDTO findByCode(String code) {
         return null;
+    }
+
+    @Override
+    public List<RoomTypeDTO> getAll() {
+        return roomTypeMapper.toDto(roomTypeRepository.findAll());
     }
 
     public RoomTypeDTO convertEntitytoDTO(RoomTypeEntity roomEntity) {

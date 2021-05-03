@@ -1,31 +1,49 @@
 package com.hust.qlts.project.service.impl;
 
+import com.hust.qlts.project.controller.HumanResourcesController;
 import com.hust.qlts.project.dto.*;
 import com.hust.qlts.project.entity.HumanResourcesEntity;
+import com.hust.qlts.project.repository.customreporsitory.HumanResourcesCustomRepository;
 import com.hust.qlts.project.repository.jparepository.HumanResourcesRepository;
 import com.hust.qlts.project.repository.jparepository.PositionRepository;
 import com.hust.qlts.project.service.HumanResourcesService;
 import com.hust.qlts.project.service.mapper.HumanResourcesMapper;
 import common.ErrorCode;
+import common.HistoryConstants;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.hust.qlts.project.repository.customreporsitory.HumanResourcesCustomRepository;
-//import com.hust.qlts.project.
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Service(value = "humanResourcesService")
 public class HumanResourcesServiceImpl implements HumanResourcesService, UserDetailsService {
@@ -36,7 +54,15 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
     @Autowired
     private HumanResourcesMapper humanResourcesMapper;
     @Autowired
+    private BCryptPasswordEncoder passwordEncode;
+    @Autowired
+    private JavaMailSender javaMailSender;
+    @Qualifier("freeMarkerConfiguration")
+    @Autowired
+    private Configuration config;
+    @Autowired
     private HumanResourcesCustomRepository customRepository;
+    private final Logger logger = LogManager.getLogger(HumanResourcesController.class);
     @Override
     public List<HumanResourcesDTO> getListHumanResourceByNameOrCode(DTOSearch dto) {
         return null;
@@ -53,8 +79,61 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
         return positionRepository.getPosition();
     }
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+            rollbackFor = CustomExceptionHandler.class)
     public HumanResourcesDTO create(String username, HumanResourcesDTO humanResourcesDTO) {
-        return null;
+        HumanResourcesEntity humanResourcesEntity = repository.findByCode(humanResourcesDTO.getCode());
+        if (null != humanResourcesEntity && humanResourcesDTO.getHumanResourceId() == null) {
+            throw new CustomExceptionHandler(ErrorCode.CREATED_HR_FALSE.getCode(), HttpStatus.BAD_REQUEST);
+        } else if (null != humanResourcesEntity) {
+            logger.info("<--- Service UPDATE human-resources Start");
+            HumanResourcesEntity oldEntity = new HumanResourcesEntity();
+            oldEntity.setHumanResourceId(humanResourcesEntity.getHumanResourceId());
+            oldEntity.setCode(humanResourcesEntity.getCode());
+            oldEntity.setEmail(humanResourcesEntity.getEmail());
+            oldEntity.setFullName(humanResourcesEntity.getFullName());
+            oldEntity.setPositionId(humanResourcesEntity.getPositionId());
+            oldEntity.setStatus(humanResourcesEntity.getStatus());
+            oldEntity.setNote(humanResourcesEntity.getNote());
+            oldEntity.setPhone(humanResourcesEntity.getPhone());
+            oldEntity.setDateOfBirth(humanResourcesEntity.getDateOfBirth());
+            oldEntity.setCmt(humanResourcesEntity.getCmt());
+            oldEntity.setAddress(humanResourcesEntity.getAddress());
+            oldEntity.setContractCode(humanResourcesEntity.getContractCode());
+            oldEntity.setTaxCode(humanResourcesEntity.getTaxCode());
+
+            humanResourcesEntity.setCode(humanResourcesDTO.getCode());
+            humanResourcesEntity.setEmail(humanResourcesDTO.getEmail());
+            humanResourcesEntity.setFullName(humanResourcesDTO.getFullName());
+            humanResourcesEntity.setPositionId(humanResourcesDTO.getPositionId());
+            humanResourcesEntity.setStatus(humanResourcesDTO.getStatus());
+            humanResourcesEntity.setNote(humanResourcesDTO.getNote());
+            humanResourcesEntity.setPhone(humanResourcesDTO.getPhone());
+            humanResourcesEntity.setDateOfBirth(humanResourcesDTO.getDateOfBirth());
+            humanResourcesEntity.setCmt(humanResourcesDTO.getCmt());
+            humanResourcesEntity.setAddress(humanResourcesDTO.getAddress());
+            humanResourcesEntity.setContractCode(humanResourcesDTO.getContractCode());
+            humanResourcesEntity.setTaxCode(humanResourcesDTO.getTaxCode());
+            /*check email changed*/
+            if (!oldEntity.getEmail().equals(humanResourcesEntity.getEmail())) {
+                sendMailChangeEmail(humanResourcesDTO, oldEntity);
+            }
+//            humanHistory(username, oldEntity, humanResourcesEntity);
+        } else if (humanResourcesDTO.getHumanResourceId() == null) {
+            humanResourcesEntity = humanResourcesMapper.toEntity(humanResourcesDTO);
+            String usernameFE = humanResourcesDTO.getUsername();
+            humanResourcesEntity.setUsername(usernameFE);
+            humanResourcesEntity = repository.save(humanResourcesEntity);
+            /*lưu lịch vào bảng lịch sử*/
+            HistoryDTO historyDTO = new HistoryDTO();
+            historyDTO.setValueId(humanResourcesEntity.getHumanResourceId());
+            historyDTO.setAction(HistoryConstants.ACTION_ADD);
+            historyDTO.setTypeScreen(HistoryConstants.SCREEN_HUMAN_RESOURCES);
+            historyDTO.setValueNew(humanResourcesDTO.toJSON());
+//            historyService.saveHistoryCommon(historyDTO);
+        }
+        humanResourcesEntity = repository.save(humanResourcesEntity);
+        return humanResourcesMapper.toDto(humanResourcesEntity);
     }
     @Override
     public void sendMailChangeEmail(HumanResourcesDTO humanResourcesDTO, HumanResourcesEntity oldEmail) {
@@ -124,22 +203,102 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
 
     @Override
     public ResultResp resetPassword(Long userID, String usernameAdmin) {
-        return null;
+        logger.info("---> RESET PASSWORD: UserID " + userID + " confirm reset password START");
+        if(!repository.findById(userID).isPresent()){
+            return null;
+        }
+        HumanResourcesEntity humanResource = repository.findById(userID).get();
+        String olPassWord = humanResource.getPassword();
+        // generate random password
+        String SALTCHARS = "ABCDEefgh!@ijklFGH123IJKL!@#$MNOPQRS012345TUVWXYZabcdmnopqrstuvwxyz6789%^&*";
+        StringBuilder salt = new StringBuilder();
+        Random rand = new Random();
+        while (salt.length() < 15) { // length of the random string.
+            logger.info("salt.length()" + salt.length());
+            int lengthStr =SALTCHARS.length();
+            salt.append(SALTCHARS.charAt(rand.nextInt(lengthStr)));
+        }
+        String saltStr = salt.toString();
+        try {
+            humanResource.setPassword(passwordEncode.encode(saltStr));
+        } catch (Exception ex) {
+            logger.error("<--- Reset Password Fail by Error: ", ex.getMessage());
+
+        }
+        repository.save(humanResource);
+        sendMailResetPassword(humanResourcesMapper.toDto(humanResource),saltStr);
+        logger.info("<--- Reset Password Complete");
+        logger.info("<--- Send email notification to user start!");
+        return  ResultResp.success(ErrorCode.RESET_PASSWORD_OK);
+    }
+
+    @Async("asyncExecutor")
+    @Override
+    public void sendMailResetPassword(HumanResourcesDTO humanResource, String password){
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            String email = humanResource.getEmail();
+            Map<String, Object> models = new HashMap<>();
+            models.put("link", "http://localhost:9003/#/system-categories/");
+            models.put("fullname", humanResource.getFullName());
+            models.put("email", email);
+            models.put("newpass", password);
+
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+            Template template = config.getTemplate("resetPassword.ftl");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, models);
+
+            helper.setTo(email);
+            helper.setSubject("[ACTVN-QLKS] THÔNG TIN TÀI KHOẢN HỆ THỐNG QUẢN LÝ KHÁCH SẠN");
+            helper.setText(html, true);
+            javaMailSender.send(message);
+            logger.info("<--- Send email success!");
+            /*return ResultResp.success(humanResource);*/
+        } catch (MessagingException | MailException | TemplateException | IOException  ex) {
+            logger.error("Send email notification fail by Error ", ex.getMessage());
+
+        }
     }
 
     @Override
     public Boolean deleteHumanResources(Long id, String name) {
-        return null;
+        logger.info("-----------------Xoa nhan su---------------");
+        HumanResourcesEntity humanResourcesEntity = repository.findByHumanResourceId(id);
+        humanResourcesEntity.setStatus(3);
+        repository.save(humanResourcesEntity);
+//            humanHistoryCustom(name, 5, humanResourcesEntity, null);
+        logger.info("<--- DELETE HUMAN_RESOURCES COMPLETE");
+        return true;
     }
 
     @Override
     public Boolean lockHumanResources(Long id, String name) {
-        return null;
+        logger.info("-----------------khoa nhan su---------------");
+        if (id != null) {
+            HumanResourcesEntity humanResourcesEntity = repository.findByHumanResourceId(id);
+            if (humanResourcesEntity.getStatus() == 2) {
+                humanResourcesEntity.setStatus(1);
+                repository.save(humanResourcesEntity);
+                /*humanHistoryCustom(name, 7, humanResourcesEntity, null);
+                log.info("<--- Unlock Human Resources with id = " + id);*/
+                return true;
+            } else if (humanResourcesEntity.getStatus() == 1) {
+                humanResourcesEntity.setStatus(2);
+                repository.save(humanResourcesEntity);
+                /*humanHistoryCustom(name, 6, humanResourcesEntity, null);
+                log.info("<--- LOCK HUMAN_RESOURCES COMPLETE");*/
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Integer getActiveFromHumanResourceId(Long id) {
-        return null;
+        if(!repository.findById(id).isPresent()){
+            return null;
+        }
+        return repository.findById(id).get().getStatus();
     }
 
     @Override

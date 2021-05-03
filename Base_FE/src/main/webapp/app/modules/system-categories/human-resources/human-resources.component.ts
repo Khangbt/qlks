@@ -418,9 +418,6 @@ export class HumanResourcesComponent implements OnInit {
   }
 
   onResetPassword(data) {
-    // if(data.statusOverview !==14){
-    //   this.toastService.openErrorToast('Trạng thái dự án khác Chưa bắt đầu khảo sát, không được phép xóa!');
-    // }else{
     const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
     if (data.password != null) {
       modalRef.componentInstance.type = 'reset';
@@ -451,7 +448,6 @@ export class HumanResourcesComponent implements OnInit {
         this.getHumanHistory();
       } else {
         this.spinner.hide();
-        // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
         this.toastService.openErrorToast('user.invalidDelete');
         this.getHumanHistory();
       }

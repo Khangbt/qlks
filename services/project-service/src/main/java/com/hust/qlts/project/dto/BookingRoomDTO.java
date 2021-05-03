@@ -17,15 +17,23 @@ public class BookingRoomDTO extends AuditingDTO<String>{
 
     private Long EmployeeId;
 
-    private Date booking_date;
+    private Long bookingDate;
 
-    private Date booking_checkin;
+    private Long bookingDateOut;
 
-    private Date booking_checkout;
+    private Long bookingCheckin;
 
-    private Double advance_amount;
+    private Long bookingCheckout;
 
-    private Long old_room_code;
+    private Double advanceAmount;
+
+    private Long oldRoomCode;
 
     private Integer status;
+
+    private Long roomId;
+
+    private Long bookingType;
+
+    private String promotionCode;
 }

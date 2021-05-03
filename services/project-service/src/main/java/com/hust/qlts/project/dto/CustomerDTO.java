@@ -20,5 +20,7 @@ public class CustomerDTO extends AuditingDTO<String>{
     private String email;
 
     private String address;
+
+    private Integer status;
 }
 

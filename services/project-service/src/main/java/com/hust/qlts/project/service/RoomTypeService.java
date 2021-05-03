@@ -3,6 +3,8 @@ package com.hust.qlts.project.service;
 import com.hust.qlts.project.dto.DataPage;
 import com.hust.qlts.project.dto.RoomTypeDTO;
 
+import java.util.List;
+
 public interface RoomTypeService {
     DataPage<RoomTypeDTO> searchRoom(RoomTypeDTO dto);
     DataPage<RoomTypeDTO> getPagePartSeach(RoomTypeDTO dto);
@@ -10,5 +12,7 @@ public interface RoomTypeService {
     RoomTypeDTO update(RoomTypeDTO dto);
     RoomTypeDTO delete (Long id);
     RoomTypeDTO findById(Long Id);
+    RoomTypeDTO findByIdAndType(Long Id, Long type);
     RoomTypeDTO findByCode(String code);
+    List<RoomTypeDTO> getAll();
 }

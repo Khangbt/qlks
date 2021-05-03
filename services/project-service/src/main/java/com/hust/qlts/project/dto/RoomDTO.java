@@ -9,25 +9,21 @@ import lombok.NoArgsConstructor;
 
 public class RoomDTO extends AuditingDTO<String>{
     private Long roomId;
-
     private Integer maxNumber;
-
     private Integer floorNumber;
-
     private String roomCode;
     private String roomName;
     private Integer status;
-
     private Integer roomType;
-
     private String note;
     private Integer page;
-
     private Integer pageSize;
-
     private Long totalRecord;
     private Long departmentId;
     private String tyleDto;
+    private String roomTypeName;
+    private String floorName;
+    private String statusName;
 
     public String getRoomName() {
         return roomName;

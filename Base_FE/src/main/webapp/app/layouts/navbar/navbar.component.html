@@ -7,7 +7,7 @@
   <div style="margin-left:15%">
     <div class="brand inline">
       <!-- <img src="../../../assets/img/logo.png" alt="logo" width="99" height="36"> -->
-      <p style="font-size: 16px;font-weight: bold;color:#0c69b5">Hệ thống quản lý tài sản</p>
+      <p style="font-size: 16px;font-weight: bold;color:#0c69b5;margin-left: 72px">Quản lý khách sạn</p>
     </div>
   </div>
   <div class="d-flex align-items-center" *ngIf="hasPermission">
@@ -27,7 +27,7 @@
                 <p class="menu-title" style="color: white" *ngIf="count>0">Thông báo mới ({{count}})</p>
                 <p class="menu-title" style="color: white" *ngIf="count==0">Bạn không có thông báo nào</p>
               </div>
-            
+
               <!--<li class="divider"></li>-->
               <div class="notifications-wrapper">
                   <ng-container *ngFor="let item of listNotification">

@@ -1,15 +1,12 @@
 package com.hust.qlts.project.service.impl;
 
-import com.hust.qlts.project.dto.RoomDTO;
 import com.hust.qlts.project.dto.DataPage;
 import com.hust.qlts.project.dto.RoomDTO;
-import com.hust.qlts.project.entity.AssetEntity;
 import com.hust.qlts.project.entity.RoomEntity;
-import com.hust.qlts.project.repository.customreporsitory.AssetCustomRepository;
 import com.hust.qlts.project.repository.customreporsitory.RoomCustomRepository;
-import com.hust.qlts.project.repository.jparepository.AssetRepository;
 import com.hust.qlts.project.repository.jparepository.RoomRepository;
 import com.hust.qlts.project.service.RoomService;
+import com.hust.qlts.project.service.mapper.RoomMapper;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +22,18 @@ public class RoomServiceImpl implements RoomService {
     private RoomCustomRepository roomCustomRepository;
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    private RoomMapper roomMapper;
 
     @Override
     public DataPage<RoomDTO> searchAsser(RoomDTO dto) {
         DataPage<RoomDTO> dtoDataPage = new DataPage<>();
-
         dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
         dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
         List<RoomDTO> list = new ArrayList<>();
         try {
             list = roomCustomRepository.searchAsser(dto);
             dtoDataPage.setData(list);
-
         }catch (Exception e){
             throw e;
         }
@@ -50,6 +47,32 @@ public class RoomServiceImpl implements RoomService {
         return dtoDataPage;
     }
 
+    @Override
+    public DataPage<RoomDTO> onSearch(RoomDTO dto) {
+        DataPage<RoomDTO> dtoDataPage = new DataPage<>();
+        dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
+        dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
+        List<RoomDTO> list = new ArrayList<>();
+        try {
+            list = roomCustomRepository.onSearch(dto);
+            dtoDataPage.setData(list);
+        }catch (Exception e){
+            throw e;
+        }
+        dtoDataPage.setPageIndex(dto.getPage());
+        dtoDataPage.setPageSize(dto.getPageSize());
+        dtoDataPage.setDataCount(dto.getTotalRecord());
+        dtoDataPage.setPageCount(dto.getTotalRecord() / dto.getPageSize());
+        if (dtoDataPage.getDataCount() % dtoDataPage.getPageSize() != 0) {
+            dtoDataPage.setPageCount(dtoDataPage.getPageCount() + 1);
+        }
+        return dtoDataPage;
+    }
+
+    @Override
+    public List<RoomDTO> getAll() {
+        return roomMapper.toDto(roomRepository.findAllRoom());
+    }
 
     @Override
     public DataPage<RoomDTO> getPagePartSeach(RoomDTO dto) {
@@ -111,8 +134,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDTO findById(Long Id) {
-        return convertEntitytoDTO(roomRepository.findById(Id).get());
-
+        return roomMapper.toDto(roomRepository.findById(Id).get());
     }
 
     @Override

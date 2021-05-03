@@ -6,13 +6,11 @@
       </button>
     </div>
     <perfect-scrollbar class="ps" [style.max-height.px]="height" (window:resize)="onResize()">
-  
+
       <div class="modal-body">
         <form [formGroup]="form" *ngIf="form" novalidate autocomplete="off">
           <div class="row">
             <div class="col-md-6">
-            
-               
               </div>
             </div>
             <div class="col-md-6">
@@ -23,9 +21,6 @@
                        [readOnly]="true" maxlength="255" ngbDatepicker #d="ngbDatepicker"/>
               </div>
             </div>
-  
-          
-          
           <div class="row" formArrayName="listService">
             <p class="sizeFont">Thiết bị phiếu yêu cầu</p>
             <perfect-scrollbar id="scrollbarTable" class="ps">
@@ -45,7 +40,6 @@
                   <span>Thiết bị cấp cho phiếu</span>
                 </th>
                 </thead>
-  
                 <tbody *ngFor="let person of listServiceR; let i = index;" [formGroupName]="i">
                 <tr>
                   <td  class="text-center four-icon medium-width-table">
@@ -62,7 +56,6 @@
                         <i class="fa fa-trash icon-color-red" aria-hidden="true"></i></button>
                     </div>
                   </td>
-                 
                   <td><input class="form-control" placeholder="Person {{ i + 1 }}"
                              [attr.disabled]="true" type="text" formControlName="size"></td>
                   <td>
@@ -72,10 +65,9 @@
                                [readonly]="true">
                     </ng-select>
                   </td>
-      
+
                   <td><input class="form-control" placeholder="Person {{ i + 1 }}"
                              [attr.disabled]="(checkNul[i] ? true : null)||(type==='browser' ? true:null)" type="number" formControlName="quantity"></td>
-                
                 </tr>
                 </tbody>
               </table>
@@ -88,28 +80,25 @@
               <textarea rows="2" cols="200" formControlName="reason" class="form-control"
                         type="text" [readonly]="true" (blur)="trimSpace('note')"
                         style="overflow: scroll"></textarea>
-    
             </div>
           </div>
           <div class="row">
-  
               <div class="form-group" [ngClass]="displayFieldHasError('note')">
                 <label class="form-control-label" jhiTranslate="user.note">ghi chú</label>
                 <textarea rows="4" cols="400" formControlName="note" class="form-control"
                           type="text" [readonly]="type === 'detail'" (blur)="trimSpace('note')"
                           placeholder="Ghi chú"
                           style="overflow: scroll"></textarea>
-                <!--            <jhi-error-messages *ngIf="formControl['note'].hasError('maxlength')" [displayError]="isFieldValid('note')"-->
-                <!--                                errorMsg="{{ 'user.validate.note.maxlength' | translate }}">-->
-                <!--            </jhi-error-messages>-->
-  
+                <!--            <jhi-error-messages *ngIf="formControl['note'].hasError('maxlength')" [displayError]="isFieldValid('note')"
+                                                errorMsg="{{ 'user.validate.note.maxlength' | translate }}">
+                            </jhi-error-messages>-->
             </div>
           </div>
         </form>
-  
+
       </div>
     </perfect-scrollbar>
-  
+
     <div class="action-btn">
       <button type="submit" class="btn btn-primary" (click)="onSubmit()">
         <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i><span
@@ -135,4 +124,3 @@
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
     </div>
   </ng-template>
-  

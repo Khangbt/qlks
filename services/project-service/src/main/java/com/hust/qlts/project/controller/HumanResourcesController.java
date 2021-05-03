@@ -83,8 +83,7 @@ public class HumanResourcesController {
     }
 
     /// khoa nhan su
-    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
-
+//    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
     @DeleteMapping("/lockHumanResources/{id}")
     public ResultResp lockProject(@PathVariable("id") Long id ,HttpServletRequest request) {
         String username = authenService.getEmailCurrentlyLogged(request);
@@ -111,15 +110,13 @@ public class HumanResourcesController {
     }
 
     // Xoa nhan su
-    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
+//    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
     @DeleteMapping("/deleteHumanResources/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
         String username = authenService.getEmailCurrentlyLogged(request);
         log.info("----------------api delete nhan su-----------------");
         try {
-            log.info("----------------api delete nhan su -----------------");
             if (resourcesService.deleteHumanResources(id,username)) {
-
                 log.info("----------------api delete nhan su Ok-----------------");
                 return ResultResp.success(ErrorCode.DELETE_HR_OK);
             } else {
@@ -144,8 +141,7 @@ public class HumanResourcesController {
     }
 
     // đoi mật khẩu
-    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
-
+//    @PreAuthorize("hasAnyRole('ROLE_ALL', 'ROLE_ADMINPART')")
     @PutMapping("/reset-password/{id}")
     public ResultResp resetPassword(@PathVariable("id") Long humanResourceID, HttpServletRequest req) {
         //lấy ra username đang đăng nhập

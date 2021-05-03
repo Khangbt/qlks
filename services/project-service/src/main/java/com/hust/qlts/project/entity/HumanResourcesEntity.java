@@ -69,7 +69,7 @@ public class HumanResourcesEntity extends Auditable<String> {
     private String role;
 
     @Column(name = "position_id")
-    private String positionId;
+    private Long positionId;
     @Transient
     public List<GrantedAuthority> authorities;
 

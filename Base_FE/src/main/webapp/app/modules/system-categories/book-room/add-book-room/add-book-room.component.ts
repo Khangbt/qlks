@@ -34,6 +34,7 @@ export class AddBookRoomComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
   }
+
   private buildForm() {
     if (this.type === 'add') {
       this.title = 'Tạp phiếu mượn';
