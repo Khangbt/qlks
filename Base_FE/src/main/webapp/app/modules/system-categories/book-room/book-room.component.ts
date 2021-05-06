@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddBookRoomComponent } from './add-book-room/add-book-room.component';
+import { AddServiceComponent } from './add-service/add-service.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeightService } from 'app/shared/services/height.service';
 import { from, Observable, of, Subject, Subscription } from 'rxjs';
@@ -118,15 +118,13 @@ export class BookRoomComponent implements OnInit {
     this.getRoomTypeList();
   }
   openModalAddBookRoom(type, data) {
-    const modalRef = this.modalService.open(AddBookRoomComponent, {
+    const modalRef = this.modalService.open(AddServiceComponent, {
       size: 'lg',
       backdrop: 'static',
       keyboard: false
     });
     modalRef.componentInstance.type = type;
-    modalRef.componentInstance.id = data ? data.humanResourceId : null;
-    console.warn('tesst' + modalRef.componentInstance.id);
-
+    modalRef.componentInstance.id = data ? data.roomId : null;
     modalRef.result
       .then(result => {
         if (result) {

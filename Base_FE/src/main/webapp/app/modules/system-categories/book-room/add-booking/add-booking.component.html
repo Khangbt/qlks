@@ -83,7 +83,7 @@
                                placeholder="{{ 'common.select.option.default' | translate }}"
                                clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
                                [items]="listBookingType"
-                               (change)="getDataOnSelectBookType($event)"
+                               (change)="getDataOnSelectBookType()"
                                [multiple]="false"
                                [readonly]="type == 'detail'">
                     </ng-select>
@@ -151,7 +151,7 @@
                     >Mã khuyến mãi</label>
                     <input type="text" formControlName="promotionCode" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                           [readOnly]="false" maxlength="255" (blur)="checkKM()"/>
+                           [readOnly]="false" maxlength="255" (blur)="getPromotion()"/>
                   </div>
                 </div>
               </div>
@@ -179,12 +179,12 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group" [ngClass]="displayFieldHasError('priceAdvance')">
+                  <div class="form-group" [ngClass]="displayFieldHasError('advanceAmount')">
                     <label class="form-control-label required"
                     >Đã thanh toán</label>
-                    <input type="text" formControlName="priceAdvance" class="form-control"
+                    <input type="text" formControlName="advanceAmount" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                           [readOnly]="true" maxlength="255" (blur)="trimSpace('priceAdvance')"/>
+                           [readOnly]="false" maxlength="255" (blur)="tinhTongTien()"/>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -209,7 +209,7 @@
                                [items]="statusList"
                                [clearable]="false"
                                [multiple]="false"
-                               [readonly]="type == 'detail'">
+                               [readonly]="true">
                     </ng-select>
                     <jhi-error-messages *ngIf="formControl['status'].hasError('required')"
                                         [displayError]="isFieldValid('status')"
@@ -250,6 +250,11 @@
     <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="onSubmitData()">
       <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i><span
       jhiTranslate="common.button.confirm.save">Ghi lại</span>
+    </button>
+
+    <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="tinhTongTien()">
+      <i class="fa fa-location-arrow" aria-hidden="true"></i><span
+      >  Tính tổng tiền</span>
     </button>
 
     <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="onPay()">

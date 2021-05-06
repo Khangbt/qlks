@@ -21,6 +21,10 @@ import { RoomResourcesModule } from 'app/modules/system-categories/room/room-res
 import { RoomTypeResourcesModule } from 'app/modules/system-categories/room-type/room-type-resources.module';
 import { ServiceResourcesModule } from 'app/modules/system-categories/service/service-resources.module';
 import { BookRoomModule } from './book-room/book-room.module';
+import { CustomerComponent } from './customer/customer.component';
+import { PromotionComponent } from './promotion/promotion.component';
+import { PromotionResourcesModule } from 'app/modules/system-categories/promotion/promotion-resources.module';
+import { AddBookingFutureComponent } from './add-booking-future/add-booking-future.component';
 @NgModule({
   declarations: [
     ImportExcelHumanResourceComponent,
@@ -32,7 +36,13 @@ import { BookRoomModule } from './book-room/book-room.module';
 
     AssetResuorceComponent,
 
-    AddRoomComponent
+    AddRoomComponent,
+
+    CustomerComponent,
+
+    PromotionComponent,
+
+    AddBookingFutureComponent
     // CustomerComponent,
   ],
   imports: [
@@ -47,7 +57,8 @@ import { BookRoomModule } from './book-room/book-room.module';
     RoomResourcesModule,
     RoomTypeResourcesModule,
     ServiceResourcesModule,
-    BookRoomModule
+    BookRoomModule,
+    PromotionResourcesModule
   ],
   entryComponents: [ImportExcelHumanResourceComponent],
   exports: [],

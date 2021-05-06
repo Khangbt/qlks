@@ -36,7 +36,8 @@ export class AddRoomComponent implements OnInit {
   years: number[] = [];
   userDetail: any;
   post: Date;
-
+  assetList: any[] = [];
+  roomTypeList: any[] = [];
   ////////////////////////
   constructor(
     public activeModal: NgbActiveModal,
@@ -63,8 +64,38 @@ export class AddRoomComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    this.getAssetList();
+    this.getRoomTypeList();
   }
 
+  getRoomTypeList() {
+    this.roomApiServiceService.getRoomTypeList().subscribe(
+      res => {
+        if (res) {
+          this.roomTypeList = res.data;
+        } else {
+          this.roomTypeList = [];
+        }
+      },
+      err => {
+        this.roomTypeList = [];
+      }
+    );
+  }
+  getAssetList() {
+    this.roomApiServiceService.getAsseList().subscribe(
+      res => {
+        if (res) {
+          this.assetList = res.data;
+        } else {
+          this.assetList = [];
+        }
+      },
+      err => {
+        this.assetList = [];
+      }
+    );
+  }
   /////////////////////////////////////////////////
   onSubmitData() {
     if (this.form.invalid) {
@@ -236,7 +267,9 @@ export class AddRoomComponent implements OnInit {
   xetDataUer() {
     const userToken: any = this.formStoringService.get(STORAGE_KEYS.USER);
     if (userToken.role === 'ROLE_ADMINPART') {
-      // this.form.get("partId").setValue(userToken.partId)
+      this.form.get('partId').setValue(userToken.assetId);
+      this.form.get('roomTypeId').setValue(userToken.roomType);
+
       this.checkBoll = true;
     } else {
       this.checkBoll = false;
@@ -258,7 +291,8 @@ export class AddRoomComponent implements OnInit {
       status: 1,
       floorNumber: null,
       roomType: null,
-      note: ['', Validators.maxLength(1000)]
+      note: ['', Validators.maxLength(1000)],
+      assetId: [null, Validators.compose([Validators.required])]
     });
     if (this.id) {
       this.getUserDetail(this.id);

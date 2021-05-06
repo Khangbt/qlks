@@ -90,23 +90,57 @@
         </div>
       </div>
       <div class="row">
+<!--        <div class="col-md-6">-->
+<!--          <div class="form-group">-->
+<!--            <label class="form-control-label ">Loại phòng</label>-->
+<!--            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"-->
+<!--                   class="form-control"-->
+<!--                   formControlName="roomType"-->
+<!--          </div>-->
+<!--        </div>-->
+
+
         <div class="col-md-6">
           <div class="form-group">
             <label class="form-control-label ">Loại phòng</label>
-            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
-                   class="form-control"
-                   formControlName="roomType"
-                   type="number"/>
-            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
-            <!--                                  [displayError]="isFieldValid('fullName')"-->
-            <!--                                  errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->
-            <!--              </jhi-error-messages>-->
-            <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('maxlength')"-->
-            <!--                                  [displayError]="isFieldValid('fullName')"-->
-            <!--                                  errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">-->
-            <!--              </jhi-error-messages>-->
+            <ng-select class="cursor-text scroll-ng-select"
+                       bindLabel="name" formControlName="roomType" bindValue="roomTypeId"
+                       notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                       placeholder="{{ 'common.select.option.default' | translate }}"
+                       clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                       [items]="roomTypeList"
+                       [multiple]="false"
+                       [readonly]="type === 'detail'||checkBoll">
+            </ng-select>
+            <!--            <jhi-error-messages *ngIf="formControl['partId'].hasError('assetId')"-->
+            <!--                                [displayError]="isFieldValid('assetId')"-->
+            <!--                                errorMsg="{{ 'user.validate.part.required' | translate }}">-->
+            <!--            </jhi-error-messages>-->
           </div>
         </div>
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label required">Tài sản</label>
+            <ng-select class="cursor-text scroll-ng-select"
+                       bindLabel="assetname" formControlName="assetId" bindValue="assetId"
+                       notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                       placeholder="{{ 'common.select.option.default' | translate }}"
+                       clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                       [items]="assetList"
+                       [multiple]="true"
+                       [readonly]="type === 'detail'||checkBoll">
+            </ng-select>
+<!--            <jhi-error-messages *ngIf="formControl['partId'].hasError('assetId')"-->
+<!--                                [displayError]="isFieldValid('assetId')"-->
+<!--                                errorMsg="{{ 'user.validate.part.required' | translate }}">-->
+<!--            </jhi-error-messages>-->
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label class="form-control-label ">nghi chú</label>
@@ -125,7 +159,6 @@
           </div>
         </div>
       </div>
-
     </form>
   </div>
   <div class="action-btn">

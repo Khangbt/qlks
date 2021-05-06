@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { RoomTypeApiServiceService } from 'app/core/services/room-type/room-type-api-service.service';
 import { CustomerApiService } from 'app/core/services/customer-api/customer-api.service.service';
+import { PromotionService } from 'app/core/services/promotionService/promotion.service';
+import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 import { debounceTime } from 'rxjs/operators';
 import { TIME_OUT } from 'app/shared/constants/set-timeout.constants';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
@@ -39,6 +41,16 @@ export class AddBookingComponent implements OnInit {
   listUnit$ = new Observable<any[]>();
   unitSearch;
   roomType;
+  giaPhong;
+  maKM;
+  tienThuePhong;
+  tienKhuyenMai;
+  idLoaiPhong;
+  daThanhToan;
+  idPhong;
+  loaiDatPhong;
+  tienDV;
+  tongTien;
   debouncer: Subject<string> = new Subject<string>();
   //relase
   listRoom = [];
@@ -96,6 +108,8 @@ export class AddBookingComponent implements OnInit {
     private customerApiService: CustomerApiService,
     private formStoringService: FormStoringService,
     private roomTypeApiService: RoomTypeApiServiceService,
+    private bookingRoomApi: BookingRoomApi,
+    private promotionService: PromotionService,
     protected router: Router
   ) {
     this.height = this.heightService.onResize();
@@ -114,6 +128,35 @@ export class AddBookingComponent implements OnInit {
     this.getListCustomer();
   }
 
+  getPromotion() {
+    this.maKM = this.getValueOfField('promotionCode');
+    if (this.checkNullOrEmpty(this.maKM) && this.checkNullOrEmpty(this.idLoaiPhong)) {
+      this.promotionService.getByCodeAndRoomType(this.maKM, this.idLoaiPhong).subscribe(
+        res => {
+          if (res) {
+            if (this.checkNullOrEmpty(res.data)) {
+              if (this.checkNullOrEmpty(this.giaPhong)) {
+                const phanTramKm = res.data.percentPromotion;
+                if (phanTramKm > 0) {
+                  this.setValueToField('priceBooking', (this.giaPhong * (100 - phanTramKm)) / 100);
+                  this.tienThuePhong = (this.giaPhong * (100 - phanTramKm)) / 100;
+                }
+              }
+            } else {
+              this.setValueToField('priceBooking', this.giaPhong);
+            }
+          }
+        },
+        err => {
+          this.toastService.openErrorToast('Error from server');
+        }
+      );
+    } else {
+      this.setValueToField('priceBooking', this.giaPhong);
+    }
+    this.tinhTongTien();
+  }
+
   getListCustomer() {
     this.customerApiService.getAllCustomer().subscribe(
       res => {
@@ -124,7 +167,7 @@ export class AddBookingComponent implements OnInit {
         }
       },
       err => {
-        this.listCustomer = [];
+        this.toastService.openErrorToast('Error from server');
       }
     );
   }
@@ -144,33 +187,21 @@ export class AddBookingComponent implements OnInit {
     );
   }
 
+  tinhTongTien() {
+    this.daThanhToan = this.getValueOfField('advanceAmount') ? this.getValueOfField('advanceAmount') : 0;
+    this.tienDV = this.getValueOfField('priceService') ? this.getValueOfField('priceService') : 0;
+    this.tongTien = this.tienThuePhong + this.tienDV - this.daThanhToan;
+    this.setValueToField('priceTotal', this.tongTien);
+  }
+
   onCheckValidDateTime() {}
 
-  getRoomById(id) {
-    this.roomType = this.getValueOfField('bookingType');
-    var roomId = this.getValueOfField('roomId');
-    this.roomApiService.getInfo(roomId).subscribe(
-      res => {
-        if (res) {
-          const d: any = res;
-          console.warn(d.data.roomType);
-          this.roomTypeApiService.getByIdAndType(d.data.roomType, this.roomType).subscribe(res2 => {
-            this.setValueToField('price', res2.data.price);
-          });
-        }
-      },
-      err => {
-        this.toastService.openErrorToast('Error from server');
-      }
-    );
-  }
-
-  getDataOnSelectRoom(event) {
-    this.getRoomById(event.roomId);
-  }
-
-  getDataOnSelectBookType(event) {
-    this.getRoomById(event.roomId);
+  getDataOnSelectBookType() {
+    this.loaiDatPhong = this.getValueOfField('bookingType');
+    if (this.checkNullOrEmpty(this.idPhong) && this.checkNullOrEmpty(this.loaiDatPhong)) {
+      this.setGiaPhong(this.idPhong, this.loaiDatPhong);
+    }
+    this.getPromotion();
   }
 
   private getRoleList() {
@@ -186,7 +217,7 @@ export class AddBookingComponent implements OnInit {
       totalDate: [],
       priceBooking: [],
       priceService: [],
-      priceAdvance: [],
+      advanceAmount: [],
       priceTotal: [],
       bookingDate: [],
       bookingDateOut: [],
@@ -222,16 +253,43 @@ export class AddBookingComponent implements OnInit {
     this.post = new Date(this.userDetail);
   }
 
+  checkNullOrEmpty(item) {
+    if (item !== null && item !== '' && item !== undefined) {
+      return true;
+    }
+    return false;
+  }
+
+  setGiaPhong(loaiPhong, loaiDatPhong) {
+    if (this.checkNullOrEmpty(loaiPhong) && this.checkNullOrEmpty(loaiDatPhong)) {
+      this.roomTypeApiService.getByIdAndType(loaiPhong, loaiDatPhong).subscribe(
+        res => {
+          this.setValueToField('price', res.data.price);
+          this.setValueToField('priceBooking', res.data.price);
+          this.giaPhong = res.data.price;
+          this.tienThuePhong = res.data.price;
+        },
+        error => {
+          this.toastService.openErrorToast('Error from server');
+        }
+      );
+    }
+  }
+
+  getDataOnSelectRoom(event) {
+    this.getUserDetail(event.roomId);
+  }
+
   getUserDetail(id) {
-    this.roomType = this.getValueOfField('bookingType') ? this.getValueOfField('bookingType') : 0;
-    this.roomApiService.getInfo(id).subscribe(
+    this.idPhong = id;
+    this.loaiDatPhong = this.getValueOfField('bookingType') ? this.getValueOfField('bookingType') : 0;
+    this.roomApiService.getInfo(this.idPhong).subscribe(
       res => {
         if (res) {
           const d: any = res;
+          this.idLoaiPhong = d.data.roomType;
           this.setValueToField('roomId', res.data.roomId);
-          this.roomTypeApiService.getByIdAndType(d.data.roomType, this.roomType).subscribe(res2 => {
-            this.setValueToField('price', res2.data.price);
-          });
+          this.setGiaPhong(this.idLoaiPhong, this.loaiDatPhong);
         }
       },
       err => {
@@ -276,14 +334,16 @@ export class AddBookingComponent implements OnInit {
   }
 
   onSubmitData() {
-    if (this.form.invalid) {
+    /*if (this.form.invalid) {
       this.commonService.validateAllFormFields(this.form);
       return;
-    }
-    this.form.get('dateOfBirth').setValue(new Date(this.form.get('dateOfBirth').value));
+    }*/
+    this.form.get('bookingDate').setValue(new Date(this.form.get('bookingDate').value));
+    this.form.get('bookingDateOut').setValue(new Date(this.form.get('bookingDateOut').value));
+    this.form.get('bookingCheckin').setValue(new Date(this.form.get('bookingCheckin').value));
+    this.form.get('bookingCheckout').setValue(new Date(this.form.get('bookingCheckout').value));
     this.spinner.show();
-    // this.form.value.dateRecruitment = this.datepipe.transform(this.form.value.dateRecruitment, 'yyyy-MM-dd');
-    /*this.humanResourceService.save(this.form.value).subscribe(
+    this.bookingRoomApi.save(this.form.value).subscribe(
       res => {
         if (this.type === 'add') {
           this.toastService.openSuccessToast('Thêm mới thành công !');
@@ -295,7 +355,7 @@ export class AddBookingComponent implements OnInit {
             this.toastService.openSuccessToast('Sửa thành công !');
           }
         }
-        this.router.navigate(['system-categories/human-resources']);
+        this.router.navigate(['system-categories/book-room']);
         this.activeModal.dismiss();
       },
       err => {
@@ -305,7 +365,7 @@ export class AddBookingComponent implements OnInit {
       () => {
         this.spinner.hide();
       }
-    );*/
+    );
   }
 
   onPay() {}
@@ -330,18 +390,6 @@ export class AddBookingComponent implements OnInit {
     }
   }
 
-  binDataUsername(email) {
-    if (this.form.get('email').valid) {
-      if (email.includes('.iist@gmail.com')) {
-        this.form.value.username = email.slice(0, email.indexOf('.iist@gmail.com'));
-      } else if (email.includes('@iist.vn')) {
-        this.form.value.username = email.slice(0, email.indexOf('@iist.vn'));
-      } else {
-        this.form.value.username = email.slice(0, email.indexOf('@iist.com.vn'));
-      }
-    }
-  }
-
   onResize() {
     this.height = this.heightService.onResize();
   }
@@ -354,11 +402,6 @@ export class AddBookingComponent implements OnInit {
 
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
-  }
-
-  checkKM() {
-    var total = this.getValueOfField('price') ? this.getValueOfField('price') : 0;
-    this.setValueToField('priceBooking', (total * 10) / 100);
   }
 
   trimSpace(element) {

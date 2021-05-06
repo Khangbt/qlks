@@ -28,6 +28,9 @@ export class RoomTypeApiServiceService {
     return this.http.get(SERVER_API + '/roomType/get-room-by-id/' + Id);
   }
 
+  getRoomTypeList(): Observable<any> {
+    return this.http.get(SERVER_API + '/roomType/get-room-tuype-All');
+  }
   getByIdAndType(Id, Type): Observable<any> {
     return this.http.get(SERVER_API + '/roomType/get-by-id-type/' + Id + '/' + Type);
   }
