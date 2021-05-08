@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssetDTO     {
+public class AssetDTO {
 
     private Long assetId;
 

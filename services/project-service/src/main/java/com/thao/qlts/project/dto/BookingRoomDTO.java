@@ -5,27 +5,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
 public class BookingRoomDTO extends AuditingDTO<String>{
-
     private Long bookingroomId;
-
     private Long customerId;
-
     private Long EmployeeId;
-
-    private Date booking_date;
-
-    private Date booking_checkin;
-
-    private Date booking_checkout;
-
-    private Double advance_amount;
-
-    private Long old_room_code;
-
+    private Date bookingDate;
+    private Date bookingDateOut;
+    private Date bookingCheckin;
+    private Date bookingCheckout;
+    private Double advanceAmount;
+    private Long oldRoomCode;
     private Integer status;
+    private Long roomId;
+    private Long bookingType;
+    private String promotionCode;
+    private String customerName;
+    private String roomName;
+    private String roomTypeName;
+    private String statusName;
+    private String comein_timeshow;
+    private String comeout_timeshow;
+    private String floorName;
+    private List<BookingRoomServiceDTO> listService;
+    private Integer page;
+    private Integer pageSize;
+    private Long totalRecord;
 }

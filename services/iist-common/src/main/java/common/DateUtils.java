@@ -81,6 +81,14 @@ public class DateUtils {
         return FORMAT_YYYY_MM_DD.format(date);
     }
 
+    public static boolean isEqualsNullOrEmpty(Object objects) {
+        if (objects == null || objects == "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static String formatDateTwo(Date date) {
         return FORMAT_DD_MM_YYYY.format(date);
     }
