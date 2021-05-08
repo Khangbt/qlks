@@ -27,7 +27,7 @@
                                [items]="listRoom"
                                (change)="getDataOnSelectRoom($event)"
                                [multiple]="false"
-                               [readonly]="type != 'forward'" required>
+                               [readonly]="false" required>
                       <ng-template ng-option-tmp let-item="item">
                         {{item.roomCode}} - {{item.roomName}} <br/>
                       </ng-template>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="displayFieldHasError('bookingType')">
                     <label class="form-control-label">Loại đặt phòng</label>
                     <ng-select class="cursor-text scroll-ng-select"
                                bindLabel="name" formControlName="bookingType" bindValue="id"
@@ -98,19 +98,27 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
+                    <label class="form-control-label" [ngClass]="displayFieldHasError('bookingDate')"
                     >Ngày đặt phòng</label>
                     <jhi-date-time-picker formControlName="bookingDate"
                                      (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
+                    <jhi-error-messages *ngIf="formControl['bookingDate'].hasError('required')"
+                                        [displayError]="isFieldValid('bookingDate')"
+                                        errorMsg="Ngày đặt phòng là bắt buộc">
+                    </jhi-error-messages>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
+                    <label class="form-control-label" [ngClass]="displayFieldHasError('bookingDateOut')"
                     >Ngày dự kiến đi</label>
                     <jhi-date-time-picker formControlName="bookingDateOut"
                                      (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
+                    <jhi-error-messages *ngIf="formControl['bookingDateOut'].hasError('required')"
+                                        [displayError]="isFieldValid('bookingDateOut')"
+                                        errorMsg="Ngày dự kiến đi là bắt buộc">
+                    </jhi-error-messages>
                   </div>
                 </div>
               </div>
@@ -138,7 +146,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('totalDate')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Số ngày thuê phòng</label>
                     <input type="text" formControlName="totalDate" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
@@ -147,7 +155,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('promotionCode')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Mã khuyến mãi</label>
                     <input type="text" formControlName="promotionCode" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
@@ -159,7 +167,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('priceBooking')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Tiền thuê phòng</label>
                     <input type="text" formControlName="priceBooking" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
@@ -168,7 +176,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('priceService')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Tiền dịch vụ</label>
                     <input type="text" formControlName="priceService" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
@@ -180,7 +188,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('advanceAmount')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Đã thanh toán</label>
                     <input type="text" formControlName="advanceAmount" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
@@ -189,7 +197,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('priceTotal')">
-                    <label class="form-control-label required"
+                    <label class="form-control-label"
                     >Tổng tiền</label>
                     <input type="text" formControlName="priceTotal" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"

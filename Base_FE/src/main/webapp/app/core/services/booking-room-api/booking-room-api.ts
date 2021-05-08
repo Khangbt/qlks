@@ -17,7 +17,19 @@ export class BookingRoomApi {
     return this.http.post(this.baseUri + '/room/onSearch', searchForm);
   }
 
+  searchBookingRoomFuture(searchForm?: any): Observable<any> {
+    return this.http.post(this.baseUri + '/booking/onSearch', searchForm);
+  }
+
   save(data): Observable<any> {
     return this.http.post<any>(SERVER_API + '/booking/add', data);
+  }
+
+  addService(data): Observable<any> {
+    return this.http.post<any>(SERVER_API + '/booking/addService', data);
+  }
+
+  getBookingService(bookingId): Observable<any> {
+    return this.http.get(SERVER_API + '/booking/getAllServiceBooking/' + bookingId);
   }
 }

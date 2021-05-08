@@ -35,6 +35,7 @@ export class AddBookingComponent implements OnInit {
   oldEmail: any;
   @Input() type;
   @Input() id: any;
+  @Input() bookType: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   ngbModalRef: NgbModalRef;
   form: FormGroup;
@@ -210,7 +211,7 @@ export class AddBookingComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      roomCode: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
+      roomCode: [],
       price: [],
       customerId: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       bookingType: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
@@ -219,12 +220,12 @@ export class AddBookingComponent implements OnInit {
       priceService: [],
       advanceAmount: [],
       priceTotal: [],
-      bookingDate: [],
-      bookingDateOut: [],
+      bookingDate: ['', Validators.compose([Validators.required])],
+      bookingDateOut: ['', Validators.compose([Validators.required])],
       bookingCheckin: [],
       bookingCheckout: [],
       status: this.statusList[0].id,
-      roomId: [],
+      roomId: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       promotionCode: [],
       note: ['', Validators.maxLength(1000)]
     });
@@ -333,11 +334,15 @@ export class AddBookingComponent implements OnInit {
     }
   }
 
+  formatDate(date) {
+    return new Date(date);
+  }
+
   onSubmitData() {
-    /*if (this.form.invalid) {
+    if (this.form.invalid) {
       this.commonService.validateAllFormFields(this.form);
       return;
-    }*/
+    }
     this.form.get('bookingDate').setValue(new Date(this.form.get('bookingDate').value));
     this.form.get('bookingDateOut').setValue(new Date(this.form.get('bookingDateOut').value));
     this.form.get('bookingCheckin').setValue(new Date(this.form.get('bookingCheckin').value));
