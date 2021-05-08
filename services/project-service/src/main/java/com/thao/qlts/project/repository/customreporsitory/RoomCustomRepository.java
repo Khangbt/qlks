@@ -129,6 +129,7 @@ public class RoomCustomRepository {
                 roomDTO.setNote((String) obj[5]);
                 roomDTO.setRoomType((Integer) obj[6]);
                 roomDTO.setRoomTypeName((String) obj[7]);
+                roomDTO.setStatus((Integer) obj[8]);
                 Integer status = (Integer) obj[8];
                 if (status == 1){
                     roomDTO.setStatusName("Còn trống");

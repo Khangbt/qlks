@@ -118,7 +118,7 @@
                 <thead>
                 <tr class="text-center" jhiSort [(predicate)]="predicate" [(ascending)]="reverse">
                   <th scope="col" class="small-width-table" jhiTranslate="userGroup.orderNumber">STT</th>
-                  <th scope="col" style="width: 250px" class="medium-width-table action-width-four-icon custom-width">Hành động</th>
+                  <th scope="col" style="width: 210px" class="medium-width-table action-width-four-icon custom-width">Hành động</th>
                   <th class="large-width-table" *ngIf="this.columns[0]?.isShow" style="width: 100px"><span>Mã phòng</span>
                   </th>
                   <th class="large-width-table" *ngIf="this.columns[1]?.isShow" style="width: 150px"><span>Số phòng</span>
@@ -140,34 +140,39 @@
                     <div class="group-action">
                       <button  class="btn btn-light" placement="top"
                                ngbTooltip="Đặt phòng"
+                               *ngIf="item.status === 1"
                                (click)="openModalAddBookingRoom('add', item)">
                         <i class="fa fa-cart-plus icon-color-blue" aria-hidden="true"></i>
                       </button>
 
                       <button
                         class="btn btn-light" placement="top"
-                        ngbTooltip="Cập nhật"
-                        (click)="openModalAddBookingRoom('update',item)">
-                        <i class="fa fa-pencil-square-o icon-color-blue" aria-hidden="true"></i>
-                      </button>
-
-                      <button
-                        class="btn btn-light" placement="top"
                         ngbTooltip="Xem chi tiết"
+                        *ngIf="item.status === 3"
                         (click)="openModalAddBookingRoom('detail',item)">
                         <i class="fa fa-info-circle icon-color-blue" aria-hidden="true"></i>
                       </button>
 
                       <button
                         class="btn btn-light" placement="top"
+                        ngbTooltip="Cập nhật"
+                        *ngIf="item.status === 3"
+                        (click)="openModalAddBookingRoom('update',item)">
+                        <i class="fa fa-pencil-square-o icon-color-blue" aria-hidden="true"></i>
+                      </button>
+
+                      <!--<button
+                        class="btn btn-light" placement="top"
                         ngbTooltip="Thêm khách hàng"
+                        *ngIf="item.status === 3"
                         (click)="openModalAddHuman(item)">
                         <i class="fa fa-users icon-color-blue" aria-hidden="true"></i>
-                      </button>
+                      </button>-->
 
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Thêm dịch vụ"
+                        *ngIf="item.status === 3"
                         (click)="openModalAddBookRoom('detail',item)">
                         <i class="fa fa-cogs icon-color-blue" aria-hidden="true"></i>
                       </button>
@@ -175,6 +180,7 @@
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Chuyển phòng"
+                        *ngIf="item.status === 3"
                         (click)="openModalAddBookingRoom('foward',item)">
                         <i class="fa fa-arrow-circle-up icon-color-blue" aria-hidden="true"></i>
                       </button>
@@ -182,6 +188,7 @@
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Thanh toán"
+                        *ngIf="item.status === 3"
                         (click)="openModalAddBookingRoom('pay',item)">
                         <i class="fa fa-money icon-color-blue" aria-hidden="true"></i>
                       </button>
@@ -189,15 +196,9 @@
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Bảo dưỡng (dọn phòng)"
+                        *ngIf="item.status === 4"
                         (click)="openModalMaintainRoom(item)">
                         <i class="fa fa-wrench icon-color-blue" aria-hidden="true"></i>
-                      </button>
-
-                      <button
-                        class="btn btn-light" placement="top"
-                        ngbTooltip="Hủy"
-                        (click)="openModalCancelBookingRoom(item)">
-                        <i class="fa fa-times icon-color-red" aria-hidden="true"></i>
                       </button>
                     </div>
                   </td>
