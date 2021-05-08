@@ -30,9 +30,7 @@ public class roomTypeController {
         log.info("----------------api searchAsser-----------------");
         try {
             log.info("----------------api searchRoom Ok-----------------");
-
             return new ResponseEntity(roomTypeService.searchRoom(dto), HttpStatus.OK);
-
         }catch (Exception e){
             log.info("----------------api searchRoom thất bại-----------------");
 
@@ -42,16 +40,35 @@ public class roomTypeController {
     @PostMapping("/add")
     public ResultResp createHR(@RequestBody RoomTypeDTO dto, HttpServletRequest request) {
         log.info("----------------api addRoom-----------------");
-
-
         try {
             return ResultResp.success(ErrorCode.CREATED_HR_OK, roomTypeService.create(dto));
-
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
                 return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
         }
         return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
+    }
+
+    @GetMapping("/get-all")
+    public ResultResp getAll(){
+        log.info("get all roomtype");
+        try{
+            return ResultResp.success(roomTypeService.getAll());
+        }catch (CustomExceptionHandler e){
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get-by-id-type/{id}/{type}")
+    public ResultResp getOneById(@PathVariable("id") Long id, @PathVariable("type") Long type) {
+        log.info("find by id and type");
+        try {
+            return ResultResp.success(roomTypeService.findByIdAndType(id,type));
+        } catch (Exception e) {
+            log.error("<--- api find AssetResources: error, ");
+            e.printStackTrace();
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
     }
 
     @GetMapping("/get-room-by-id/{id}")
@@ -67,14 +84,12 @@ public class roomTypeController {
             e.printStackTrace();
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
-
     }
     @GetMapping("/deleteRoom/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
         log.info("----------------api delete phong -----------------");
         try {
             return ResultResp.success(roomTypeService.delete(id));
-
         } catch (CustomExceptionHandler e) {
             log.info("----------------api delete nhan su faile-----------------");
             return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);

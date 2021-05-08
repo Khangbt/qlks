@@ -26,4 +26,6 @@ public class ServiceDTO extends AuditingDTO<String>{
     private Long totalRecord;
     private Long departmentId;
     private String tyleDto;
+    private Integer quantity;
+    private Double total;
 }

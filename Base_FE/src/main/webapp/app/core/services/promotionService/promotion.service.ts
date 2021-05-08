@@ -27,4 +27,8 @@ export class PromotionService {
   getInfo(Id): Observable<any> {
     return this.http.get(SERVER_API + '/promotion/get-promotion-by-id/' + Id);
   }
+
+  getByCodeAndRoomType(id, roomType): Observable<any> {
+    return this.http.get(SERVER_API + '/promotion/getByCodeAndRoomType/' + id + '/' + roomType);
+  }
 }

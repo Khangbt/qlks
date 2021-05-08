@@ -209,9 +209,6 @@
                                [clearable]="false"
                                [multiple]="false"
                                [readonly]="type === 'detail'">
-                      <!--                         [searchFn]="customSearchFn"
-                                               (change)="onChangePosition($event)"
-                                               (clear)="onClearPosition()">-->
                     </ng-select>
                     <jhi-error-messages *ngIf="formControl['status'].hasError('required')"
                                         [displayError]="isFieldValid('status')"
@@ -220,153 +217,10 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <!--<div class="form-group" [ngClass]="displayFieldHasError('partId')">
-                    <label class="form-control-label required">Bộ phận</label>
-                    <ng-select class="cursor-text scroll-ng-select"
-                               bindLabel="name" formControlName="partId" bindValue="id"
-                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
-                               placeholder="{{ 'common.select.option.default' | translate }}"
-                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
-                               [items]="partList"
-                               [multiple]="false"
-                               [readonly]="type === 'detail'||checkBoll">
-                    </ng-select>
-                    <jhi-error-messages *ngIf="formControl['partId'].hasError('required')"
-                                        [displayError]="isFieldValid('partId')"
-                                        errorMsg="{{ 'user.validate.part.required' | translate }}">
-                    </jhi-error-messages>
-                  </div>-->
                 </div>
               </div>
               <div class="row">
-                <!--                <div class="col-md-6">
-                                  <div class="form-group" [ngClass]="displayFieldHasError('roleId')">
-                                    <label class="form-control-label required">Quyền</label>
-                                    <ng-select class="cursor-text scroll-ng-select"
-                                               bindLabel="name" formControlName="roleId" bindValue="id"
-                                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
-                                               placeholder="{{ 'common.select.option.default' | translate }}"
-                                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
-                                               [items]="roleList"
-                                               [multiple]="false"
-                                               [readonly]="type === 'detail'">
-                                    </ng-select>
-                                    <jhi-error-messages *ngIf="formControl['roleId'].hasError('required')"
-                                                        [displayError]="isFieldValid('roleId')"
-                                                        errorMsg="{{ 'user.validate.deparment.required' | translate }}">
-                                    </jhi-error-messages>
-                                  </div>
-                                </div>
-                            <div class="col-md-6" >
-                              <div class="form-group"  [ngClass]="displayFieldHasError('majorId')" >
-                                <label class="form-control-label" [ngClass]="this.form.value.departmentId===idDev?'required':''">Chuyên môn</label>
-                                <ng-select class="cursor-text scroll-ng-select"
-                                           bindLabel="name" formControlName="majorId"  bindValue="id"
-                                           notFoundText="{{ 'common.select.notFoundText' | translate }}"
-                                           placeholder="{{ 'common.select.option.default' | translate }}"
-                                           clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
-                                           [items]="majorList"
-                                           [multiple]="false"
-                                           [readonly]="type === 'detail' ||this.form.value.departmentId!==idDev">
-                                </ng-select>
-                                <jhi-error-messages *ngIf="majorRequired" [displayError]="majorRequired"
-                                                    errorMsg="{{ 'user.validate.major.required' | translate }}">
-                                </jhi-error-messages>
-                              </div>
-                            </div>-->
               </div>
-              <!--          <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group" [ngClass]="displayFieldHasError('dateRecruitment')">
-                              <label class="form-control-label required" [ngClass]="type === 'detail' ? '' : ''">Ngày tuyển dụng</label>
-                              <jhi-date-picker formControlName="dateRecruitment" [isDisabled]="type === 'detail'" (focusout)="dateRecruit()"
-                                               msgError="{{ 'user.validate.dateRecruitment.required' | translate }}" ></jhi-date-picker>
-                              <jhi-error-messages *ngIf="dateRecruitmentValid" [displayError]="dateRecruitmentValid"
-                                                  errorMsg="{{ 'user.validate.dateRecruitment.required' | translate }}">
-                              </jhi-error-messages>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6" >
-                            <div class="form-group" [ngClass]="displayFieldHasError('dateGraduate')">
-                              <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''">Thời gian tốt nghiệp</label>
-                              <select #selectElement class="form-control custom-select-arrow"
-                                      [attr.disabled]="type === 'detail' || isYear ? true: null"
-                                      formControlName="dateGraduate"
-                                      (change)="dateGraduate()">
-                                <option value="">{{'common.select.option.default' | translate}}</option>
-                                <option *ngFor="let y of years" [value]="y">{{y}}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group"  [ngClass]="displayFieldHasError('experience')">
-                              <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
-                              >Số năm kinh nghiệm</label>
-                              <input type="number" formControlName="experience" class="form-control"
-                                     [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                                     [readonly]="type === 'detail' || 'add' || type === 'update'" maxlength="12" (blur)="trimSpace('experience')"/>
-                              <jhi-error-messages *ngIf="formControl['experience'].hasError('required')" [displayError]="isFieldValid('experience')"
-                                                  errorMsg="{{ 'user.validate.userName.required' | translate }}">
-                              </jhi-error-messages>
-                              <jhi-error-messages *ngIf="formControl['experience'].hasError('maxlength')" [displayError]="isFieldValid('experience')"
-                                                  errorMsg="{{ 'user.validate.experience.maxlength' | translate }}">
-                              </jhi-error-messages>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group"  [ngClass]="displayFieldHasError('dateMajor')">
-                             <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''">Thời gian bắt đầu làm chuyên môn</label>
-                            <select #selectElement class="form-control custom-select-arrow"
-                                    [attr.disabled]="type === 'detail' || isYear ? true: null"
-                                    formControlName="dateMajor"
-                            (change)="dateMajor()">
-                              <option value="">{{'common.select.option.default' | translate}}</option>
-                              <option *ngFor="let y of years" [value]="y">{{y}}
-                              </option>
-                            </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group"  [ngClass]="displayFieldHasError('majorExperience')">
-                              <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
-                              >Số năm kinh nghiệm theo chuyên  môn</label>
-                              <input type="text" formControlName="majorExperience" class="form-control"
-                                     [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                                     [readonly]="type === 'detail' || 'add' || type === 'update'" maxlength="12" (blur)="trimSpace('majorExperience')"/>
-                              <jhi-error-messages *ngIf="formControl['majorExperience'].hasError('required')" [displayError]="isFieldValid('majorExperience')"
-                                                  errorMsg="{{ 'user.validate.majorExperience.required' | translate }}">
-                              </jhi-error-messages>
-                              <jhi-error-messages *ngIf="formControl['majorExperience'].hasError('maxlength')" [displayError]="isFieldValid('majorExperience')"
-                                                  errorMsg="{{ 'user.validate.majorExperience.maxlength' | translate }}">
-                              </jhi-error-messages>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group"  [ngClass]="displayFieldHasError('projectPaticipate')">
-                              <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
-                              >Dự án đã tham gia</label>
-                              <input type="text" formControlName="projectPaticipate" class="form-control"
-                                     [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                                     [readonly]="type === 'detail'"  (blur)="trimSpace('projectPaticipate')"/>
-                              <jhi-error-messages *ngIf="formControl['projectPaticipate'].hasError('required')" [displayError]="isFieldValid('projectPaticipate')"
-                                                  errorMsg="{{ 'user.validate.userName.required' | translate }}">
-                              </jhi-error-messages>
-                              <jhi-error-messages *ngIf="formControl['projectPaticipate'].hasError('maxlength')" [displayError]="isFieldValid('projectPaticipate')"
-                                                  errorMsg="{{ 'user.validate.projectPaticipate.maxlength' | translate }}">
-                              </jhi-error-messages>
-                            </div>
-                          </div>
-                        </div>-->
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group" [ngClass]="displayFieldHasError('note')">

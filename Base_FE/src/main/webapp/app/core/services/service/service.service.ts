@@ -27,4 +27,8 @@ export class ServiceService {
   getInfo(Id): Observable<any> {
     return this.http.get(SERVER_API + '/service/get-service-by-id/' + Id);
   }
+
+  getAllService(): Observable<any> {
+    return this.http.get(SERVER_API + '/service/getAllService');
+  }
 }

@@ -71,10 +71,19 @@ public class ServiceController {
         log.info("----------------api delete phong -----------------");
         try {
             return ResultResp.success(searchService.delete(id));
-
         } catch (CustomExceptionHandler e) {
             log.info("----------------api delete nhan su faile-----------------");
             return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);
+        }
+    }
+    @GetMapping("/getAllService")
+    public ResultResp getAllService() {
+        log.info("----------------get all service-----------------");
+        try {
+            return ResultResp.success(searchService.findAllService());
+        } catch (CustomExceptionHandler e) {
+            log.info("----------------api delete nhan su faile-----------------");
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
 }

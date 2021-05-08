@@ -71,8 +71,22 @@ public class DateUtils {
         return date2;
     }
 
+    public static String formatDateTime(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+        String format = sdf.format(date);
+        return format;
+    }
+
     public static String formatDate(Date date) {
         return FORMAT_YYYY_MM_DD.format(date);
+    }
+
+    public static boolean isEqualsNullOrEmpty(Object objects) {
+        if (objects == null || objects == "") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String formatDateTwo(Date date) {

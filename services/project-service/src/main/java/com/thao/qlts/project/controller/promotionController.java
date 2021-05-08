@@ -2,6 +2,7 @@ package com.thao.qlts.project.controller;
 
 import com.thao.qlts.project.dto.promotionDTO;
 import com.thao.qlts.project.service.PromotionService;
+import common.DateUtils;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -71,6 +73,16 @@ import java.util.List;
         } catch (CustomExceptionHandler e) {
             log.info("----------------api delete nhan su faile-----------------");
             return ResultResp.badRequest(ErrorCode.DELETE_HR_FAIL);
+        }
+    }
+    @GetMapping("/getByCodeAndRoomType/{code}/{roomType}")
+    public ResultResp getByCode(@PathVariable("code") String code,@PathVariable("roomType") Long roomType) {
+        log.info("---------------- get promotion by code -----------------");
+        try {
+            return ResultResp.success(service.getByCodeAndRoomType(code,roomType, DateUtils.formatDate(new Date())));
+        } catch (CustomExceptionHandler e) {
+            log.info("---------------- get promotion by code fail -----------------");
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
 }

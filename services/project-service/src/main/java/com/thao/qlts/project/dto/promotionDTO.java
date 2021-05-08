@@ -28,6 +28,7 @@ public class promotionDTO {
     private String note;
 
     private Integer page;
+
     private Integer status;
 
     private Integer pageSize;

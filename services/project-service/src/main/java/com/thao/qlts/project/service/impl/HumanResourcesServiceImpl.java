@@ -128,6 +128,11 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
     }
 
     @Override
+    public void sendMailResetPassword(HumanResourcesDTO humanResourcesDTO, String password) {
+
+    }
+
+    @Override
     public Boolean deleteHumanResources(Long id, String name) {
         return null;
     }

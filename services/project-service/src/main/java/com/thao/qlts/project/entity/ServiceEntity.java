@@ -31,6 +31,7 @@ public class ServiceEntity extends Auditable<String> {
 
     @Column(name = "note")
     private String note;
+
     @Column(name = "status")
     private Integer status;
 }

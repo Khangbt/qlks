@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ServiceService } from 'app/core/services/service/service.service';
 import { HeightService } from 'app/shared/services/height.service';
 import { ToastService } from 'app/shared/services/toast.service';
+import { of, Subject } from 'rxjs';
 
 @Component({
   selector: 'jhi-add-book-room',
-  templateUrl: './add-book-room.component.html',
-  styleUrls: ['./add-book-room.component.scss']
+  templateUrl: './add-service.component.html',
+  styleUrls: ['./add-service.component.scss']
 })
-export class AddBookRoomComponent implements OnInit {
+export class AddServiceComponent implements OnInit {
   @Input() type;
   @Input() id: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
@@ -18,6 +20,9 @@ export class AddBookRoomComponent implements OnInit {
   form: FormGroup;
   height: number;
   title: String;
+  searchHuman;
+  debouncer5: Subject<string> = new Subject<string>();
+  listServiceShow;
   listServiceR = [];
   checkNul = [];
   listServiceDefule = [];
@@ -28,29 +33,28 @@ export class AddBookRoomComponent implements OnInit {
     private heightService: HeightService,
     private formBuilder: FormBuilder,
     private toastService: ToastService,
+    private serviceService: ServiceService,
     public activeModal: NgbActiveModal
   ) {}
 
   ngOnInit() {
     this.buildForm();
+    this.getListService();
   }
+
   private buildForm() {
-    if (this.type === 'add') {
-      this.title = 'Tạp phiếu mượn';
-    } else if (this.type === 'update') {
-      this.title = 'Sửa phiếu yêu cầu ';
-    } else this.title = 'Xem chi tiết phiếu yêu cầu';
+    this.title = 'Thêm dịch vụ';
     this.form = this.formBuilder.group({
       id: [this.id],
       code: [],
       status: [1],
+      creatDate: [],
       note: [],
       nameHummer: [],
       approvedDate: [],
       listService: this.formBuilder.array([]),
       reason: []
     });
-
     if (this.id) {
       this.getDetail(this.id);
     } else {
@@ -106,7 +110,6 @@ export class AddBookRoomComponent implements OnInit {
     this.xetTrueFal(this.form.get('listService').value);
   }
   xetTrueFal(data1) {
-    console.warn(data1);
     if (data1.length === 0) {
       for (const p of this.listServiceDefule) {
         p.disabled = false;
@@ -126,6 +129,65 @@ export class AddBookRoomComponent implements OnInit {
     }
   }
 
+  getPrice(event) {
+    this.serviceService.getInfo(event.serviceId).subscribe(
+      res => {
+        if (res) {
+          alert(res.data.price);
+          this.setValueToField('price', res.data.price);
+        }
+      },
+      err => {
+        this.toastService.openErrorToast('Server Error');
+      }
+    );
+  }
+
+  onSearHuman(event) {
+    this.searchHuman = event.term;
+    const term = event.term;
+    if (term !== '') {
+      this.debouncer5.next(term);
+    } else {
+      this.listServiceShow = of([]);
+    }
+  }
+
+  getListService() {
+    this.serviceService.getAllService().subscribe(
+      res => {
+        if (res) {
+          this.listServiceShow = res.data;
+        } else {
+          this.listServiceShow = [];
+        }
+      },
+      err => {
+        this.listServiceShow = [];
+      }
+    );
+  }
+
+  onSearchHuman() {
+    if (!this.form.value.parentName) {
+      this.listServiceShow = of([]);
+      this.searchHuman = '';
+    }
+  }
+
+  customSearchHunan(term: string, item: any): any {
+    term = term.toLocaleLowerCase().trim();
+    return (
+      (item.servicename ? item.servicename.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term)) ||
+      (item.servicecode ? item.servicecode.toLocaleLowerCase().indexOf(term) > -1 : ''.indexOf(term))
+    );
+  }
+
+  onClearHuman() {
+    this.listServiceShow = of([]);
+    this.searchHuman = '';
+  }
+
   addService(value) {
     for (const t of this.checkNul) {
       if (!t) {
@@ -138,17 +200,16 @@ export class AddBookRoomComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     (<FormArray>this.form.get('listService')).push(
       this.formBuilder.group({
-        size: [],
-        unit: [],
+        serviceId: [],
+        price: [],
         quantity: [0],
-        id: []
+        total: []
       })
     );
     this.listServiceR = this.form.get('listService').value;
   }
   deleteDevice(i) {
     this.checkNul.splice(i, 1);
-
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     (<FormArray>this.form.get('listService')).removeAt(i);
     this.listServiceR = this.form.get('listService').value;
@@ -176,8 +237,6 @@ export class AddBookRoomComponent implements OnInit {
     const c = this.unitList.filter(function(value) {
       return value.id === unit;
     });
-    console.warn(c);
-    console.warn(unit);
     return c[0].name;
   }
 }

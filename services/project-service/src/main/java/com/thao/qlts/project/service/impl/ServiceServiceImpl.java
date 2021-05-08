@@ -6,6 +6,7 @@ import com.thao.qlts.project.entity.ServiceEntity;
 import com.thao.qlts.project.repository.customreporsitory.ServiceCustomRepository;
 import com.thao.qlts.project.repository.jparepository.ServiceRepository;
 import com.thao.qlts.project.service.ServiceService;
+import com.thao.qlts.project.service.mapper.ServiceMapper;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class ServiceServiceImpl implements ServiceService {
     private ServiceCustomRepository serviceCustomRepository;
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    private ServiceMapper serviceMapper;
 
     @Override
     public DataPage<ServiceDTO> searchService(ServiceDTO dto) {
@@ -112,6 +115,11 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public ServiceDTO findByCode(String code) {
         return null;
+    }
+
+    @Override
+    public List<ServiceDTO> findAllService() {
+        return serviceMapper.toDto(serviceRepository.findAllService());
     }
 
     public ServiceDTO convertEntitytoDTO(ServiceEntity entity) {

@@ -24,6 +24,7 @@ import { BookRoomModule } from './book-room/book-room.module';
 import { CustomerComponent } from './customer/customer.component';
 import { PromotionComponent } from './promotion/promotion.component';
 import { PromotionResourcesModule } from 'app/modules/system-categories/promotion/promotion-resources.module';
+import { AddBookingFutureComponent } from './add-booking-future/add-booking-future.component';
 @NgModule({
   declarations: [
     ImportExcelHumanResourceComponent,
@@ -39,6 +40,9 @@ import { PromotionResourcesModule } from 'app/modules/system-categories/promotio
 
     CustomerComponent,
 
+    PromotionComponent,
+
+    AddBookingFutureComponent,
     PromotionComponent
     // CustomerComponent,
   ],

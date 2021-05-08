@@ -9,6 +9,7 @@ import { ServiceComponent } from 'app/modules/system-categories/service/service.
 import { AssetResuorceComponent } from 'app/modules/system-categories/asset-resuorce/asset-resuorce.component';
 import { CustomerComponent } from 'app/modules/system-categories/customer/customer.component';
 import { PromotionComponent } from 'app/modules/system-categories/promotion/promotion.component';
+import { AddBookingFutureComponent } from 'app/modules/system-categories/add-booking-future/add-booking-future.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,18 @@ const routes: Routes = [
     data: {
       pageTitle: 'organizationCategories.title',
       url: 'system-categories/book-room'
+    }
+  },
+  {
+    path: 'book-room-future',
+    component: AddBookingFutureComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/book-room-future'
     }
   },
   {

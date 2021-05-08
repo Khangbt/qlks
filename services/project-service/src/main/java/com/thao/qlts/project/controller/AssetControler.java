@@ -43,11 +43,8 @@ public class AssetControler {
     @PostMapping("/add")
     public ResultResp createHR(@RequestBody AssetDTO partnerDTO, HttpServletRequest request) {
         log.info("----------------api searchAsset-----------------");
-
-
         try {
             return ResultResp.success(ErrorCode.CREATED_HR_OK, assetService.create(partnerDTO));
-
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
                 return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);

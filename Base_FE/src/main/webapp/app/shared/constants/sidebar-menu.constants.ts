@@ -63,6 +63,9 @@ export const MENU_TITLE = {
     NAME: 'Danh muc tài sản  '
   },
   BOOK_ROOM: {
-    NAME: 'Đặt phòng'
+    NAME: 'Đặt phòng lẻ'
+  },
+  BOOK_ROOM_FUTURE: {
+    NAME: 'Đặt phòng trước'
   }
 };

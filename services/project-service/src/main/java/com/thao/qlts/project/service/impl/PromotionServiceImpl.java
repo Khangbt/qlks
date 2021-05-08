@@ -9,6 +9,7 @@ import com.thao.qlts.project.repository.customreporsitory.promotionCustomReposit
 import com.thao.qlts.project.repository.jparepository.PromotionRepository;
 import com.thao.qlts.project.repository.jparepository.promotionRoomTypeRepository;
 import com.thao.qlts.project.service.PromotionService;
+//import com.thao.qlts.project.service.mapper.PromotionMapper;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "promotionService")
@@ -137,6 +139,15 @@ public class PromotionServiceImpl  implements PromotionService {
     @Override
     public promotionDTO findByCode(String code) {
         return null;
+    }
+
+    @Override
+    public promotionDTO getByCodeAndRoomType(String code, Long roomType, String date) {
+        promotionDTO dto = null;
+        if (promotionRepository.findByCodeAndRoomType(code, roomType, date) != null){
+             dto = convertEntitytoDTO(promotionRepository.findByCodeAndRoomType(code, roomType, date));
+        }
+        return dto;
     }
 
     public promotionDTO convertEntitytoDTO(promotionEntity entity) {

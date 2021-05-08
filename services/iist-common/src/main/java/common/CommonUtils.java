@@ -79,6 +79,14 @@ public class CommonUtils {
         }
     }
 
+    public static boolean isEqualsNullOrEmpty(Object objects) {
+        if (objects == null || objects == "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static boolean isNullOrEmpty(List data) {
         return (data == null || data.isEmpty());
     }

@@ -8,6 +8,7 @@ import com.thao.qlts.project.repository.customreporsitory.RoomCustomRepository;
 import com.thao.qlts.project.repository.jparepository.AssetRoomRepository;
 import com.thao.qlts.project.repository.jparepository.RoomRepository;
 import com.thao.qlts.project.service.RoomService;
+import com.thao.qlts.project.service.mapper.RoomMapper;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,20 @@ public class RoomServiceImpl implements RoomService {
     private RoomCustomRepository roomCustomRepository;
     @Autowired
     RoomRepository roomRepository;
+    @Autowired
+    private RoomMapper roomMapper;
 
     @Autowired
     AssetRoomRepository assetRoomRepository;
     @Override
     public DataPage<RoomDTO> searchAsser(RoomDTO dto) {
         DataPage<RoomDTO> dtoDataPage = new DataPage<>();
-
         dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
         dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
         List<RoomDTO> list = new ArrayList<>();
         try {
             list = roomCustomRepository.searchAsser(dto);
             dtoDataPage.setData(list);
-
         }catch (Exception e){
             throw e;
         }
@@ -50,6 +51,32 @@ public class RoomServiceImpl implements RoomService {
         return dtoDataPage;
     }
 
+    @Override
+    public DataPage<RoomDTO> onSearch(RoomDTO dto) {
+        DataPage<RoomDTO> dtoDataPage = new DataPage<>();
+        dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
+        dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
+        List<RoomDTO> list = new ArrayList<>();
+        try {
+            list = roomCustomRepository.onSearch(dto);
+            dtoDataPage.setData(list);
+        }catch (Exception e){
+            throw e;
+        }
+        dtoDataPage.setPageIndex(dto.getPage());
+        dtoDataPage.setPageSize(dto.getPageSize());
+        dtoDataPage.setDataCount(dto.getTotalRecord());
+        dtoDataPage.setPageCount(dto.getTotalRecord() / dto.getPageSize());
+        if (dtoDataPage.getDataCount() % dtoDataPage.getPageSize() != 0) {
+            dtoDataPage.setPageCount(dtoDataPage.getPageCount() + 1);
+        }
+        return dtoDataPage;
+    }
+
+    @Override
+    public List<RoomDTO> getAll() {
+        return roomMapper.toDto(roomRepository.findAllRoom());
+    }
 
     @Override
     public DataPage<RoomDTO> getPagePartSeach(RoomDTO dto) {

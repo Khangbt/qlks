@@ -20,8 +20,6 @@ public class RoomEntity extends Auditable<String> {
     @Column(name = "max_number")
     private Integer maxNumber;
 
-    
-
     @Column(name = "floor_number")
     private Integer floorNumber;
 
