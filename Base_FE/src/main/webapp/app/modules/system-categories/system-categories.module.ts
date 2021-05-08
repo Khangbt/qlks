@@ -42,7 +42,8 @@ import { AddBookingFutureComponent } from './add-booking-future/add-booking-futu
 
     PromotionComponent,
 
-    AddBookingFutureComponent
+    AddBookingFutureComponent,
+    PromotionComponent
     // CustomerComponent,
   ],
   imports: [

@@ -1,4 +1,4 @@
-package com.hust.qlts.discovery;
+package com.thao.qlts.discovery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

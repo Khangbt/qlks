@@ -102,6 +102,8 @@ public class PromotionServiceImpl  implements PromotionService {
             list.add(assetRoomEntity);
         }
         promotionRoomTypeRepository.saveAll(list);
+
+
         return convertEntitytoDTO(entity);
 
     }

@@ -29,7 +29,9 @@ import java.util.List;
         log.info("----------------api searchPromotion-----------------");
         try {
             log.info("----------------api searchRoom Ok-----------------");
+
             return new ResponseEntity(service.searchPromotion(promotionDTO), HttpStatus.OK);
+
         }catch (Exception e){
             log.info("----------------api searchRoom thất bại-----------------");
 
@@ -41,6 +43,7 @@ import java.util.List;
         log.info("----------------api addPromotion-----------------");
         try {
             return ResultResp.success(ErrorCode.CREATED_HR_OK, service.create(partnerDTO));
+
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
                 return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);

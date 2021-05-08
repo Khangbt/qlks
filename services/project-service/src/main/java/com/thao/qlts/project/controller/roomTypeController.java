@@ -101,6 +101,7 @@ public class roomTypeController {
         log.info("<-- api updateAsset: start, ");
         try {
             return ResultResp.success(roomTypeService.getRomtype());
+
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
         } catch (Exception e) {
