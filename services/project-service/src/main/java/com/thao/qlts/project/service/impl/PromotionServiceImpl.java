@@ -10,6 +10,7 @@ import com.thao.qlts.project.repository.jparepository.PromotionRepository;
 import com.thao.qlts.project.repository.jparepository.promotionRoomTypeRepository;
 import com.thao.qlts.project.service.PromotionService;
 //import com.thao.qlts.project.service.mapper.PromotionMapper;
+import common.CommonUtils;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,6 +149,20 @@ public class PromotionServiceImpl  implements PromotionService {
              dto = convertEntitytoDTO(promotionRepository.findByCodeAndRoomType(code, roomType, date));
         }
         return dto;
+    }
+
+    @Override
+    public List<promotionDTO> getAllByRoomType(Long roomType, String date) {
+        List<promotionDTO> list = new ArrayList<>();
+        List<promotionEntity> listEntity = null;
+        listEntity = promotionRepository.findByRoomType(roomType, date);
+        if (!CommonUtils.isEqualsNullOrEmpty(listEntity)){
+            for (promotionEntity entity : listEntity){
+                promotionDTO dto = convertEntitytoDTO(entity);
+                list.add(dto);
+            }
+        }
+        return list;
     }
 
     public promotionDTO convertEntitytoDTO(promotionEntity entity) {

@@ -310,7 +310,7 @@ export class BookRoomComponent implements OnInit {
   }
 
   registerChange() {
-    this.eventSubscriber = this.eventManager.subscribe('HumanResourcesChange', response => this.loadAll());
+    // this.eventSubscriber = this.eventManager.subscribe('HumanResourcesChange', response => this.loadAll());
   }
 
   // setValueOfForm(formValue) {

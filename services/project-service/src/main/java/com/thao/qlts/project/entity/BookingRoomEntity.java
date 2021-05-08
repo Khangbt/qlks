@@ -45,6 +45,9 @@ public class BookingRoomEntity extends Auditable<String> {
     @Column(name = "old_room_code")
     private Long oldRoomCode;
 
+    @Column(name = "old_book_room")
+    private String oldBookRoom;
+
     @Column(name = "status")
     private Integer status;
 }

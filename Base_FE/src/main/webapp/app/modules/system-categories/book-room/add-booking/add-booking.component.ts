@@ -51,11 +51,16 @@ export class AddBookingComponent implements OnInit {
   idPhong;
   loaiDatPhong;
   tienDV;
+  activeNgayDat;
+  activeNgayDuKienDi;
+  activeNgayDen;
+  activeNgayTra;
   tongTien;
   debouncer: Subject<string> = new Subject<string>();
   //relase
   listRoom = [];
   listCustomer = [];
+  listPromotion = [];
   listBookingType = [
     {
       id: 1,
@@ -127,6 +132,15 @@ export class AddBookingComponent implements OnInit {
     this.getRoleList();
     this.getRoomList();
     this.getListCustomer();
+    this.setValueToField('bookingDate', new Date());
+  }
+
+  checkActiveMaPhong() {
+    if (this.bookType === 'current') {
+      return this.type !== 'foward';
+    } else if (this.bookType === 'future') {
+      return this.type !== 'add' && this.type !== 'update';
+    }
   }
 
   getPromotion() {
@@ -169,6 +183,22 @@ export class AddBookingComponent implements OnInit {
       },
       err => {
         this.toastService.openErrorToast('Error from server');
+      }
+    );
+  }
+
+  getPromotionList(roomType) {
+    this.promotionService.getByRoomType(roomType).subscribe(
+      res => {
+        if (res) {
+          this.listPromotion = res.data;
+        } else {
+          this.listPromotion = [];
+        }
+      },
+      err => {
+        this.listPromotion = [];
+        this.toastService.openErrorToast('Server Error');
       }
     );
   }
@@ -244,7 +274,11 @@ export class AddBookingComponent implements OnInit {
       this.commonService.clearDataTranfer('id');
     } else {
       if (this.type !== 'add') {
-        this.router.navigate(['system-categories/human-resources']);
+        if (this.bookType === 'current') {
+          this.router.navigate(['system-categories/book-room']);
+        } else {
+          this.router.navigate(['system-categories/book-room-future']);
+        }
       }
     }
   }
@@ -291,6 +325,7 @@ export class AddBookingComponent implements OnInit {
           this.idLoaiPhong = d.data.roomType;
           this.setValueToField('roomId', res.data.roomId);
           this.setGiaPhong(this.idLoaiPhong, this.loaiDatPhong);
+          this.getPromotionList(this.idLoaiPhong);
         }
       },
       err => {
