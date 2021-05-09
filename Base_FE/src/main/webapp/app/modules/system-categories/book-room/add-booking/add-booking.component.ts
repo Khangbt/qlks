@@ -380,7 +380,7 @@ export class AddBookingComponent implements OnInit {
 
   getDataOnSelectBookType() {
     this.loaiDatPhong = this.getValueOfField('bookingType');
-    if (this.checkNullOrEmpty(this.idLoaiPhong) && this.checkNullOrEmpty(this.loaiDatPhong)) {
+    if (this.checkNullOrEmpty(this.idPhong) && this.checkNullOrEmpty(this.loaiDatPhong)) {
       this.setGiaPhong(this.idLoaiPhong, this.loaiDatPhong);
     }
     // this.getPromotion();
