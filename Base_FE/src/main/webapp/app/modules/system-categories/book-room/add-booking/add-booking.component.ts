@@ -570,6 +570,7 @@ export class AddBookingComponent implements OnInit {
     this.spinner.show();
     this.bookingRoomApi.save(this.form.value).subscribe(
       res => {
+        console.warn(res);
         if (this.type === 'add') {
           this.toastService.openSuccessToast(res.data.msgError);
         }
