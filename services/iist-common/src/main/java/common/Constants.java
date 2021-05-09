@@ -3,6 +3,10 @@ package common;
 
 public class Constants {
 
+    public static final String BOOKING_TYPE_CURRENT = "current";
+
+    public static final String BOOKING_TYPE_FUTURE = "future";
+
     public static final Boolean STATUS_BOOKING_DEFAULT = false;
 
     public static final Boolean STATE_BOOKING_DEFAULT = true;

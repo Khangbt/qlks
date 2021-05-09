@@ -8,7 +8,7 @@ import common.ResultResp;
 import java.util.List;
 
 public interface BookingRoomService {
-    BookingRoomDTO add(BookingRoomDTO bookingRoomDTO);
+    ResultResp add(BookingRoomDTO bookingRoomDTO);
     DataPage<BookingRoomDTO> onSearch(BookingRoomDTO dto);
     ResultResp addService(BookingRoomDTO dto);
     List<BookingRoomServiceDTO> getServiceByBookingId(Long bookingId);

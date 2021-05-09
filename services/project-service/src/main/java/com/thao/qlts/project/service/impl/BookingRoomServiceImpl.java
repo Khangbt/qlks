@@ -1,5 +1,6 @@
 package com.thao.qlts.project.service.impl;
 
+import com.thao.qlts.project.controller.roomController;
 import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.DataPage;
@@ -12,6 +13,8 @@ import com.thao.qlts.project.service.BookingRoomService;
 import com.thao.qlts.project.service.mapper.BookingRoomMapper;
 import com.thao.qlts.project.service.mapper.BookingRoomServiceMapper;
 import common.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +39,33 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     private BookingRoomServiceRepository bookingRoomServiceRepository;
     @Autowired
     private BookingRoomServiceMapper bookingRoomServiceMapper;
-
+    private final Logger logger = LogManager.getLogger(BookingRoomServiceImpl.class);
     @Override
-    public BookingRoomDTO add(BookingRoomDTO bookingRoomDTO) {
-        return bookingRoomMapper.toDto(bookingRoomRepository.save(bookingRoomMapper.toEntity(bookingRoomDTO)));
+    public ResultResp add(BookingRoomDTO bookingRoomDTO) {
+        if (bookingRoomDTO.getBookType().equals(Constants.BOOKING_TYPE_FUTURE)){
+            logger.info("Đặt phòng trước, phòng số "+bookingRoomDTO.getRoomId());
+            if (CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingroomId())){
+                logger.info("Thêm mới lịch đặt phòng khách sạn");
+                List<BookingRoomEntity> listEntity = bookingRoomRepository.checkExistCurrent(
+                        bookingRoomDTO.getRoomId(),
+                        bookingRoomDTO.getBookingDate(),
+                        bookingRoomDTO.getBookingDateOut());
+                if (!CommonUtils.isEqualsNullOrEmpty(listEntity) && listEntity.size() > 0){
+                    return ResultResp.badRequest(new ObjectError("Booking1","Thời gian đặt phòng đã trùng so với thời gian đặt trong hệ thống, vui lòng kiểm tra lại"));
+                }else {
+                    BookingRoomEntity entity = bookingRoomMapper.toEntity(bookingRoomDTO);
+                    entity.setStatus(1);
+                    bookingRoomRepository.save(entity);
+                    return ResultResp.success(new ObjectSuccess("Booking2","Đặt phòng thành công"));
+                }
+            }
+        }else if (bookingRoomDTO.getBookType().equals(Constants.BOOKING_TYPE_CURRENT)){
+            logger.info("Đặt phòng trước, phòng số "+bookingRoomDTO.getRoomId());
+            if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingroomId())){
+                logger.info("Thêm mới lịch đặt phòng khách sạn");
+            }
+        }
+        return null;
     }
 
     @Override
