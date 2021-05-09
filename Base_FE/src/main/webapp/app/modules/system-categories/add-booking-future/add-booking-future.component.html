@@ -142,7 +142,7 @@
                         class="btn btn-light" placement="top"
                         ngbTooltip="Nhận phòng"
                         *ngIf="item.status === 1"
-                        (click)="openModalCancel('delete',item)">
+                        (click)="openModalReceive('receive',item)">
                         <i class="fa fa-arrow-circle-down icon-color-blue" aria-hidden="true"></i>
                       </button>
 
@@ -150,7 +150,7 @@
                         class="btn btn-light" placement="top"
                         ngbTooltip="Hủy đặt phòng"
                         *ngIf="item.status === 1"
-                        (click)="openModalCancel('delete',item)">
+                        (click)="openModalDelete('delete',item.bookingroomId)">
                         <i class="fa fa-times icon-color-red" aria-hidden="true"></i>
                       </button>
                     </div>

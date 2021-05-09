@@ -304,14 +304,14 @@
       jhiTranslate="{{(type !== 'detail'? 'common.button.confirm.cancel' : 'common.button.close')}}">Hủy bỏ</span>
     </button>
 
+    <button *ngIf="type === 'add' || type === 'update' || type === 'foward'" type="submit" class="btn btn-primary" (click)="tinhTongTien()">
+      <i class="fa fa-location-arrow" aria-hidden="true"></i><span
+    >  Tính tổng tiền</span>
+    </button>
+
     <button *ngIf="type === 'add' || type === 'update' || type === 'foward'" type="submit" class="btn btn-primary" (click)="onSubmitData()">
       <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i><span
       jhiTranslate="common.button.confirm.save">Ghi lại</span>
-    </button>
-
-    <button *ngIf="type === 'add' || type === 'update' || type === 'foward'" type="submit" class="btn btn-primary" (click)="tinhTongTien()">
-      <i class="fa fa-location-arrow" aria-hidden="true"></i><span
-      >  Tính tổng tiền</span>
     </button>
 
     <button *ngIf="type === 'pay'" type="submit" class="btn btn-primary" (click)="onPay()">
