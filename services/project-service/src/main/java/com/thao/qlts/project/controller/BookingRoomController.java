@@ -27,7 +27,7 @@ public class BookingRoomController {
     public ResultResp createBooking(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("Add booking room");
         try {
-            return ResultResp.success(bookingRoomService.add(bookingRoomDTO));
+            return bookingRoomService.add(bookingRoomDTO);
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }

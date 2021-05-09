@@ -36,4 +36,5 @@ public class BookingRoomDTO extends AuditingDTO<String>{
     private Integer page;
     private Integer pageSize;
     private Long totalRecord;
+    private String bookType;
 }
