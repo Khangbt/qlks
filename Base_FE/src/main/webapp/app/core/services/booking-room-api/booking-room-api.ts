@@ -32,4 +32,16 @@ export class BookingRoomApi {
   getBookingService(bookingId): Observable<any> {
     return this.http.get(SERVER_API + '/booking/getAllServiceBooking/' + bookingId);
   }
+
+  receive(data): Observable<any> {
+    return this.http.put<any>(SERVER_API + '/booking/receive', data);
+  }
+
+  delete(data): Observable<any> {
+    return this.http.delete<any>(SERVER_API + '/booking/delete/' + data);
+  }
+
+  getInfo(bookingRoomId): Observable<any> {
+    return this.http.get<any>(SERVER_API + '/booking/getInfo/' + bookingRoomId);
+  }
 }

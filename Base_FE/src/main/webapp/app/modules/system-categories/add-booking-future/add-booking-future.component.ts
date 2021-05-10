@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeightService } from 'app/shared/services/height.service';
 import { from, Observable, of, Subject, Subscription } from 'rxjs';
@@ -62,6 +62,7 @@ export class AddBookingFutureComponent implements OnInit {
   active = 1;
   user = JSON.parse(localStorage.getItem('user'));
   constructor(
+    public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     private heightService: HeightService,
     private activatedRoute: ActivatedRoute,
@@ -162,13 +163,14 @@ export class AddBookingFutureComponent implements OnInit {
   }
 
   openModalAddBookingRoom(type?: string, data?: any) {
+    console.warn(data);
     const modalRef = this.modalService.open(AddBookingComponent, {
       size: 'lg',
       backdrop: 'static',
       keyboard: false
     });
     modalRef.componentInstance.type = type;
-    modalRef.componentInstance.id = data ? data.roomId : null;
+    modalRef.componentInstance.id = data ? data.bookingroomId : null;
     modalRef.componentInstance.bookType = 'future';
     modalRef.result
       .then(result => {
@@ -179,7 +181,53 @@ export class AddBookingFutureComponent implements OnInit {
       .catch(() => {});
   }
 
-  openModalCancel(type?: string, data?: any) {}
+  openModalDelete(type?: string, data?: any) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
+    modalRef.componentInstance.type = 'deleteBooking';
+    modalRef.componentInstance.onCloseModal.subscribe(value => {
+      if (value === true) {
+        this.bookingRoomApi.delete(data).subscribe(
+          success => {
+            this.activeModal.dismiss();
+            this.toastService.openSuccessToast('Xóa lịch đặt phòng thành công');
+            this.router.navigate(['/system-categories/book-room-future']);
+            this.loadAll();
+          },
+          err => {
+            this.toastService.openErrorToast('Xóa lịch đặt phòng thất bại');
+            this.spinner.hide();
+          },
+          () => {
+            this.spinner.hide();
+          }
+        );
+      }
+    });
+  }
+
+  openModalReceive(type?: string, data?: any) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });
+    modalRef.componentInstance.type = 'receiveBooking';
+    modalRef.componentInstance.onCloseModal.subscribe(value => {
+      if (value === true) {
+        this.bookingRoomApi.receive(data).subscribe(
+          success => {
+            this.activeModal.dismiss();
+            this.toastService.openSuccessToast('Nhận lịch đặt phòng thành công');
+            this.router.navigate(['/system-categories/book-room-future']);
+            this.loadAll();
+          },
+          err => {
+            this.toastService.openErrorToast('Nhận lịch đặt phòng thất bại');
+            this.spinner.hide();
+          },
+          () => {
+            this.spinner.hide();
+          }
+        );
+      }
+    });
+  }
 
   toggleColumns(col) {
     col.isShow = !col.isShow;

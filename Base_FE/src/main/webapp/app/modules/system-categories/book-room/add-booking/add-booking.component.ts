@@ -214,7 +214,7 @@ export class AddBookingComponent implements OnInit {
         }
       }
     }
-    // this.validateNgayDuKienDi();
+    this.validateNgayDuKienDi();
   }
 
   validateNgayDuKienDi() {
@@ -240,7 +240,7 @@ export class AddBookingComponent implements OnInit {
         }
       }
     }
-    // this.validateNgayDat();
+    this.validateNgayDat();
   }
 
   setDefaultValueToDate() {
@@ -481,6 +481,18 @@ export class AddBookingComponent implements OnInit {
   }
 
   getUserDetail(id) {
+    if (this.bookType === 'current') {
+    } else if (this.bookType === 'future') {
+      this.bookingRoomApi.getInfo(id).subscribe(
+        res => {
+          this.userDetail = res.data;
+          this.setDataDefault();
+        },
+        err => {
+          this.userDetail = null;
+        }
+      );
+    }
     this.idPhong = id;
     this.loaiDatPhong = this.getValueOfField('bookingType') ? this.getValueOfField('bookingType') : 0;
     this.roomApiService.getInfo(this.idPhong).subscribe(
@@ -577,7 +589,7 @@ export class AddBookingComponent implements OnInit {
         this.activeModal.dismiss();
       },
       err => {
-        this.toastService.openErrorToast(err.data.msgError);
+        this.toastService.openErrorToast(err.error.msgCode);
         this.spinner.hide();
       },
       () => {

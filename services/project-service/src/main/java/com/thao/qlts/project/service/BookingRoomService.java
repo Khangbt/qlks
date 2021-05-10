@@ -12,4 +12,7 @@ public interface BookingRoomService {
     DataPage<BookingRoomDTO> onSearch(BookingRoomDTO dto);
     ResultResp addService(BookingRoomDTO dto);
     List<BookingRoomServiceDTO> getServiceByBookingId(Long bookingId);
+    ResultResp receive(Long bookingRoomId);
+    ResultResp delete(Long bookingRoomId);
+    BookingRoomDTO getInfo(Long bookingRoomId);
 }

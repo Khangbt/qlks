@@ -160,7 +160,6 @@ export class AddHumanResourcesComponent implements OnInit {
     this.humanResourceService.getInfo(id).subscribe(
       res => {
         this.userDetail = res.data;
-        console.log(this.userDetail);
         this.oldEmail = this.userDetail.email ? this.userDetail.email : '';
         this.setDataDefault();
       },
