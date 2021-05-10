@@ -37,6 +37,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     @Autowired
     private BookingRoomServiceMapper bookingRoomServiceMapper;
     private final Logger logger = LogManager.getLogger(BookingRoomServiceImpl.class);
+
     @Override
     public ResultResp add(BookingRoomDTO bookingRoomDTO) {
         List<BookingRoomEntity> listEntity = null;
@@ -154,7 +155,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                 }
             }
         }
-        return null;
+        return ResultResp.badRequest(new ObjectError("aaaa", "aaaaaaaaa"));
     }
 
     @Override
@@ -165,8 +166,8 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         List<BookingRoomDTO> list;
         try {
             list = bookingRoomCustomRepository.onSearch(dto);
-            for (BookingRoomDTO bookingRoomDTO : list){
-                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDate())){
+            for (BookingRoomDTO bookingRoomDTO : list) {
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDate())) {
                     bookingRoomDTO.setComein_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingDate()));
                     if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDateOut())){
                         bookingRoomDTO.setComeout_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingDateOut()));
@@ -177,20 +178,20 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                         bookingRoomDTO.setComeout_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingCheckout()));
                     }
                 }
-                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getStatus())){
-                    if (bookingRoomDTO.getStatus() == 1){
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getStatus())) {
+                    if (bookingRoomDTO.getStatus() == 1) {
                         bookingRoomDTO.setStatusName("Đã đặt");
-                    }else if (bookingRoomDTO.getStatus() == 2){
+                    } else if (bookingRoomDTO.getStatus() == 2) {
                         bookingRoomDTO.setStatusName("Đang đặt");
-                    }else if (bookingRoomDTO.getStatus() == 3){
+                    } else if (bookingRoomDTO.getStatus() == 3) {
                         bookingRoomDTO.setStatusName("Đã thanh toán");
-                    }else if (bookingRoomDTO.getStatus() == 4){
+                    } else if (bookingRoomDTO.getStatus() == 4) {
                         bookingRoomDTO.setStatusName("Đã hủy");
                     }
                 }
             }
             dtoDataPage.setData(list);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
         dtoDataPage.setPageIndex(dto.getPage());
@@ -205,15 +206,15 @@ public class BookingRoomServiceImpl implements BookingRoomService {
 
     @Override
     public ResultResp addService(BookingRoomDTO dto) {
-        if (CommonUtils.isEqualsNullOrEmpty(dto.getBookingroomId())){
+        if (CommonUtils.isEqualsNullOrEmpty(dto.getBookingroomId())) {
             return ResultResp.badRequest(new ObjectError("BK001", "Lỗi không tìm thấy mã đặt phòng"));
-        }else {
+        } else {
             BookingRoomEntity curr = bookingRoomRepository.findById(dto.getRoomId()).get();
             List<BookingRoomServiceEntity> listBookingService = bookingRoomServiceRepository.findByBookingId(curr.getBookingroomId());
-            if (CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0){
+            if (CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0) {
                 bookingRoomServiceRepository.deleteAll(listBookingService);
             }
-            if (CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0){
+            if (CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0) {
                 bookingRoomServiceRepository.saveAll(bookingRoomServiceMapper.toEntity(dto.getListService()));
             }
             return ResultResp.success("Thêm mới dịch vụ thành công");
