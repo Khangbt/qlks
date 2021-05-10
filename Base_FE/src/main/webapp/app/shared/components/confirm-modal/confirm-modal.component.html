@@ -64,6 +64,12 @@
     <p *ngIf="type === 'acceptRisk'"><i class="fa fa-question-circle-o icon-confirm" aria-hidden="true"></i>
       {{'common.modal.confirm.messages.acceptRisk' | translate }}
     </p>
+    <p *ngIf="type === 'receiveBooking'"><i class="fa fa-question-circle-o icon-confirm" aria-hidden="true"></i>
+      {{'common.modal.confirm.messages.receiveBooking' | translate }}
+    </p>
+    <p *ngIf="type === 'deleteBooking'"><i class="fa fa-question-circle-o icon-confirm" aria-hidden="true"></i>
+      {{'common.modal.confirm.messages.deleteBooking' | translate }}
+    </p>
     <div class="row" *ngIf="type === 'updateMessage'">
       <div class="col-md-1">
         <i class="fa fa-question-circle-o icon-confirm" aria-hidden="true"></i>

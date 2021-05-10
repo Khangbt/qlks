@@ -29,7 +29,37 @@ public class BookingRoomController {
         try {
             return bookingRoomService.add(bookingRoomDTO);
         } catch (CustomExceptionHandler e) {
-            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/receive")
+    public ResultResp receiveBooking(@RequestBody BookingRoomDTO bookingRoomDTO) {
+        logger.info("Nhận lịch đặt phòng khách sạn");
+        try {
+            return bookingRoomService.receive(bookingRoomDTO.getBookingroomId());
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getInfo/{bookingRoomId}")
+    public ResultResp receiveBooking(@PathVariable Long bookingRoomId) {
+        logger.info("Lấy danh sách đặt phòng theo id");
+        try {
+            return ResultResp.success(bookingRoomService.getInfo(bookingRoomId));
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete/{bookingRoomId}")
+    public ResultResp deleteBooking(@PathVariable Long bookingRoomId) {
+        logger.info("Xóa lịch đặt phòng khách sạn");
+        try {
+            return bookingRoomService.delete(bookingRoomId);
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }
     }
 

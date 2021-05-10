@@ -32,6 +32,11 @@ public class ResultResp<T> extends ResponseEntity {
         return new ResultResp(HttpStatus.CREATED, bodyData);
     }
 
+    public static ResultResp serverError(ObjectError objError){
+        BodyData<Object> bodyData = new BodyData(objError.getCode(), null, objError.getMsgError() == null ? HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase() : objError.getMsgError());
+        return new ResultResp(HttpStatus.INTERNAL_SERVER_ERROR, bodyData);
+    }
+
 
     public static ResultResp success(ObjectError success, Object data) {
         BodyData<Object> bodyData = new BodyData(success.getCode(), data, success.getMsgError());

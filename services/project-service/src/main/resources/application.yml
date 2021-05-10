@@ -81,6 +81,7 @@ urlForgotPassword: http://localhost:8080/qlts/#/forgot-password/
 
 hostCross: http://localhost:9003
 
+#log file
 #folder-upload
 #folderUpload: /home/iist/services/qlda-service-phase2/fileUpload/
 folderUpload: D:/fileUpload/
@@ -97,3 +98,6 @@ google:
         url: https://www.google.com/recaptcha/api/siteverify
 
 test: 1231313
+logging:
+  file:
+    name: application.log
