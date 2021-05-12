@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service(value = "bookingRoomService")
@@ -231,9 +230,6 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomId)){
             BookingRoomEntity bookingEntity = bookingRoomRepository.findById(bookingRoomId).get();
             if (!CommonUtils.isEqualsNullOrEmpty(bookingEntity.getRoomId())){
-                if (!bookingEntity.getBookingDate().after(new Date())){
-
-                }
                 RoomEntity roomEntity = roomRepository.findById(bookingEntity.getRoomId()).get();
                 bookingEntity.setStatus(Enums.BOOKING_TYPE.DANG_DAT.value());
                 roomEntity.setStatus(Enums.ROOM_TYPE.DANG_DAT_PHONG.value());

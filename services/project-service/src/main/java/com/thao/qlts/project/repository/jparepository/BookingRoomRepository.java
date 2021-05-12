@@ -29,7 +29,4 @@ public interface BookingRoomRepository extends JpaRepository<BookingRoomEntity, 
             " (?2 <= b.bookingCheckin and ?3 >= b.bookingCheckout) or " +
             " (?2 <= b.bookingDate and ?3 >= b.bookingDateOut)")
     List<BookingRoomEntity> checkExistUpdate(Long roomId, Date dateIn, Date dateOut, Long bookingRoomId);
-
-    @Query("select b from BookingRoomEntity b where b.roomId = ?1 and b.status = 2")
-    BookingRoomEntity getByRoomBooking(Long roomId,Date date);
 }
