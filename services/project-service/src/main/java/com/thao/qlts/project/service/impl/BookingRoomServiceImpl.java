@@ -398,11 +398,16 @@ public class BookingRoomServiceImpl implements BookingRoomService {
 
     @Override
     public BookingRoomEntity getIdBookRoom(Long bookingRoomId) {
+<<<<<<< HEAD
         if(bookingRoomRepository.findById(bookingRoomId).isPresent()){
+=======
+        if(!bookingRoomRepository.findById(bookingRoomId).isPresent()){
+>>>>>>> update code
             return bookingRoomRepository.findById(bookingRoomId).get();
         }
         return null;
     }
+<<<<<<< HEAD
 
     @Override
     public List<BookingRoomEntity> getListBook(List<Long> id) {
@@ -421,4 +426,6 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     public void addEntity(BookingRoomEntity bookingRoomEntity) {
         bookingRoomRepository.save(bookingRoomEntity);
     }
+=======
+>>>>>>> update code
 }
