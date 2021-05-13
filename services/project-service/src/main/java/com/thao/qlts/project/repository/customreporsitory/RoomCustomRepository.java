@@ -35,7 +35,7 @@ public class RoomCustomRepository {
                 "        r.note,     " +
                 "        r.room_type     " +
                 "from room r " +
-                " where 1 = 1 and r.status = 1 "
+                " where 1 = 1 and (r.status = 1 or r.status = 3) "
         );
 
         if (StringUtils.isNotBlank(dto.getRoomCode())){
