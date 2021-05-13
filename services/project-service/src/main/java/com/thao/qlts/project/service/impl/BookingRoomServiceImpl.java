@@ -395,4 +395,12 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         }
         return null;
     }
+
+    @Override
+    public BookingRoomEntity getIdBookRoom(Long bookingRoomId) {
+        if(!bookingRoomRepository.findById(bookingRoomId).isPresent()){
+            return bookingRoomRepository.findById(bookingRoomId).get();
+        }
+        return null;
+    }
 }
