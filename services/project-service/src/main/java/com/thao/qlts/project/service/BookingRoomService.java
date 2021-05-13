@@ -3,6 +3,7 @@ package com.thao.qlts.project.service;
 import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.DataPage;
+import com.thao.qlts.project.entity.BookingRoomEntity;
 import common.ResultResp;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface BookingRoomService {
     ResultResp receive(Long bookingRoomId);
     ResultResp delete(Long bookingRoomId);
     BookingRoomDTO getInfo(Long bookingRoomId);
+    BookingRoomEntity getIdBookRoom(Long bookingRoomId);
 }
