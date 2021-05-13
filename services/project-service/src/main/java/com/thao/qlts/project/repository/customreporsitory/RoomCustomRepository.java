@@ -42,6 +42,9 @@ public class RoomCustomRepository {
                 "        r.room_type     " +
                 "from room r " +
                 " where 1 = 1 and (r.status = 1 or r.status = 3) "
+<<<<<<< HEAD
+>>>>>>> update code
+=======
 >>>>>>> update code
         );
 

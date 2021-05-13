@@ -72,7 +72,11 @@ public class BookingRoomController {
         logger.info("----------------search booking room-----------------");
         try {
             logger.info("----------------api search booking room Ok-----------------");
+<<<<<<< HEAD
             return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.UNAUTHORIZED);
+=======
+            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.OK);
+>>>>>>> update code
         } catch (Exception e) {
             logger.info("----------------api search booking room thất bại-----------------");
             throw e;
@@ -99,6 +103,7 @@ public class BookingRoomController {
             logger.info("----------------Start-----------------");
             return new ResponseEntity(bookingRoomService.getServiceByBookingId(bookingRoomId), HttpStatus.OK);
         } catch (Exception e) {
+<<<<<<< HEAD
             logger.info("----------------Error-----------------");
             return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }
@@ -111,6 +116,8 @@ public class BookingRoomController {
             logger.info("----------------Start-----------------");
             return new ResponseEntity(payService.getServiceRoom(Long.valueOf(bookingRoomId)), HttpStatus.OK);
         } catch (Exception e) {
+=======
+>>>>>>> update code
             logger.info("----------------Error-----------------");
             return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }

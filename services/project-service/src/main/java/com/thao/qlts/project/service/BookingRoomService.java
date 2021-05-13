@@ -5,7 +5,10 @@ import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.DataPage;
 import com.thao.qlts.project.entity.BookingRoomEntity;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.thao.qlts.project.entity.BookingRoomServiceEntity;
+=======
+>>>>>>> update code
 =======
 >>>>>>> update code
 import common.ResultResp;
@@ -22,12 +25,15 @@ public interface BookingRoomService {
     BookingRoomDTO getInfo(Long bookingRoomId);
     BookingRoomEntity getIdBookRoom(Long bookingRoomId);
 <<<<<<< HEAD
+<<<<<<< HEAD
     List<BookingRoomEntity> getListBook(List<Long> id);
 
     List<BookingRoomServiceEntity> getListService(List<Long> id);
 
     void addEntity(BookingRoomEntity bookingRoomEntity);
 
+=======
+>>>>>>> update code
 =======
 >>>>>>> update code
 }

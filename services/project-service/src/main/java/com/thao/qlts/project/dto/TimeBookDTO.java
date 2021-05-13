@@ -15,9 +15,12 @@ public class TimeBookDTO {
     private String note;
     private Long hourPrice;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private Double unit;
 
     private Integer typeBook;
+=======
+>>>>>>> update code
 =======
 >>>>>>> update code
 }

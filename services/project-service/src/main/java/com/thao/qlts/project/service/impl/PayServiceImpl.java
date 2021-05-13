@@ -1,6 +1,7 @@
 package com.thao.qlts.project.service.impl;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.dto.TimeBookDTO;
@@ -150,6 +151,8 @@ public class PayServiceImpl implements PayService {
     @Override
     public List<?> getList(String date, Integer status) {
 =======
+=======
+>>>>>>> update code
 import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.entity.BookingRoomEntity;
 import com.thao.qlts.project.service.BookingRoomService;
@@ -165,6 +168,9 @@ public class PayServiceImpl implements PayService {
         BookingRoomEntity bookingRoomEntity=bookingRoomService.getIdBookRoom(bookRoomId);
 
         String listArray=bookingRoomEntity.getOldBookRoom();
+<<<<<<< HEAD
+>>>>>>> update code
+=======
 >>>>>>> update code
 
 

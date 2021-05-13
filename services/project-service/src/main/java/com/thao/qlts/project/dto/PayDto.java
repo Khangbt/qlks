@@ -9,7 +9,11 @@ import java.util.List;
 public class PayDto {
     private Long idBooking;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private List<BookingRoomServiceDTO> listService;
+=======
+    private List<BookingRoomServiceDTO> list;
+>>>>>>> update code
 =======
     private List<BookingRoomServiceDTO> list;
 >>>>>>> update code
@@ -21,6 +25,7 @@ public class PayDto {
     private Date bookingCheckin;
     private Date bookingCheckout;
     private Long promotionId;
+<<<<<<< HEAD
 <<<<<<< HEAD
     private Long discountId;
     private Long payment;
@@ -34,6 +39,8 @@ public class PayDto {
     private String codeDiscount;
 
     private Date datePay;
+=======
+>>>>>>> update code
 =======
 >>>>>>> update code
 }
