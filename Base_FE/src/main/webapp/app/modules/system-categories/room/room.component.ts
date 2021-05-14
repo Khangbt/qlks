@@ -41,6 +41,7 @@ export class RoomComponent implements OnInit {
   reverse: any;
   searchForm: any;
   SHOW_HIDE_COL_HEIGHT = SHOW_HIDE_COL_HEIGHT;
+  roomTypeList: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -68,6 +69,7 @@ export class RoomComponent implements OnInit {
     this.buidForm();
     this.searchForm = {};
     this.loadAll();
+    this.getRoomTypeList();
   }
 
   // loa du lieu bang
@@ -92,7 +94,20 @@ export class RoomComponent implements OnInit {
       }
     );
   }
-
+  getRoomTypeList() {
+    this.roomApiServiceService.getRoomTypeList().subscribe(
+      res => {
+        if (res) {
+          this.roomTypeList = res.data;
+        } else {
+          this.roomTypeList = [];
+        }
+      },
+      err => {
+        this.roomTypeList = [];
+      }
+    );
+  }
   // xoa tài sản
   deleteAsset(data) {
     const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true, backdrop: 'static' });

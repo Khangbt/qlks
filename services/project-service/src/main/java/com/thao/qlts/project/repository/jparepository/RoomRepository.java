@@ -1,5 +1,6 @@
 package com.thao.qlts.project.repository.jparepository;
 
+import com.thao.qlts.project.entity.AppParamEntity;
 import com.thao.qlts.project.entity.RoomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,6 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
 
     @Query(value = "select * from room where STATUS != 2 ", nativeQuery = true)
     List<RoomEntity> findAllRoom();
+
+
 }

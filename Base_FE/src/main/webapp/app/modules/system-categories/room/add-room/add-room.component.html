@@ -73,11 +73,23 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="form-control-label ">Số phòng</label>
-            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
-                   class="form-control"
-                   formControlName="floorNumber"
-                   type="text"/>
+            <label class="form-control-label ">Tầng số</label>
+<!--            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"-->
+<!--                   class="form-control"-->
+<!--                   formControlName="floorNumber"-->
+<!--                   type="text"/>-->
+
+            <ng-select class="cursor-text scroll-ng-select"
+                       bindLabel="name" formControlName="floorNumber" bindValue="id"
+                       notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                       placeholder="{{ 'common.select.option.default' | translate }}"
+                       clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                       [items]="roomFloorList"
+                       [multiple]="false"
+                       [readonly]="type === 'detail'||checkBoll">
+            </ng-select>
+
+
             <!--              <jhi-error-messages *ngIf="formControl['fullName'].hasError('required')"-->
             <!--                                  [displayError]="isFieldValid('fullName')"-->
             <!--                                  errorMsg="{{ 'user.validate.fullName.required' | translate }}">-->

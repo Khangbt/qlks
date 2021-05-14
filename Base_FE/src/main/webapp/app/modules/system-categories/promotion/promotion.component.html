@@ -31,9 +31,15 @@
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label custom-label-right">loại phòng</label>
                   <div class="col-sm-9">
-                    <input class="form-control"
-                           formControlName="roomTypeID"
-                           type="number"/>
+                    <ng-select class="cursor-text scroll-ng-select"
+                               bindLabel="name" formControlName="roomTypeID" bindValue="roomTypeId"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="{{ 'common.select.option.default' | translate }}"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               [items]="roomTypeList"
+                               [multiple]="false"
+                               [readonly]="type === 'detail'||checkBoll">
+                    </ng-select>
 
                   </div>
                 </div>
@@ -150,7 +156,7 @@
                   <td *ngIf="this.columns[2]?.isShow" class="text-center">{{item.percentPromotion}}</td>
                   <td *ngIf="this.columns[3]?.isShow" class="text-center">{{convertDate(item.startDate)}}</td>
                   <td *ngIf="this.columns[4]?.isShow" class="text-center">{{convertDate(item.endDate)}}</td>
-                  <td *ngIf="this.columns[5]?.isShow" style="text-align: left">{{item.roomTypeID}}</td>
+                  <td *ngIf="this.columns[5]?.isShow" style="text-align: left">{{item.roomNameType}}</td>
                   <td *ngIf="this.columns[6]?.isShow" style="text-align: left">{{item.note}}</td>
                 </tr>
                 </tbody>

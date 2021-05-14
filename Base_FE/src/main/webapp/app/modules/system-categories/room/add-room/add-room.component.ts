@@ -38,6 +38,7 @@ export class AddRoomComponent implements OnInit {
   post: Date;
   assetList: any[] = [];
   roomTypeList: any[] = [];
+  roomFloorList: any[] = [];
   ////////////////////////
   constructor(
     public activeModal: NgbActiveModal,
@@ -66,6 +67,22 @@ export class AddRoomComponent implements OnInit {
     this.buildForm();
     this.getAssetList();
     this.getRoomTypeList();
+    this.getRoomFloorList();
+  }
+
+  getRoomFloorList() {
+    this.roomApiServiceService.getRoomFloorList().subscribe(
+      res => {
+        if (res) {
+          this.roomFloorList = res.data;
+        } else {
+          this.roomFloorList = [];
+        }
+      },
+      err => {
+        this.roomFloorList = [];
+      }
+    );
   }
 
   getRoomTypeList() {
@@ -269,6 +286,7 @@ export class AddRoomComponent implements OnInit {
     if (userToken.role === 'ROLE_ADMINPART') {
       this.form.get('partId').setValue(userToken.assetId);
       this.form.get('roomTypeId').setValue(userToken.roomType);
+      this.form.get('id').setValue(userToken.roomType);
 
       this.checkBoll = true;
     } else {

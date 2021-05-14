@@ -1,5 +1,6 @@
 package com.thao.qlts.project.service;
 
+import com.thao.qlts.project.dto.AppParamDTO;
 import com.thao.qlts.project.dto.DataPage;
 import com.thao.qlts.project.dto.RoomDTO;
 
@@ -15,5 +16,6 @@ public interface RoomService {
     RoomDTO findByCode(String code);
     DataPage<RoomDTO> onSearch(RoomDTO dto);
     List<RoomDTO> getAll();
+    List<AppParamDTO> getAllFloor();
 
 }
