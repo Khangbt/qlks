@@ -50,4 +50,7 @@ public class BookingRoomEntity extends Auditable<String> {
 
     @Column(name = "status")
     private Integer status;
+
+    @Column(name = "booking_type")
+    private Integer bookingType;
 }
