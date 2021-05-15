@@ -170,7 +170,7 @@ export class AddBookingFutureComponent implements OnInit {
       keyboard: false
     });
     modalRef.componentInstance.type = type;
-    modalRef.componentInstance.id = data ? data.bookingroomId : null;
+    modalRef.componentInstance.bookingroomId = data ? data.bookingroomId : null;
     modalRef.componentInstance.bookType = 'future';
     modalRef.result
       .then(result => {

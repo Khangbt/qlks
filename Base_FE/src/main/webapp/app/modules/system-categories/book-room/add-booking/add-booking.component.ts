@@ -36,6 +36,7 @@ export class AddBookingComponent implements OnInit {
   @Input() type;
   @Input() id: any;
   @Input() bookType: any;
+  @Input() bookingRoomId: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   ngbModalRef: NgbModalRef;
   form: FormGroup;
@@ -415,10 +416,23 @@ export class AddBookingComponent implements OnInit {
     if (this.id) {
       this.getUserDetail(this.id);
       this.xetDataUer();
-    } else {
-      this.xetDataUer();
+    }
+    if (this.checkNullOrEmpty(this.bookingRoomId)) {
+      this.setValueDefault(this.bookingRoomId);
     }
     this.getYear();
+  }
+
+  setValueDefault(bookingRoomId) {
+    this.bookingRoomApi.getInfo(bookingRoomId).subscribe(
+      res => {
+        this.userDetail = res.data;
+        this.setDataDefault();
+      },
+      err => {
+        this.userDetail = null;
+      }
+    );
   }
 
   getDefaultData() {
@@ -481,18 +495,6 @@ export class AddBookingComponent implements OnInit {
   }
 
   getUserDetail(id) {
-    if (this.bookType === 'current') {
-    } else if (this.bookType === 'future') {
-      this.bookingRoomApi.getInfo(id).subscribe(
-        res => {
-          this.userDetail = res.data;
-          this.setDataDefault();
-        },
-        err => {
-          this.userDetail = null;
-        }
-      );
-    }
     this.idPhong = id;
     this.loaiDatPhong = this.getValueOfField('bookingType') ? this.getValueOfField('bookingType') : 0;
     this.roomApiService.getInfo(this.idPhong).subscribe(
