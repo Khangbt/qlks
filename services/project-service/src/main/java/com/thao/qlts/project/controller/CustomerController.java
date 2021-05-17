@@ -71,7 +71,7 @@ public class CustomerController {
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
-    @GetMapping("/deleteRoom/{id}")
+    @GetMapping("/deleteCustomer/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {
         log.info("----------------api delete khach hang -----------------");
         try {

@@ -99,7 +99,7 @@ export class CustomerComponent implements OnInit {
     modalRef.componentInstance.param = 'khach hang';
     modalRef.componentInstance.onCloseModal.subscribe(value => {
       if (value === true) {
-        this.deleteAsset1(data.roomId);
+        this.deleteAsset1(data.customerId);
       }
     });
   }
