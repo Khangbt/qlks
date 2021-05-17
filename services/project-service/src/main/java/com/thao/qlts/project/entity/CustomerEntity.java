@@ -24,7 +24,7 @@ public class CustomerEntity extends Auditable<String> {
     private String cmt;
 
     @Column(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "email")
     private String email;

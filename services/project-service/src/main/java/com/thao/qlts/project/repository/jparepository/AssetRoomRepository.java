@@ -14,4 +14,5 @@ public interface AssetRoomRepository extends JpaRepository<AssetRoomEntity, Long
 
     @Query(value = "select asset_room_id from asset_room where room_id=?1 and is_active= 1 ", nativeQuery = true)
     List<Long> deleteroomID(Long id);
+
 }
