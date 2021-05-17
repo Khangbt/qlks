@@ -42,6 +42,7 @@ export class PromotionComponent implements OnInit {
   reverse: any;
   searchForm: any;
   SHOW_HIDE_COL_HEIGHT = SHOW_HIDE_COL_HEIGHT;
+  roomTypeList: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -51,6 +52,7 @@ export class PromotionComponent implements OnInit {
     private toastService: ToastService,
     private formBuilder: FormBuilder,
     protected router: Router,
+    private roomApiServiceService: RoomApiServiceService,
     private activatedRoute: ActivatedRoute
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -69,14 +71,28 @@ export class PromotionComponent implements OnInit {
     this.buidForm();
     this.searchForm = {};
     this.loadAll();
+    this.getRoomTypeList();
   }
-
+  getRoomTypeList() {
+    this.roomApiServiceService.getRoomTypeList().subscribe(
+      res => {
+        if (res) {
+          this.roomTypeList = res.data;
+        } else {
+          this.roomTypeList = [];
+        }
+      },
+      err => {
+        this.roomTypeList = [];
+      }
+    );
+  }
   // loa du lieu bang
   loadAll() {
     //this.spinner.show();
     this.searchForm.promotionId = this.form.value.promotionId;
     this.searchForm.promotionCode = this.form.value.promotionCode;
-    this.searchForm.promotionCode = this.form.value.promotionCode;
+    this.searchForm.roomTypeIDSearch = this.form.value.roomTypeID;
     this.searchForm.startDate = this.form.value.startDate;
     //debugger;
     this.searchForm.page = this.page;
@@ -196,6 +212,8 @@ export class PromotionComponent implements OnInit {
       status: 1,
       percentPromotion: null,
       roomTypeID: null,
+      roomTypeIDSearch: null,
+      roomNameType: null,
       note: null
     });
   }

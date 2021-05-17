@@ -39,7 +39,6 @@ public class PromotionServiceImpl  implements PromotionService {
         try {
             list = customRepository.searchPromotion(dto);
             dtoDataPage.setData(list);
-
         }catch (Exception e){
             throw e;
         }
@@ -52,7 +51,6 @@ public class PromotionServiceImpl  implements PromotionService {
         }
         return dtoDataPage;
     }
-
 
     @Override
     public DataPage<promotionDTO> getPagePartSeach(promotionDTO dto) {
@@ -104,7 +102,6 @@ public class PromotionServiceImpl  implements PromotionService {
         }
         promotionRoomTypeRepository.saveAll(list);
 
-
         return convertEntitytoDTO(entity);
 
     }
@@ -134,7 +131,6 @@ public class PromotionServiceImpl  implements PromotionService {
         promotionDTO dto = convertEntitytoDTO(promotionRepository.findById(Id).get());
         dto.setRoomTypeID(promotionRoomTypeRepository.findByroomTypeID(Id));
         return dto;
-
     }
 
     @Override

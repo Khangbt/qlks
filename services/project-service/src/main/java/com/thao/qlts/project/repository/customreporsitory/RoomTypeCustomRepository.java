@@ -2,6 +2,7 @@ package com.thao.qlts.project.repository.customreporsitory;
 
 import com.thao.qlts.project.dto.RoomTypeDTO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,19 +38,19 @@ public class RoomTypeCustomRepository {
                 " where 1 = 1 and r.status = 1 "
         );
 
-//        if (StringUtils.isNotBlank(dto.getCode())){
-//            sql.append("  and (( lower(r.room_code) LIKE :roomCode ) or ( lower(r.room_name) LIKE :roomCode ))");
-//        }
+        if (StringUtils.isNotBlank(dto.getCode())){
+            sql.append("  and (( lower(r.code) LIKE :roomCode ) or ( lower(r.name) LIKE :roomCode ))");
+        }
 //        if (dto.getRoomType() != null){
 //            sql.append(" and r.room_type = :roomType ");
 //        }
 
         Query query = em.createNativeQuery(sql.toString());
         Query queryCount = em.createNativeQuery(sql.toString());
-//        if (StringUtils.isNotBlank(dto.getRoomCode())){
-//            query.setParameter("roomCode", "%" + dto.getRoomCode() + "%");
-//            queryCount.setParameter("roomCode", "%" + dto.getRoomCode() + "%");
-//        }
+        if (StringUtils.isNotBlank(dto.getCode())){
+            query.setParameter("roomCode", "%" + dto.getCode() + "%");
+            queryCount.setParameter("roomCode", "%" + dto.getCode() + "%");
+        }
 //        if (dto.getRoomType() != null){
 //            query.setParameter("roomType", dto.getRoomType());
 //            queryCount.setParameter("roomType", dto.getRoomType());

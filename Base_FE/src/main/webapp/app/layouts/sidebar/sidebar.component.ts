@@ -43,9 +43,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     resourceCode: 'menu.hddt_qlht_chdn'
   };
 
-  department = {
-    name: MENU_TITLE.HRM.DEPARTMENT,
-    url: '/system-categories/department-resources',
+  chart = {
+    name: MENU_TITLE.HRM.CHART,
+    url: '/system-categories/chart-resources',
     class: 'fa-home',
     resourceCode: 'menu.hddt_qlht_chdn'
   };
