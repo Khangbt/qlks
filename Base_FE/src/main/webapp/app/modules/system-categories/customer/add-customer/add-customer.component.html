@@ -102,16 +102,31 @@
 
 
         <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">email</label>
-            <input [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="type === 'detail'"
-                   class="form-control"
-                   formControlName="email"
-                   type="text"/>
-            <!--            <jhi-error-messages *ngIf="formControl['partId'].hasError('assetId')"-->
-            <!--                                [displayError]="isFieldValid('assetId')"-->
-            <!--                                errorMsg="{{ 'user.validate.part.required' | translate }}">-->
-            <!--            </jhi-error-messages>-->
+          <div class="form-group" [ngClass]="displayFieldHasError('email')">
+            <label class="form-control-label required"
+                   jhiTranslate="user.emailAddress">Email</label>
+            <input type="text" formControlName="email" class="form-control"
+
+                   [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
+                   [readonly]="type === 'detail'"
+                   maxlength="50"/>
+            <jhi-error-messages *ngIf="formControl['email'].hasError('required')"
+                                [displayError]="isFieldValid('email')"
+                                errorMsg="{{ 'user.validate.emailAddress.required' | translate }}">
+            </jhi-error-messages>
+            <jhi-error-messages *ngIf="formControl['email'].hasError('pattern')"
+                                [displayError]="isFieldValid('email')"
+                                errorMsg="Email không hợp lệ">
+            </jhi-error-messages>
+            <jhi-error-messages
+              *ngIf="formControl['email'].hasError('invalid')"
+              [displayError]="isFieldValid('email')"
+              errorMsg="{{ 'user.validate.emailAddress.invalid' | translate }}">
+            </jhi-error-messages>
+            <jhi-error-messages *ngIf="formControl['email'].hasError('maxlength')"
+                                [displayError]="isFieldValid('email')"
+                                errorMsg="{{ 'user.validate.emailAddress.maxlength' | translate }}">
+            </jhi-error-messages>
           </div>
         </div>
 

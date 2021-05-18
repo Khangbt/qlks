@@ -40,6 +40,8 @@ export class AddCustomerComponent implements OnInit {
   assetList: any[] = [];
   roomTypeList: any[] = [];
   roomFloorList: any[] = [];
+  isDuplicateEmail = false;
+
   ////////////////////////
   constructor(
     public activeModal: NgbActiveModal,
