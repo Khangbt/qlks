@@ -36,7 +36,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         try {
             list = roomCustomRepository.searchAsser(dto);
             dtoDataPage.setData(list);
-
         }catch (Exception e){
             throw e;
         }
@@ -49,7 +48,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         }
         return dtoDataPage;
     }
-
 
     @Override
     public DataPage<RoomTypeDTO> getPagePartSeach(RoomTypeDTO dto) {
@@ -87,7 +85,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         }
         roomTypeRepository.save(roomEntity);
         return convertEntitytoDTO(roomEntity);
-
     }
 
     @Override

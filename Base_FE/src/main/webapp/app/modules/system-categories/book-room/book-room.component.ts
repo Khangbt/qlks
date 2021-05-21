@@ -26,6 +26,7 @@ import { Room } from 'app/core/models/room/room';
 import { RoomTypeApiServiceService } from 'app/core/services/room-type/room-type-api-service.service';
 import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 import { AddBookingComponent } from 'app/modules/system-categories/book-room/add-booking/add-booking.component';
+import { PayComponent } from 'app/modules/system-categories/book-room/pay/pay.component';
 @Component({
   selector: 'jhi-book-room',
   templateUrl: './book-room.component.html',
@@ -616,6 +617,14 @@ export class BookRoomComponent implements OnInit {
       })
       .catch(() => {});
   }
+  openModalPay(type?: string, data?: any) {
+    const modalRef = this.modalService.open(PayComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+
   openModalMaintainRoom(selectedData?: any) {}
   openModalAddHuman(selectedData?: any) {}
   openModalAddService(selectedData?: any) {}
