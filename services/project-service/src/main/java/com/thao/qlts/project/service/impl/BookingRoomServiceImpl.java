@@ -1,31 +1,33 @@
 package com.thao.qlts.project.service.impl;
 
-import com.thao.qlts.project.controller.roomController;
 import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.DataPage;
-import com.thao.qlts.project.entity.BookingRoomEntity;
-import com.thao.qlts.project.entity.BookingRoomServiceEntity;
-import com.thao.qlts.project.entity.RoomEntity;
+import com.thao.qlts.project.entity.*;
 import com.thao.qlts.project.repository.customreporsitory.BookingRoomCustomRepository;
-import com.thao.qlts.project.repository.jparepository.BookingRoomRepository;
-import com.thao.qlts.project.repository.jparepository.BookingRoomServiceRepository;
-import com.thao.qlts.project.repository.jparepository.RoomRepository;
+import com.thao.qlts.project.repository.jparepository.*;
 import com.thao.qlts.project.service.BookingRoomService;
 import com.thao.qlts.project.service.mapper.BookingRoomMapper;
 import com.thao.qlts.project.service.mapper.BookingRoomServiceMapper;
 import common.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "bookingRoomService")
 public class BookingRoomServiceImpl implements BookingRoomService {
     @Autowired
     private BookingRoomMapper bookingRoomMapper;
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
     @Autowired
     private BookingRoomRepository bookingRoomRepository;
     @Autowired
@@ -43,6 +45,8 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         if (CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingroomId())){
             logger.info("Thêm mới lịch đặt phòng khách sạn");
             if (bookingRoomDTO.getBookType().equals(Constants.BOOKING_TYPE_CURRENT)){
+                bookingRoomDTO.setBookingDate(bookingRoomDTO.getBookingCheckin());
+                bookingRoomDTO.setBookingDateOut(bookingRoomDTO.getBookingCheckout());
                 logger.info("Đặt phòng lẻ, phòng số "+bookingRoomDTO.getRoomId());
                 listEntity = bookingRoomRepository.checkExistAdd(
                         bookingRoomDTO.getRoomId(),
@@ -122,6 +126,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                     if (bookingRoomDTO.getBookType().equals(Constants.BOOKING_TYPE_CURRENT)){
                         //currentEntity: findById(dto)
                         BookingRoomEntity newEntity = bookingRoomMapper.toEntity(bookingRoomDTO);
+                        newEntity = convertToAdd(newEntity);
                         RoomEntity newRoom = roomRepository.findById(newEntity.getRoomId()).get();
                         newEntity.setStatus(Enums.BOOKING_TYPE.DANG_DAT.value());
                         newRoom.setStatus(Enums.ROOM_TYPE.DANG_DAT_PHONG.value());
@@ -157,6 +162,24 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         return null;
     }
 
+    private BookingRoomEntity convertToAdd(BookingRoomEntity entity){
+        BookingRoomEntity newEntity = new BookingRoomEntity();
+        newEntity.setCustomerId(entity.getCustomerId());
+        newEntity.setEmployeeId(entity.getEmployeeId());
+        newEntity.setRoomId(entity.getRoomId());
+        newEntity.setBookingDate(entity.getBookingDate());
+        newEntity.setBookingDateOut(entity.getBookingDateOut());
+        newEntity.setBookingCheckin(entity.getBookingCheckin());
+        newEntity.setBookingCheckout(entity.getBookingCheckout());
+        newEntity.setAdvanceAmount(entity.getAdvanceAmount());
+        newEntity.setOldRoomCode(entity.getOldRoomCode());
+        newEntity.setOldBookRoom(entity.getOldBookRoom());
+        newEntity.setStatus(entity.getStatus());
+        newEntity.setBookingType(entity.getBookingType());
+        newEntity.setNote(entity.getNote());
+        return newEntity;
+    }
+
     @Override
     public DataPage<BookingRoomDTO> onSearch(BookingRoomDTO dto) {
         DataPage<BookingRoomDTO> dtoDataPage = new DataPage<>();
@@ -178,14 +201,16 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                     }
                 }
                 if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getStatus())){
-                    if (bookingRoomDTO.getStatus() == 1){
+                    if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_DAT.value())){
                         bookingRoomDTO.setStatusName("Đã đặt");
-                    }else if (bookingRoomDTO.getStatus() == 2){
+                    }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DANG_DAT.value())){
                         bookingRoomDTO.setStatusName("Đang đặt");
-                    }else if (bookingRoomDTO.getStatus() == 3){
+                    }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_THANH_TOAN.value())){
                         bookingRoomDTO.setStatusName("Đã thanh toán");
-                    }else if (bookingRoomDTO.getStatus() == 4){
+                    }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_HUY.value())){
                         bookingRoomDTO.setStatusName("Đã hủy");
+                    }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_CHUYEN.value())){
+                        bookingRoomDTO.setStatusName("Đã chuyển phòng");
                     }
                 }
             }
@@ -231,7 +256,27 @@ public class BookingRoomServiceImpl implements BookingRoomService {
             BookingRoomEntity bookingEntity = bookingRoomRepository.findById(bookingRoomId).get();
             if (!CommonUtils.isEqualsNullOrEmpty(bookingEntity.getRoomId())){
                 RoomEntity roomEntity = roomRepository.findById(bookingEntity.getRoomId()).get();
+                if (!roomEntity.getStatus().equals(Enums.ROOM_TYPE.HOAT_DONG.value())){
+                    return ResultResp.serverError(new ObjectError("Error","Phòng chưa sẵn sàng để nhận, vui lòng kiểm tra lại"));
+                }
+                Date start = null;
+                Date end = null;
+                Date curr = new Date();
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingEntity.getBookingCheckin())){
+                    start = bookingEntity.getBookingCheckin();
+                    end = bookingEntity.getBookingCheckout();
+                }else if (!CommonUtils.isEqualsNullOrEmpty(bookingEntity.getBookingDate())){
+                    start = bookingEntity.getBookingDate();
+                    end = bookingEntity.getBookingDateOut();
+                }
+                if (!curr.after(start)){
+                    return ResultResp.serverError(new ObjectError("Error","Chưa đến thời gian nhận phòng, vui lòng kiểm tra lại"));
+                }else if (!curr.before(end)){
+                    return ResultResp.serverError(new ObjectError("Error","Phòng đã quá thời gian nhận, vui lòng hủy phòng"));
+                }
                 bookingEntity.setStatus(Enums.BOOKING_TYPE.DANG_DAT.value());
+                bookingEntity.setBookingCheckin(bookingEntity.getBookingDate());
+                bookingEntity.setBookingCheckout(bookingEntity.getBookingDateOut());
                 roomEntity.setStatus(Enums.ROOM_TYPE.DANG_DAT_PHONG.value());
                 bookingRoomRepository.save(bookingEntity);
                 roomRepository.save(roomEntity);
@@ -260,7 +305,92 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     public BookingRoomDTO getInfo(Long bookingRoomId) {
         BookingRoomEntity bookingEntity = bookingRoomRepository.findById(bookingRoomId).get();
         if (!CommonUtils.isEqualsNullOrEmpty(bookingEntity)){
-            return bookingRoomMapper.toDto(bookingEntity);
+            BookingRoomDTO dto = bookingRoomMapper.toDto(bookingEntity);
+            RoomEntity room = roomRepository.findById(dto.getRoomId()).get();
+            Long roomTypeId = room.getRoomType().longValue();
+            RoomTypeEntity roomType = roomTypeRepository.findById(roomTypeId).get();
+            List<BookingRoomServiceEntity> bookingService = bookingRoomServiceRepository.findByBookingId(dto.getBookingroomId());
+            double priceService = 0L;
+            if (!CommonUtils.isEqualsNullOrEmpty(bookingService)){
+                for (BookingRoomServiceEntity bks : bookingService){
+                    ServiceEntity serviceEntity = serviceRepository.findById(bks.getServiceId()).get();
+                    priceService = priceService + (bks.getQuantity())*(serviceEntity.getPrice());
+                }
+            }
+            if (dto.getBookingType().equals(Enums.ADD_BOOKING_TYPE.THEO_GIO.value())){
+                DateTime start = null;
+                DateTime end = null;
+                if (!CommonUtils.isEqualsNullOrEmpty(dto.getBookingCheckin())){
+                    start = new DateTime(dto.getBookingCheckin());
+                    end = new DateTime(dto.getBookingCheckout());
+                }else if (!CommonUtils.isEqualsNullOrEmpty(dto.getBookingDate())){
+                    start = new DateTime(dto.getBookingDate());
+                    end = new DateTime(dto.getBookingDateOut());
+                }
+                Period p = new Period(start,end);
+                int hours = p.getHours()+1;
+                if (p.getMinutes() > 0){
+                    hours = hours + 1;
+                }
+                Long price = roomType.getHourPrice();
+                dto.setPrice(price);
+                dto.setTotalDate(hours);
+                dto.setPriceBooking(price);
+                Double advanceAmount = !CommonUtils.isEqualsNullOrEmpty(dto.getAdvanceAmount())?dto.getAdvanceAmount():0D;
+                Double total = price*hours+priceService-advanceAmount;
+                dto.setPriceTotal(total);
+            }else if (dto.getBookingType().equals(Enums.ADD_BOOKING_TYPE.THEO_NGAY.value())){
+                int dates = 0;
+                if (!CommonUtils.isEqualsNullOrEmpty(dto.getBookingCheckin())){
+                    dates = DateUtils.getDayBetweenTwoDay(dto.getBookingCheckin(),dto.getBookingCheckout());
+                }else if (!CommonUtils.isEqualsNullOrEmpty(dto.getBookingDate())){
+                    dates = DateUtils.getDayBetweenTwoDay(dto.getBookingDate(),dto.getBookingDateOut());
+                }
+                dates = dates + 1;
+                Long price = roomType.getDayPrice();
+                dto.setPrice(price);
+                dto.setTotalDate(dates);
+                dto.setPriceBooking(price);
+                Double advanceAmount = !CommonUtils.isEqualsNullOrEmpty(dto.getAdvanceAmount())?dto.getAdvanceAmount():0D;
+                Double total = price*dates+priceService-advanceAmount;
+                dto.setPriceTotal(total);
+            }else if (dto.getBookingType().equals(Enums.ADD_BOOKING_TYPE.QUA_DEM.value())){
+                Long price = roomType.getNightPrice();
+                dto.setPrice(price);
+                dto.setTotalDate(1);
+                dto.setPriceBooking(price);
+                Double advanceAmount = !CommonUtils.isEqualsNullOrEmpty(dto.getAdvanceAmount())?dto.getAdvanceAmount():0D;
+                Double total = price+priceService-advanceAmount;
+                dto.setPriceTotal(total);
+            }
+            if (!CommonUtils.isEqualsNullOrEmpty(dto.getOldBookRoom())){
+                String[] listPhongCu = dto.getOldBookRoom().split(",");
+                String message = "";
+                RoomEntity currRoomEntity = roomRepository.findById(dto.getRoomId()).get();
+                if (listPhongCu.length == 1){
+                    Long idPhongCu = Long.parseLong(listPhongCu[0]);
+                    BookingRoomEntity entity = bookingRoomRepository.findById(idPhongCu).get();
+                    RoomEntity roomEntity = roomRepository.findById(entity.getRoomId()).get();
+                    message = "Chuyển từ phòng "+roomEntity.getRoomCode()+" sang phòng "+currRoomEntity.getRoomCode();
+                }else if (listPhongCu.length >= 2){
+                    for (int i = 0; i < listPhongCu.length; i++){
+                        Long idPhongCu = Long.parseLong(listPhongCu[i]);
+                        BookingRoomEntity entity = bookingRoomRepository.findById(idPhongCu).get();
+                        RoomEntity roomEntity = roomRepository.findById(entity.getRoomId()).get();
+                        if (i <= listPhongCu.length - 2){
+                            Long idPhongTiep = Long.parseLong(listPhongCu[i+1]);
+                            BookingRoomEntity entityNext = bookingRoomRepository.findById(idPhongTiep).get();
+                            RoomEntity nextRoomEntity = roomRepository.findById(entityNext.getRoomId()).get();
+                            message = message +" Phòng "+roomEntity.getRoomCode()+" chuyển sang phòng "+nextRoomEntity.getRoomCode()+"\n";
+                        }
+                        if (i == listPhongCu.length - 1){
+                            message = message +" Phòng "+roomEntity.getRoomCode()+" chuyển sang phòng "+currRoomEntity.getRoomCode();
+                        }
+                    }
+                }
+                dto.setNoteAddition(message);
+            }
+            return dto;
         }
         return null;
     }

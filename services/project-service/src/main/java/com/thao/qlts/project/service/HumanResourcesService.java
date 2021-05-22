@@ -13,7 +13,7 @@ public interface HumanResourcesService {
 
     HumanResourcesDTO getUserInfo(String username);
 
-    HumanResourcesDTO create(String username, HumanResourcesDTO humanResourcesDTO);
+    ResultResp create(String username, HumanResourcesDTO humanResourcesDTO);
 
     void sendMailChangeEmail(HumanResourcesDTO humanResourcesDTO, HumanResourcesEntity oldEmail);
 

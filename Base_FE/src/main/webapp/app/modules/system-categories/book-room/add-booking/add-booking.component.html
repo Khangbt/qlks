@@ -108,9 +108,6 @@
                     <jhi-error-messages *ngIf="cpNgayDatNgayHt" [displayError]="cpNgayDatNgayHt"
                                         errorMsg="Ngày đặt không được nhỏ hơn ngày hiện tại">
                     </jhi-error-messages>
-                    <!--<jhi-error-messages *ngIf="cpNgayDatNgayDKDi" [displayError]="cpNgayDatNgayDKDi"
-                                        errorMsg="Ngày đặt không được lớn hơn ngày dự kiến đi">
-                    </jhi-error-messages>-->
                   </div>
                 </div>
 
@@ -121,7 +118,7 @@
                     <jhi-date-time-picker formControlName="bookingDateOut" [disabled]="type === 'detail'"
                                      (ngModelChange)="validateNgayDuKienDi()"></jhi-date-time-picker>
                     <jhi-error-messages *ngIf="requireNgayDKDi" [displayError]="requireNgayDKDi"
-                                        errorMsg="Ngày đặt là bắt buộc">
+                                        errorMsg="Ngày dự kiến đi là bắt buộc">
                     </jhi-error-messages>
                     <jhi-error-messages *ngIf="cpNgayDKDiNgayHt" [displayError]="cpNgayDKDiNgayHt"
                                         errorMsg="Ngày dự kiến đi không được nhỏ hơn ngày hiện tại">
@@ -135,7 +132,7 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group" *ngIf="bookType === 'current'">
+                  <div class="form-group" *ngIf="bookType === 'current' || (bookType === 'future' && type === 'detail')">
                     <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
                     >Ngày đến</label>
                     <jhi-date-time-picker formControlName="bookingCheckin" [disabled]="true"
@@ -144,7 +141,7 @@
                 </div>
 
                 <div class="col-md-6">
-                  <div class="form-group" *ngIf="bookType === 'current'" [ngClass]="displayFieldHasError('bookingCheckout')">
+                  <div class="form-group" *ngIf="bookType === 'current' || (bookType === 'future' && type === 'detail')" [ngClass]="displayFieldHasError('bookingCheckout')">
                     <label class="form-control-label"
                     >Ngày trả</label>
                     <jhi-date-time-picker formControlName="bookingCheckout" [disabled]="type !== 'add' && type !== 'update'"
@@ -251,7 +248,7 @@
                                [items]="statusList"
                                [clearable]="false"
                                [multiple]="false"
-                               [readonly]="type !== 'add' && type !== 'update'">
+                               [readonly]="true">
                     </ng-select>
                     <jhi-error-messages *ngIf="formControl['status'].hasError('required')"
                                         [displayError]="isFieldValid('status')"

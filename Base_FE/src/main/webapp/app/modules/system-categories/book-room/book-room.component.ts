@@ -615,7 +615,9 @@ export class BookRoomComponent implements OnInit {
           this.loadAll();
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        this.loadAll();
+      });
   }
   openModalMaintainRoom(selectedData?: any) {}
   openModalAddHuman(selectedData?: any) {}
