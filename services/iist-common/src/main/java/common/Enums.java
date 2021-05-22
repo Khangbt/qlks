@@ -17,6 +17,19 @@ public class Enums {
         }
     }
 
+    public enum ADD_BOOKING_TYPE {
+        THEO_GIO(1),
+        THEO_NGAY(2),
+        QUA_DEM(3);
+        private final Integer value;
+        ADD_BOOKING_TYPE(Integer value) {
+            this.value = value;
+        }
+        public Integer value() {
+            return this.value;
+        }
+    }
+
     /***Define some enums for room-type*/
     public enum ROOM_TYPE {
         HOAT_DONG(1),

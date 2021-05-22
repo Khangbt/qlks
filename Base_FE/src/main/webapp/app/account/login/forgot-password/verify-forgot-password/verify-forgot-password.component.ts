@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Route, Router} from "@angular/router";
-import {HumanResourcesApiService} from "app/core/services/Human-resources-api/human-resources-api.service";
-import {ToastService} from "app/shared/services/toast.service";
-import {NgxSpinner} from "ngx-spinner/lib/ngx-spinner.enum";
-import {NgxSpinnerService} from "ngx-spinner";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HumanResourcesApiService } from 'app/core/services/Human-resources-api/human-resources-api.service';
+import { ToastService } from 'app/shared/services/toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'jhi-verify-forgot-password',
@@ -18,27 +17,24 @@ export class VerifyForgotPasswordComponent implements OnInit {
     private userService: HumanResourcesApiService,
     private toastService: ToastService,
     private router: Router,
-    private spinner: NgxSpinnerService,
-  ) {
-  }
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
-    console.warn("aaaaaaaaa")
     this.spinner.show();
     this.email = this.route.snapshot.params.email;
     this.key = this.route.snapshot.params.key;
     this.userService.resetPasswordByEmail(this.email, this.key).subscribe(
       res => {
         this.spinner.hide();
-        this.toastService.openSuccessToast('Vào email của bạn để nhận mật khẩu mới')
-        this.router.navigate(['/login/'])
+        this.toastService.openSuccessToast('Vào email của bạn để nhận mật khẩu mới');
+        this.router.navigate(['/login/']);
       },
       err => {
         this.spinner.hide();
-        this.toastService.openErrorToast('Email của bạn đã được gửi, vui long kiểm tra lại email')
-        this.router.navigate(['/login/'])
+        this.toastService.openErrorToast('Email của bạn đã được gửi, vui long kiểm tra lại email');
+        this.router.navigate(['/login/']);
       }
-    )
+    );
   }
-
 }

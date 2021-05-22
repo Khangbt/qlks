@@ -23,7 +23,7 @@ public class BookingRoomDTO extends AuditingDTO<String>{
     private Long oldRoomCode;
     private Integer status;
     private Long roomId;
-    private Long bookingType;
+    private Integer bookingType;
     private String promotionCode;
     private String customerName;
     private String roomName;
@@ -37,4 +37,11 @@ public class BookingRoomDTO extends AuditingDTO<String>{
     private Integer pageSize;
     private Long totalRecord;
     private String bookType;
+    private Long price;
+    private Integer totalDate;
+    private Long priceBooking;
+    private Double priceTotal;
+    private String note;
+    private String oldBookRoom;
+    private String noteAddition;
 }

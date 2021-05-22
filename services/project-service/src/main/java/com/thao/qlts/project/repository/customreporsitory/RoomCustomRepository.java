@@ -36,7 +36,7 @@ public class RoomCustomRepository {
                 "        rt.name , p.par_name     " +
                 " from room r left join app_params p on r.floor_number = p.par_code " +
                 " left join room_type rt on r.room_type = rt.room_type_id "+
-                " where 1 = 1 and r.status = 1 "
+                " where 1 = 1 and r.status != 2 "
         );
 
         if (StringUtils.isNotBlank(dto.getRoomCode())){
