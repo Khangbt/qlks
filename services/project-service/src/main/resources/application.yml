@@ -43,8 +43,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: congthao97ht@gmail.com
-    password: ct19ht123456
+    username: buithekhang2406@gmail.com
+    password: Khang240697
     properties:
       mail:
         smtp:
@@ -71,7 +71,7 @@ autoSendMail:  0 0 13 * * *
 autoNotification: 0 30 8 * * *
 
 
-urlForgotPassword: http://localhost:9003/#/forgot-password/
+urlForgotPassword: http://localhost:8080/qlts/#/forgot-password/
 #urlForgotPassword: http://192.168.100.122:8069/qlda-phase2/forgot-password/
 
 #host cross

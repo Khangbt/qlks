@@ -10,5 +10,4 @@ export class Room {
   roomTypeName?: any;
   floorName?: any;
   statusName?: any;
-  bookingRoomId?: any;
 }

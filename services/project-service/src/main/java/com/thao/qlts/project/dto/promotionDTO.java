@@ -25,6 +25,8 @@ public class promotionDTO {
 
     private List<Long> roomTypeID;
 
+    private Long roomTypeIDSearch;
+    private String roomNameType;
     private String note;
 
     private Integer page;

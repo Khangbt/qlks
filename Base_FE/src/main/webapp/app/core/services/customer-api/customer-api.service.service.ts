@@ -15,9 +15,6 @@ export class CustomerApiService {
   getListCustomer(obj: KeySearch): Observable<KeySearch> {
     return this.http.post<KeySearch>(this.baseUri + '/customer/getCustomerByCode', obj);
   }
-  searchCustomer(searchForm?: any): Observable<any> {
-    return this.http.post<any>(this.baseUri + '/customer/searchCustomer', searchForm);
-  }
 
   save(data): Observable<any> {
     return this.http.post<any>(this.baseUri + '/customer/add', data);
@@ -28,7 +25,7 @@ export class CustomerApiService {
   }
 
   deleteCustomer(id?: any): Observable<any> {
-    return this.http.delete<any>(SERVER_API + '/customer/deleteCustomer/' + id);
+    return this.http.get<any>(SERVER_API + '/customer/deleteCustomer/' + id);
   }
 
   getCustomer(Id): Observable<any> {
@@ -45,5 +42,9 @@ export class CustomerApiService {
 
   getAllCustomer(): Observable<any> {
     return this.http.get<HttpResponse<any>>(SERVER_API + '/customer/get-all-customer');
+  }
+
+  searchCustomer(searchForm?: any): Observable<any> {
+    return this.http.post<any>(this.baseUri + '/customer/getAllCustomer', searchForm);
   }
 }

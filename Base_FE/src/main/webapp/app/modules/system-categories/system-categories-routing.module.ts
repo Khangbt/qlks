@@ -10,6 +10,7 @@ import { AssetResuorceComponent } from 'app/modules/system-categories/asset-resu
 import { CustomerComponent } from 'app/modules/system-categories/customer/customer.component';
 import { PromotionComponent } from 'app/modules/system-categories/promotion/promotion.component';
 import { AddBookingFutureComponent } from 'app/modules/system-categories/add-booking-future/add-booking-future.component';
+import { ChartComponent } from 'app/modules/system-categories/chart/chart.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,18 @@ const routes: Routes = [
     data: {
       pageTitle: 'organizationCategories.title',
       url: 'system-categories/customer-resource'
+    }
+  },
+  {
+    path: 'chart-resources',
+    component: ChartComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/chart-resources'
     }
   },
   {

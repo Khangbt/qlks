@@ -7,19 +7,20 @@ import { ToastService } from 'app/shared/services/toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JhiEventManager } from 'ng-jhipster';
 import { SysUserService } from 'app/core/services/system-management/sys-user.service';
+import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { FormStoringService } from 'app/shared/services/form-storing.service';
 import { Router } from '@angular/router';
-import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
+import { CustomerApiService } from 'app/core/services/customer-api/customer-api.service.service';
 
 @Component({
-  selector: 'jhi-add-room',
-  templateUrl: './add-room.component.html',
-  styleUrls: ['./add-room.component.scss']
+  selector: 'jhi-add-customer',
+  templateUrl: './add-customer.component.html',
+  styleUrls: ['./add-customer.component.scss']
 })
-export class AddRoomComponent implements OnInit {
+export class AddCustomerComponent implements OnInit {
   oldEmail: any;
   @Input() type;
   @Input() id: any;
@@ -50,7 +51,7 @@ export class AddRoomComponent implements OnInit {
     private modalService: NgbModal,
     private eventManager: JhiEventManager,
     private sysUserService: SysUserService,
-    private roomApiServiceService: RoomApiServiceService,
+    private customerApiService: CustomerApiService,
     private translateService: TranslateService,
     private datepipe: DatePipe,
     private formStoringService: FormStoringService,
@@ -65,54 +66,8 @@ export class AddRoomComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    this.getAssetList();
-    this.getRoomTypeList();
-    this.getRoomFloorList();
   }
 
-  getRoomFloorList() {
-    this.roomApiServiceService.getRoomFloorList().subscribe(
-      res => {
-        if (res) {
-          this.roomFloorList = res.data;
-        } else {
-          this.roomFloorList = [];
-        }
-      },
-      err => {
-        this.roomFloorList = [];
-      }
-    );
-  }
-
-  getRoomTypeList() {
-    this.roomApiServiceService.getRoomTypeList().subscribe(
-      res => {
-        if (res) {
-          this.roomTypeList = res.data;
-        } else {
-          this.roomTypeList = [];
-        }
-      },
-      err => {
-        this.roomTypeList = [];
-      }
-    );
-  }
-  getAssetList() {
-    this.roomApiServiceService.getAsseList().subscribe(
-      res => {
-        if (res) {
-          this.assetList = res.data;
-        } else {
-          this.assetList = [];
-        }
-      },
-      err => {
-        this.assetList = [];
-      }
-    );
-  }
   /////////////////////////////////////////////////
   onSubmitData() {
     if (this.form.invalid) {
@@ -128,7 +83,7 @@ export class AddRoomComponent implements OnInit {
       }
     }
     this.spinner.show();
-    this.roomApiServiceService.save(this.form.value).subscribe(
+    this.customerApiService.save(this.form.value).subscribe(
       res => {
         if (this.type === 'add') {
           this.toastService.openSuccessToast('Thêm mới thành công !');
@@ -137,7 +92,7 @@ export class AddRoomComponent implements OnInit {
           this.toastService.openSuccessToast('Sửa thành công !');
         }
 
-        this.router.navigate(['system-categories/room-resources']);
+        this.router.navigate(['system-categories/customer-resources']);
         this.activeModal.dismiss();
       },
       err => {
@@ -248,7 +203,7 @@ export class AddRoomComponent implements OnInit {
   }
 
   getUserDetail(id) {
-    this.roomApiServiceService.getInfo(id).subscribe(
+    this.customerApiService.getCustomer(id).subscribe(
       res => {
         this.userDetail = res.data;
 
@@ -296,21 +251,20 @@ export class AddRoomComponent implements OnInit {
 
   private buildForm() {
     if (this.type === 'add') {
-      this.title = 'Thêm mới phòng';
+      this.title = 'Thêm mới khách hàng';
     } else if (this.type === 'update') {
-      this.title = 'Sửa phòng';
-    } else this.title = 'Xem chi tiết phòng';
+      this.title = 'Sửa thông tin khách hàng';
+    } else this.title = 'Xem chi tiết khách hàng';
 
     this.form = this.formBuilder.group({
-      roomId: null,
-      maxNumber: null,
-      roomCode: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)])],
-      roomName: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
+      customerId: null,
+      cmt: null,
+      // roomCode: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)])],
+      fullname: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
       status: 1,
-      floorNumber: null,
-      roomType: null,
-      note: ['', Validators.maxLength(1000)],
-      assetId: [null, Validators.compose([Validators.required])]
+      phoneNumber: null,
+      email: null,
+      address: null
     });
     if (this.id) {
       this.getUserDetail(this.id);

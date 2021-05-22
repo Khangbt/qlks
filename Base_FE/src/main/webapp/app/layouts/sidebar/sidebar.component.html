@@ -110,12 +110,12 @@
 
 
 
-      <li *jhiHasPermission="3">
-        <a [routerLink]="department.url" routerLinkActive="active-link, text-white">
-          <span class="title">{{department.name}}</span>
+      <li *jhiHasPermission="1">
+        <a [routerLink]="chart.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{chart.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="department.class"></i>
+          <i class="fa" [ngClass]="chart.class"></i>
         </span>
       </li>
 

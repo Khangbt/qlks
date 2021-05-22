@@ -2,7 +2,6 @@ package common;
 
 
 public class Constants {
-    public static final String URL_WEBAPP = "http://localhost:9003/#/login";
 
     public static final String BOOKING_TYPE_CURRENT = "current";
 

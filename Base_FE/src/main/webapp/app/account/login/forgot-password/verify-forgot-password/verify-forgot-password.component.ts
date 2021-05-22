@@ -22,6 +22,7 @@ export class VerifyForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.warn('aaaaaaaaa');
     this.spinner.show();
     this.email = this.route.snapshot.params.email;
     this.key = this.route.snapshot.params.key;

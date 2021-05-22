@@ -36,8 +36,6 @@ export class AddBookingComponent implements OnInit {
   @Input() type;
   @Input() id: any;
   @Input() bookType: any;
-  @Input() bookingRoomId: any;
-  @Input() bookingId: any;
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   ngbModalRef: NgbModalRef;
   form: FormGroup;
@@ -57,7 +55,6 @@ export class AddBookingComponent implements OnInit {
   activeNgayDuKienDi;
   activeNgayDen;
   activeNgayTra;
-  bookingStatus;
 
   requireNgayTra = false;
   cpNgayTraNgayHt = false;
@@ -104,11 +101,18 @@ export class AddBookingComponent implements OnInit {
   years: number[] = [];
   checkBoll = false;
   statusList = [
-    { id: 1, status: 'Đã đặt' },
-    { id: 2, status: 'Đang đặt' },
-    { id: 3, status: 'Đã thanh toán' },
-    { id: 4, status: 'Đã hủy' },
-    { id: 5, status: 'Đã chuyển phòng' }
+    {
+      id: 1,
+      status: 'Chưa thanh toán'
+    },
+    {
+      id: 2,
+      status: 'Thanh toán 1 phần'
+    },
+    {
+      id: 3,
+      status: 'Đã thanh toán'
+    }
   ];
   title = '';
   constructor(
@@ -171,12 +175,8 @@ export class AddBookingComponent implements OnInit {
       } else {
         this.requireNgayTra = false;
         if (this.compareTwoTime(ngayTra, new Date()) <= 0) {
-          if (this.type === 'add') {
-            this.cpNgayTraNgayHt = true;
-            this.form.controls['bookingCheckout'].setErrors({ invalid: true });
-          } else {
-            this.cpNgayTraNgayHt = false;
-          }
+          this.cpNgayTraNgayHt = true;
+          this.form.controls['bookingCheckout'].setErrors({ invalid: true });
         } else {
           this.cpNgayTraNgayHt = false;
           const ngayDen = this.getValueOfField('bookingCheckin');
@@ -200,17 +200,21 @@ export class AddBookingComponent implements OnInit {
       } else {
         this.requireNgayDat = false;
         if (this.compareTwoTime(ngayDat, new Date()) < 0) {
-          if (this.type === 'add') {
-            this.cpNgayDatNgayHt = true;
-            this.form.controls['bookingDate'].setErrors({ invalid: true });
-          } else {
-            this.cpNgayDatNgayHt = false;
-          }
+          this.cpNgayDatNgayHt = true;
+          this.form.controls['bookingDate'].setErrors({ invalid: true });
         } else {
           this.cpNgayDatNgayHt = false;
+          const ngayDKDi = this.getValueOfField('bookingDateOut');
+          if (this.compareTwoTime(ngayDKDi, ngayDat) <= 0) {
+            this.cpNgayDatNgayDKDi = true;
+            this.form.controls['bookingDate'].setErrors({ invalid: true });
+          } else {
+            this.cpNgayDatNgayDKDi = false;
+          }
         }
       }
     }
+    this.validateNgayDuKienDi();
   }
 
   validateNgayDuKienDi() {
@@ -221,21 +225,22 @@ export class AddBookingComponent implements OnInit {
         this.form.controls['bookingDateOut'].setErrors({ invalid: true });
       } else {
         this.requireNgayDKDi = false;
-        /*if (this.compareTwoTime(ngayDKDi, new Date()) <= 0) {
+        if (this.compareTwoTime(ngayDKDi, new Date()) <= 0) {
           this.cpNgayDKDiNgayHt = true;
           this.form.controls['bookingDateOut'].setErrors({ invalid: true });
-        } else {*/
-        this.cpNgayDKDiNgayHt = false;
-        const ngayDat = this.getValueOfField('bookingDate');
-        if (this.compareTwoTime(ngayDKDi, ngayDat) <= 0) {
-          this.cpNgayDKDiNgayDat = true;
-          this.form.controls['bookingDateOut'].setErrors({ invalid: true });
         } else {
-          this.cpNgayDKDiNgayDat = false;
+          this.cpNgayDKDiNgayHt = false;
+          const ngayDat = this.getValueOfField('bookingDate');
+          if (this.compareTwoTime(ngayDKDi, ngayDat) <= 0) {
+            this.cpNgayDKDiNgayDat = true;
+            this.form.controls['bookingDateOut'].setErrors({ invalid: true });
+          } else {
+            this.cpNgayDKDiNgayDat = false;
+          }
         }
-        // }
       }
     }
+    this.validateNgayDat();
   }
 
   setDefaultValueToDate() {
@@ -387,7 +392,6 @@ export class AddBookingComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      bookingroomId: [],
       roomCode: [],
       price: [],
       customerId: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
@@ -402,40 +406,19 @@ export class AddBookingComponent implements OnInit {
       bookingCheckin: [],
       bookingCheckout: [],
       bookType: [],
-      status: [],
+      status: this.statusList[0].id,
       roomId: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       promotionCode: [],
       note: ['', Validators.maxLength(1000)],
       noteAddition: ['', Validators.maxLength(1000)]
     });
-    if (this.checkNullOrEmpty(this.bookingId)) {
-      this.setValueDefault(this.bookingId);
-    }
-    if (this.checkNullOrEmpty(this.bookingRoomId)) {
-      this.setValueDefault(this.bookingRoomId);
+    if (this.id) {
+      this.getUserDetail(this.id);
+      this.xetDataUer();
     } else {
-      if (this.id) {
-        this.getUserDetail(this.id);
-        this.xetDataUer();
-      }
+      this.xetDataUer();
     }
     this.getYear();
-  }
-
-  setValueDefault(bookingRoomId) {
-    this.bookingRoomApi.getInfo(bookingRoomId).subscribe(
-      res => {
-        this.userDetail = res.data;
-        this.bookingStatus = res.data.status;
-        this.setDataDefault();
-        if (this.bookType === 'current' && this.type === 'foward') {
-          this.setValueToField('bookingCheckin', new Date());
-        }
-      },
-      err => {
-        this.userDetail = null;
-      }
-    );
   }
 
   getDefaultData() {
@@ -484,6 +467,9 @@ export class AddBookingComponent implements OnInit {
   getDateFromTwoDate(date1, date2) {
     const oned = 24 * 60 * 60 * 1000;
     return Math.ceil(Math.abs(date2 - date1) / oned);
+    /*const time1 = date1.getDate();
+    const time2 = date2.getDate();
+    return time2 - time1;*/
   }
 
   getHourFromTwoDate(date1, date2) {
@@ -495,6 +481,18 @@ export class AddBookingComponent implements OnInit {
   }
 
   getUserDetail(id) {
+    if (this.bookType === 'current') {
+    } else if (this.bookType === 'future') {
+      this.bookingRoomApi.getInfo(id).subscribe(
+        res => {
+          this.userDetail = res.data;
+          this.setDataDefault();
+        },
+        err => {
+          this.userDetail = null;
+        }
+      );
+    }
     this.idPhong = id;
     this.loaiDatPhong = this.getValueOfField('bookingType') ? this.getValueOfField('bookingType') : 0;
     this.roomApiService.getInfo(this.idPhong).subscribe(
@@ -553,23 +551,13 @@ export class AddBookingComponent implements OnInit {
   }
 
   onSubmitData() {
-    if (this.type === 'add') {
-      if (this.bookType === 'current') {
-        this.validateNgayTra();
-      } else if (this.bookType === 'future') {
-        this.validateNgayDat();
-        this.validateNgayDuKienDi();
-      }
-    }
     if (this.form.invalid) {
       this.commonService.validateAllFormFields(this.form);
       return;
     }
     if (this.bookType === 'current') {
-      if (this.type === 'add') {
-        this.form.get('bookingDate').setValue(null);
-        this.form.get('bookingDateOut').setValue(null);
-      }
+      this.form.get('bookingDate').setValue(null);
+      this.form.get('bookingDateOut').setValue(null);
       this.form.get('bookingCheckin').setValue(new Date(this.form.get('bookingCheckin').value));
       this.form.get('bookingCheckout').setValue(new Date(this.form.get('bookingCheckout').value));
     } else if (this.bookType === 'future') {
@@ -582,7 +570,17 @@ export class AddBookingComponent implements OnInit {
     this.spinner.show();
     this.bookingRoomApi.save(this.form.value).subscribe(
       res => {
-        this.toastService.openSuccessToast(res.data.msgSuccess);
+        console.warn(res);
+        if (this.type === 'add') {
+          this.toastService.openSuccessToast(res.data.msgError);
+        }
+        if (this.type === 'update') {
+          if (this.oldEmail !== this.form.value.email) {
+            this.toastService.openSuccessToast('Thông tin đăng nhập mới đã được gửi về địa chỉ email ' + this.form.value.email);
+          } else {
+            this.toastService.openSuccessToast('Sửa thành công !');
+          }
+        }
         if (this.bookType === 'current') {
           this.router.navigate(['system-categories/book-room']);
         } else if (this.bookType === 'future') {

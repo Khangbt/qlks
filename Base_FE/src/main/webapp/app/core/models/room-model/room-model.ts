@@ -16,4 +16,6 @@ export class RoomModel {
   roomType?: any;
   roomName?: any;
   note?: any;
+  roomTypeName: any;
+  floorName: any;
 }

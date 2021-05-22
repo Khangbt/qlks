@@ -87,7 +87,16 @@ public class roomController {
     @GetMapping("/getAllFloor")
     public ResultResp getAllFloor(){
         log.info("Get all floor");
-        return null;
+        try {
+            return ResultResp.success(roomService.getAllFloor());
+
+        } catch (CustomExceptionHandler e) {
+            return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
+        } catch (Exception e) {
+            log.error("<--- api find AssetResources: error, ");
+            e.printStackTrace();
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
     }
     @GetMapping("/deleteRoom/{id}")
     public ResultResp deleteProject(@PathVariable("id") Long id,HttpServletRequest request) {

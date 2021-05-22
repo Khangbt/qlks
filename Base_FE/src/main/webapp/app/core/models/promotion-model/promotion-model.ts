@@ -6,8 +6,8 @@ export class PromotionModel {
   promotionName: any;
   percentPromotion: any;
   roomTypeID: any;
-  note: null;
-
+  note: any;
+  roomNameType: any;
   name?: any;
   page?: any;
   pageSize?: any;

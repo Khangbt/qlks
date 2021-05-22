@@ -189,12 +189,16 @@ public class HumanResourcesController {
 
     @PostMapping("/add")
     public ResultResp createHR(@RequestBody HumanResourcesDTO humanResourcesDTO, HttpServletRequest request) {
+        log.info("<--- api createNewHr: start,", humanResourcesDTO);
+        //lấy ra username đang đăng nhập
         String username = authenService.getEmailCurrentlyLogged(request);
         try {
-            return resourcesService.create(username,humanResourcesDTO);
+            return ResultResp.success(ErrorCode.CREATED_HR_OK, resourcesService.create(username, humanResourcesDTO));
         } catch (CustomExceptionHandler e) {
-            return ResultResp.serverError(new ObjectError("HR004","Có lỗi từ server"));
+            if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
+                return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
         }
+        return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
     }
     @PutMapping(value = "/update")
     public ResultResp updateHr(@RequestBody HumanResourcesDTO humanResourcesDTO) {
@@ -222,6 +226,7 @@ public class HumanResourcesController {
         log.info("<-- api check duplicate code: start, ");
         try {
             return ResultResp.success(resourcesService.findByCode(code));
+
         } catch (CustomExceptionHandler e) {
             log.error("<--- api updateHumanResources: error, ");
             return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
@@ -255,6 +260,12 @@ public class HumanResourcesController {
         } catch (CustomExceptionHandler ex) {
             return ResultResp.badRequest((ObjectError) ex.getData());
         }
+    }
+
+    private String getFileFromURL(String path) {
+        URL url = this.getClass().getResource(path);
+        assert url != null;
+        return url.getPath();
     }
 
     @GetMapping("/dowloadfiledata")

@@ -7,6 +7,7 @@ export const MENU_TITLE = {
     ROOM: 'Quản lý phòng',
     ROOM_TYPE: 'Quản lý lọai phong',
     SERVICE: 'Quản lý dịch vụ',
+    CHART: 'Biểu đồ',
 
     PROJECT_MANAGEMENT: 'Quản lý dự án',
     ADD_PROJECT: 'Thêm mới thông tin dự án',

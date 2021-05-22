@@ -24,7 +24,7 @@ public class RoomCustomRepository {
     @Autowired
     private EntityManager em;
 
-    public List<RoomDTO> searchAsser(RoomDTO dto){
+    public List<RoomDTO> searchRoom(RoomDTO dto){
         log.info("search Room");
         StringBuilder sql = new StringBuilder();
         sql.append("select r.room_id,      " +
@@ -33,9 +33,10 @@ public class RoomCustomRepository {
                 "        r.floor_number,     " +
                 "        r.max_number,     " +
                 "        r.note,     " +
-                "        r.room_type     " +
-                "from room r " +
-                " where 1 = 1 and r.status != 2 "
+                "        rt.name , p.par_name     " +
+                " from room r left join app_params p on r.floor_number = p.par_code " +
+                " left join room_type rt on r.room_type = rt.room_type_id "+
+                " where 1 = 1 and r.status = 1 "
         );
 
         if (StringUtils.isNotBlank(dto.getRoomCode())){
@@ -157,7 +158,8 @@ public class RoomCustomRepository {
                 roomDTO.setFloorNumber((Integer) obj[3]);
                 roomDTO.setMaxNumber((Integer) obj[4]);
                 roomDTO.setNote((String) obj[5]);
-                roomDTO.setRoomType((Integer) obj[6]);
+                roomDTO.setRoomTypeName((String) obj[6]);
+                roomDTO.setFloorName((String)obj[7]);
                 list.add(roomDTO);
             }
         }
