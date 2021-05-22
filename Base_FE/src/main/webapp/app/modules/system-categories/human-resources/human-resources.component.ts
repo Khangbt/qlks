@@ -369,6 +369,7 @@ export class HumanResourcesComponent implements OnInit {
         this.spinner.show();
         if (res.data) {
           this.spinner.hide();
+          this.getHumanHistory();
           if (res.data.code === 'BK0010') {
             this.toastService.openSuccessToast('Mở khóa nhân sự thành công!');
           } else if (res.data.code === 'BK009') {
@@ -379,6 +380,7 @@ export class HumanResourcesComponent implements OnInit {
       },
       error => {
         this.spinner.hide();
+        // this.toastService.openErrorToast(this.translateService.instant('user.invalidDelete'));
         this.toastService.openErrorToast('Xóa nhân sự thất bại');
       }
     );
@@ -405,11 +407,12 @@ export class HumanResourcesComponent implements OnInit {
           this.spinner.hide();
           this.toastService.openSuccessToast('Xóa nhân sự thành công!');
           this.loadAll();
+          this.getHumanHistory();
         }
       },
       error => {
         this.spinner.hide();
-        this.toastService.openErrorToast('Lỗi từ hệ thống, xin vui lòng liên hệ bộ phận quản lý');
+        this.toastService.openErrorToast('Nhân sự đang tham gia dự án, không được phép xóa');
       }
     );
   }
@@ -442,9 +445,11 @@ export class HumanResourcesComponent implements OnInit {
       if (res.data) {
         this.toastService.openSuccessToast('Mật khẩu mới đã được gửi tới email ' + item.email + ', xin vui lòng check email!');
         this.spinner.hide();
+        this.getHumanHistory();
       } else {
         this.spinner.hide();
         this.toastService.openErrorToast('user.invalidDelete');
+        this.getHumanHistory();
       }
     });
   }
