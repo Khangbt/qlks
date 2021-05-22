@@ -2,7 +2,9 @@ package com.thao.qlts.project.controller;
 
 import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
+import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.service.BookingRoomService;
+import com.thao.qlts.project.service.impl.PayServiceImpl;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
@@ -23,6 +25,8 @@ public class BookingRoomController {
     @Autowired
     private BookingRoomService bookingRoomService;
 
+    @Autowired
+    private PayServiceImpl payService;
     @PostMapping("/add")
     public ResultResp createBooking(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("Add booking room");
@@ -64,32 +68,65 @@ public class BookingRoomController {
     }
 
     @PostMapping("/onSearch")
-    public ResponseEntity<List<BookingRoomDTO>> onSearch(@RequestBody BookingRoomDTO bookingRoomDTO){
+    public ResponseEntity<List<BookingRoomDTO>> onSearch(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("----------------search booking room-----------------");
         try {
             logger.info("----------------api search booking room Ok-----------------");
-            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.OK);
-        }catch (Exception e){
+            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
             logger.info("----------------api search booking room thất bại-----------------");
-            throw  e;
+            throw e;
         }
     }
 
     @PostMapping("/addService")
     public ResultResp addService(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("Add service booking room");
-        return bookingRoomService.addService(bookingRoomDTO);
+        try {
+            logger.info("----------------api search booking room Ok-----------------");
+            return bookingRoomService.addService(bookingRoomDTO);
+        } catch (Exception e) {
+            logger.info("----------------api search booking room thất bại-----------------");
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+
     }
 
     @GetMapping("/getAllServiceBooking/{bookingId}")
-    public ResponseEntity<List<BookingRoomServiceDTO>> getServiceByBookingId(@PathVariable Long bookingRoomId){
+    public ResponseEntity<List<BookingRoomServiceDTO>> getServiceByBookingId(@PathVariable Long bookingRoomId) {
         logger.info("----------------get Service by booking room Id-----------------");
         try {
             logger.info("----------------Start-----------------");
             return new ResponseEntity(bookingRoomService.getServiceByBookingId(bookingRoomId), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info("----------------Error-----------------");
-            throw  e;
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }
     }
+
+    @GetMapping("/getPay/{bookingRoomId}")
+    public ResponseEntity<PayDto> getPay(@PathVariable Integer bookingRoomId) {
+        logger.info("----------------get Service by booking room Id-----------------");
+        try {
+            logger.info("----------------Start-----------------");
+            return new ResponseEntity(payService.getServiceRoom(Long.valueOf(bookingRoomId)), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info("----------------Error-----------------");
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+    @PutMapping("/getPay/{bookingRoomId}")
+    public ResponseEntity<PayDto> billPlease(@PathVariable PayDto payDto) {
+        logger.info("----------------get Service by booking room Id-----------------");
+        try {
+            logger.info("----------------Start-----------------");
+            return new ResponseEntity(payService.billBookroom(payDto), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info("----------------Error-----------------");
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+
+
+
 }

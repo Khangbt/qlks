@@ -39,6 +39,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     @Autowired
     private BookingRoomServiceMapper bookingRoomServiceMapper;
     private final Logger logger = LogManager.getLogger(BookingRoomServiceImpl.class);
+
     @Override
     public ResultResp add(BookingRoomDTO bookingRoomDTO) {
         List<BookingRoomEntity> listEntity = null;
@@ -159,7 +160,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                 }
             }
         }
-        return null;
+        return ResultResp.badRequest(new ObjectError("aaaa", "aaaaaaaaa"));
     }
 
     private BookingRoomEntity convertToAdd(BookingRoomEntity entity){
@@ -188,8 +189,8 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         List<BookingRoomDTO> list;
         try {
             list = bookingRoomCustomRepository.onSearch(dto);
-            for (BookingRoomDTO bookingRoomDTO : list){
-                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDate())){
+            for (BookingRoomDTO bookingRoomDTO : list) {
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDate())) {
                     bookingRoomDTO.setComein_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingDate()));
                     if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getBookingDateOut())){
                         bookingRoomDTO.setComeout_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingDateOut()));
@@ -215,7 +216,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                 }
             }
             dtoDataPage.setData(list);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
         dtoDataPage.setPageIndex(dto.getPage());
@@ -230,15 +231,15 @@ public class BookingRoomServiceImpl implements BookingRoomService {
 
     @Override
     public ResultResp addService(BookingRoomDTO dto) {
-        if (CommonUtils.isEqualsNullOrEmpty(dto.getBookingroomId())){
+        if (CommonUtils.isEqualsNullOrEmpty(dto.getBookingroomId())) {
             return ResultResp.badRequest(new ObjectError("BK001", "Lỗi không tìm thấy mã đặt phòng"));
-        }else {
+        } else {
             BookingRoomEntity curr = bookingRoomRepository.findById(dto.getRoomId()).get();
             List<BookingRoomServiceEntity> listBookingService = bookingRoomServiceRepository.findByBookingId(curr.getBookingroomId());
-            if (CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0){
+            if (CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0) {
                 bookingRoomServiceRepository.deleteAll(listBookingService);
             }
-            if (CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0){
+            if (CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0) {
                 bookingRoomServiceRepository.saveAll(bookingRoomServiceMapper.toEntity(dto.getListService()));
             }
             return ResultResp.success("Thêm mới dịch vụ thành công");
@@ -393,5 +394,33 @@ public class BookingRoomServiceImpl implements BookingRoomService {
             return dto;
         }
         return null;
+    }
+
+    @Override
+    public BookingRoomEntity getIdBookRoom(Long bookingRoomId) {
+        if(bookingRoomRepository.findById(bookingRoomId).isPresent()){
+            return bookingRoomRepository.findById(bookingRoomId).get();
+        }
+        return null;
+    }
+
+
+
+    @Override
+    public List<BookingRoomEntity> getListBook(List<Long> id) {
+
+        return bookingRoomRepository.findAllById(id);
+    }
+
+
+    @Override
+    public List<BookingRoomServiceEntity> getListService(List<Long> id) {
+
+        return bookingRoomServiceRepository.findList(id);
+    }
+
+    @Override
+    public void addEntity(BookingRoomEntity bookingRoomEntity) {
+        bookingRoomRepository.save(bookingRoomEntity);
     }
 }

@@ -3,6 +3,7 @@ package com.thao.qlts.project.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -38,4 +39,8 @@ public class RoomServiceEntity extends Auditable<String> {
 
     @Column(name = "used_time")
     private Timestamp usedTime;
+
+    @Column(name = "note")
+    @Type(type="text")
+    private String note;
 }
