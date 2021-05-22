@@ -40,7 +40,7 @@ public class BookingRoomEntity extends Auditable<String> {
     private Date bookingCheckout;
 
     @Column(name = "advance_amount")
-    private Double advanceAmount;
+    private Long advanceAmount;
 
     @Column(name = "old_room_code")
     private Long oldRoomCode;
@@ -50,4 +50,6 @@ public class BookingRoomEntity extends Auditable<String> {
 
     @Column(name = "status")
     private Integer status;
+    @Column(name = "booking_type")
+    private Integer bookingType;
 }

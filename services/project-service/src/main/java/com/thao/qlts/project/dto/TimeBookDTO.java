@@ -14,4 +14,7 @@ public class TimeBookDTO {
     private Long nightPrice;
     private String note;
     private Long hourPrice;
+    private Double unit;
+
+    private Integer typeBook;
 }
