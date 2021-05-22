@@ -161,6 +161,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
             }
         }
         return ResultResp.badRequest(new ObjectError("aaaa", "aaaaaaaaa"));
+<<<<<<< HEAD
     }
 
     private BookingRoomEntity convertToAdd(BookingRoomEntity entity){
@@ -179,6 +180,8 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         newEntity.setBookingType(entity.getBookingType());
         newEntity.setNote(entity.getNote());
         return newEntity;
+=======
+>>>>>>> 628a3158adb8769bbdda633f71b41bdfefb8dd1e
     }
 
     @Override
@@ -201,6 +204,7 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                         bookingRoomDTO.setComeout_timeshow(DateUtils.formatDateTime(bookingRoomDTO.getBookingCheckout()));
                     }
                 }
+<<<<<<< HEAD
                 if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getStatus())){
                     if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_DAT.value())){
                         bookingRoomDTO.setStatusName("Đã đặt");
@@ -209,6 +213,16 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                     }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_THANH_TOAN.value())){
                         bookingRoomDTO.setStatusName("Đã thanh toán");
                     }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_HUY.value())){
+=======
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomDTO.getStatus())) {
+                    if (bookingRoomDTO.getStatus() == 1) {
+                        bookingRoomDTO.setStatusName("Đã đặt");
+                    } else if (bookingRoomDTO.getStatus() == 2) {
+                        bookingRoomDTO.setStatusName("Đang đặt");
+                    } else if (bookingRoomDTO.getStatus() == 3) {
+                        bookingRoomDTO.setStatusName("Đã thanh toán");
+                    } else if (bookingRoomDTO.getStatus() == 4) {
+>>>>>>> 628a3158adb8769bbdda633f71b41bdfefb8dd1e
                         bookingRoomDTO.setStatusName("Đã hủy");
                     }else if (bookingRoomDTO.getStatus().equals(Enums.BOOKING_TYPE.DA_CHUYEN.value())){
                         bookingRoomDTO.setStatusName("Đã chuyển phòng");
@@ -405,6 +419,17 @@ public class BookingRoomServiceImpl implements BookingRoomService {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public BookingRoomEntity getIdBookRoom(Long bookingRoomId) {
+        if(bookingRoomRepository.findById(bookingRoomId).isPresent()){
+            return bookingRoomRepository.findById(bookingRoomId).get();
+        }
+        return null;
+    }
+
+    @Override
+>>>>>>> 628a3158adb8769bbdda633f71b41bdfefb8dd1e
     public List<BookingRoomEntity> getListBook(List<Long> id) {
 
         return bookingRoomRepository.findAllById(id);
