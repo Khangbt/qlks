@@ -43,7 +43,7 @@ export class AddBookingFutureComponent implements OnInit {
   unitSearch;
   debouncer: Subject<string> = new Subject<string>();
   roomTypeList: any[] = [];
-  cities = [{ id: 1, name: 'Đã đặt' }, { id: 2, name: 'Đang đặt' }, { id: 3, name: 'Đã thanh toán' }];
+  cities = [{ id: 1, name: 'Đã đặt' }, { id: 2, name: 'Đang đặt' }, { id: 3, name: 'Đã thanh toán' }, { id: 5, name: 'Đã chuyển phòng' }];
   searchForm: any;
   SHOW_HIDE_COL_HEIGHT = SHOW_HIDE_COL_HEIGHT;
   listRoom: Room[] = [];
@@ -163,22 +163,21 @@ export class AddBookingFutureComponent implements OnInit {
   }
 
   openModalAddBookingRoom(type?: string, data?: any) {
-    console.warn(data);
     const modalRef = this.modalService.open(AddBookingComponent, {
       size: 'lg',
       backdrop: 'static',
       keyboard: false
     });
     modalRef.componentInstance.type = type;
-    modalRef.componentInstance.id = data ? data.bookingroomId : null;
     modalRef.componentInstance.bookType = 'future';
+    modalRef.componentInstance.bookingId = data.bookingroomId;
     modalRef.result
       .then(result => {
-        if (result) {
-          this.loadAll();
-        }
+        this.loadAll();
       })
-      .catch(() => {});
+      .catch(() => {
+        this.loadAll();
+      });
   }
 
   openModalDelete(type?: string, data?: any) {
@@ -213,12 +212,12 @@ export class AddBookingFutureComponent implements OnInit {
         this.bookingRoomApi.receive(data).subscribe(
           success => {
             this.activeModal.dismiss();
-            this.toastService.openSuccessToast('Nhận lịch đặt phòng thành công');
+            this.toastService.openSuccessToast(success.data.msgSuccess);
             this.router.navigate(['/system-categories/book-room-future']);
             this.loadAll();
           },
           err => {
-            this.toastService.openErrorToast('Nhận lịch đặt phòng thất bại');
+            this.toastService.openErrorToast(err.error.msgCode);
             this.spinner.hide();
           },
           () => {

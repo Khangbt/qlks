@@ -111,7 +111,6 @@ export class ChangePasswordComponent implements OnInit {
 
   onSubmitData() {
     this.submitted = true;
-
     if (this.form.get('newPassword').invalid) {
       this.toastService.openErrorToast('Mật khẩu  mới không đúng định dạng');
       return;

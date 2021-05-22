@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HumanResourcesApiService } from 'app/core/services/Human-resources-api/human-resources-api.service';
 import { ToastService } from 'app/shared/services/toast.service';
-import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -22,7 +21,6 @@ export class VerifyForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.warn('aaaaaaaaa');
     this.spinner.show();
     this.email = this.route.snapshot.params.email;
     this.key = this.route.snapshot.params.key;
