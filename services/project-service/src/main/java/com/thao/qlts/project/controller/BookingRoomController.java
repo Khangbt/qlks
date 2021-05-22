@@ -4,7 +4,7 @@ import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.service.BookingRoomService;
-import com.thao.qlts.project.service.PayService;
+import com.thao.qlts.project.service.impl.PayServiceImpl;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
@@ -26,7 +26,7 @@ public class BookingRoomController {
     private BookingRoomService bookingRoomService;
 
     @Autowired
-    private PayService payService;
+    private PayServiceImpl payService;
     @PostMapping("/add")
     public ResultResp createBooking(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("Add booking room");
