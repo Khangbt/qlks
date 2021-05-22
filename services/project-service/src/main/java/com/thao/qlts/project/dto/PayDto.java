@@ -10,6 +10,7 @@ public class PayDto {
     private Long idBooking;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     private List<BookingRoomServiceDTO> listService;
 =======
     private List<BookingRoomServiceDTO> list;
@@ -17,6 +18,9 @@ public class PayDto {
 =======
     private List<BookingRoomServiceDTO> list;
 >>>>>>> update code
+=======
+    private List<BookingRoomServiceDTO> listService;
+>>>>>>> update codeDiscount
     private List<TimeBookDTO> timeBookDTOList;
     private Long EmployeeId;
     private String nameEmployee;
@@ -27,6 +31,9 @@ public class PayDto {
     private Long promotionId;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> update codeDiscount
     private Long discountId;
     private Long payment;
 
@@ -39,8 +46,11 @@ public class PayDto {
     private String codeDiscount;
 
     private Date datePay;
+<<<<<<< HEAD
 =======
 >>>>>>> update code
 =======
 >>>>>>> update code
+=======
+>>>>>>> update codeDiscount
 }

@@ -4,13 +4,7 @@ import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.DataPage;
 import com.thao.qlts.project.entity.BookingRoomEntity;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.thao.qlts.project.entity.BookingRoomServiceEntity;
-=======
->>>>>>> update code
-=======
->>>>>>> update code
 import common.ResultResp;
 
 import java.util.List;
@@ -24,16 +18,10 @@ public interface BookingRoomService {
     ResultResp delete(Long bookingRoomId);
     BookingRoomDTO getInfo(Long bookingRoomId);
     BookingRoomEntity getIdBookRoom(Long bookingRoomId);
-<<<<<<< HEAD
-<<<<<<< HEAD
     List<BookingRoomEntity> getListBook(List<Long> id);
 
     List<BookingRoomServiceEntity> getListService(List<Long> id);
 
     void addEntity(BookingRoomEntity bookingRoomEntity);
 
-=======
->>>>>>> update code
-=======
->>>>>>> update code
 }
