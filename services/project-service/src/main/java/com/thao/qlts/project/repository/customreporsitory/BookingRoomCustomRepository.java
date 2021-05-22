@@ -37,7 +37,7 @@ public class BookingRoomCustomRepository {
             sql.append(" and r.room_id = :roomId ");
         }
         if (dto.getStatus() != null){
-            sql.append(" and r.status = :status ");
+            sql.append(" and b.status = :status ");
         }
         Query query = em.createNativeQuery(sql.toString());
         Query queryCount = em.createNativeQuery(sql.toString());
