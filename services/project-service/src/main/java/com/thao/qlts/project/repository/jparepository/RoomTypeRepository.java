@@ -17,4 +17,8 @@ public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity, Long> 
 
     @Query(value = "select * from room_type where  STATUS= 1 ", nativeQuery = true)
     List<RoomTypeEntity> findAll();
+
+    @Query(value = "select room_type.* from room_type inner join room where room.room_id=?1", nativeQuery = true)
+    List<RoomTypeEntity> getType(Long id);
+
 }

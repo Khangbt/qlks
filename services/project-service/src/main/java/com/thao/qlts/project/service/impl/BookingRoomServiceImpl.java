@@ -268,9 +268,27 @@ public class BookingRoomServiceImpl implements BookingRoomService {
 
     @Override
     public BookingRoomEntity getIdBookRoom(Long bookingRoomId) {
-        if(!bookingRoomRepository.findById(bookingRoomId).isPresent()){
+        if(bookingRoomRepository.findById(bookingRoomId).isPresent()){
             return bookingRoomRepository.findById(bookingRoomId).get();
         }
         return null;
+    }
+
+    @Override
+    public List<BookingRoomEntity> getListBook(List<Long> id) {
+
+        return bookingRoomRepository.findAllById(id);
+    }
+
+
+    @Override
+    public List<BookingRoomServiceEntity> getListService(List<Long> id) {
+
+        return bookingRoomServiceRepository.findList(id);
+    }
+
+    @Override
+    public void addEntity(BookingRoomEntity bookingRoomEntity) {
+        bookingRoomRepository.save(bookingRoomEntity);
     }
 }

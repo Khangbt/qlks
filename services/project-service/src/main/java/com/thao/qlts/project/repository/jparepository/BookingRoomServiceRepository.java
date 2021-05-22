@@ -11,4 +11,7 @@ import java.util.List;
 public interface BookingRoomServiceRepository extends JpaRepository<BookingRoomServiceEntity, Long> {
     @Query("select b from BookingRoomServiceEntity b where b.bookingId = ?1")
     List<BookingRoomServiceEntity> findByBookingId(Long bookingId);
+
+    @Query("select b from BookingRoomServiceEntity b where b.bookingId in ?1")
+    List<BookingRoomServiceEntity> findList(List<Long> bookingId);
 }
