@@ -1,0 +1,73 @@
+<!--</div>-->
+<div [handle]="handle" class="modal-import" jhiModalDrag>
+  <div #handle class="modal-header">
+    <h5 class="modal-title mt-0">Thanh toán</h5>
+    <button #closeBtn (click)="onCancel()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" novalidate>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Mã phòng</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Tên tên phòng </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Số người tối đa</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Tầng số</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">Loại phòng</label>
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label required">Tài sản</label>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label ">nghi chú</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="action-btn">
+    <button #cancelBtn (click)="onCancel()" class="btn btn-light alight" type="button">
+      <i aria-hidden="true" class="fa fa-times mr-2"></i><span
+      jhiTranslate="{{(type !== 'detail'? 'common.button.confirm.cancel' : 'common.button.close')}}">Hủy bỏ</span>
+    </button>
+    <button (click)="onpay()" *ngIf="type !== 'detail'" class="btn btn-primary" type="submit">
+      <i aria-hidden="true" class="fa fa-floppy-o mr-2"></i><span
+      jhiTranslate="common.button.confirm.save">Ghi lại</span>
+    </button>
+  </div>
+
+
+</div>
+
