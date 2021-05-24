@@ -27,7 +27,7 @@ import { PromotionResourcesModule } from 'app/modules/system-categories/promotio
 import { AddBookingFutureComponent } from './add-booking-future/add-booking-future.component';
 import { AddCustomerComponent } from './customer/add-customer/add-customer.component';
 import { CustomerResourcesModule } from 'app/modules/system-categories/customer/customer-resources.module';
-// import { ChartComponent } from './chart/chart.component';
+import { ChartComponent } from './chart/chart.component';
 import { ChartResourcesModule } from 'app/modules/system-categories/chart/chart-resources.module';
 @NgModule({
   declarations: [
@@ -48,8 +48,8 @@ import { ChartResourcesModule } from 'app/modules/system-categories/chart/chart-
 
     AddBookingFutureComponent,
     PromotionComponent,
-    AddCustomerComponent
-    // ChartComponent
+    AddCustomerComponent,
+    ChartComponent
     // CustomerComponent,
   ],
   imports: [

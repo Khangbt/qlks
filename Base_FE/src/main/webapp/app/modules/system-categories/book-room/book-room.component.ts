@@ -626,6 +626,19 @@ export class BookRoomComponent implements OnInit {
       backdrop: 'static',
       keyboard: false
     });
+    modalRef.componentInstance.type = type;
+    modalRef.componentInstance.id = data ? data.roomId : null;
+    modalRef.componentInstance.bookType = 'current';
+    modalRef.componentInstance.bookingRoomId = data ? data.bookingRoomId : null;
+    modalRef.result
+      .then(result => {
+        if (result) {
+          this.loadAll();
+        }
+      })
+      .catch(() => {
+        this.loadAll();
+      });
   }
 
   openModalMaintainRoom(selectedData?: any) {}

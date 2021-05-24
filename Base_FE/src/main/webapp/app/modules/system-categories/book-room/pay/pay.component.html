@@ -1,73 +1,151 @@
-<!--</div>-->
-<div [handle]="handle" class="modal-import" jhiModalDrag>
-  <div #handle class="modal-header">
-    <h5 class="modal-title mt-0">Thanh toán</h5>
-    <button #closeBtn (click)="onCancel()" aria-label="Close" class="close" type="button">
+<div class="modal-import" jhiModalDrag [handle]="handle">
+  <div class="modal-header" #handle>
+    <h5 *ngIf="type === 'pay'" class="modal-title mt-0">Thanh toán</h5>
+    <button #closeBtn type="button" class="close" aria-label="Close" (click)="onCancel()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="form" autocomplete="off" novalidate>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Mã phòng</label>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Tên tên phòng </label>
+    <perfect-scrollbar class="ps" [style.max-height.px]="height" (window:resize)="onResize()">
+      <div id="organizationCategories" class="page-content">
+        <div class=" main-content">
+          <div class="page-content">
+            <form [formGroup]="form" *ngIf="form" novalidate autocomplete="off">
+              <div> <h6> Thông tin đặt phòng: </h6></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-control-label ">Mã phòng: </label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label ">Giá phòng: </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-control-label ">Khách hàng: </label>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-control-label ">Loại phòng: </label>
+                </div>
+              </div>
+
+<!--              <div class="row">-->
+<!--                <div class="col-md-6">-->
+<!--                  <label class="form-control-label">Ngày đến</label>-->
+<!--                </div>-->
+
+<!--                <div class="col-md-6">-->
+<!--                    <label class="form-control-label">Ngày trả</label>-->
+<!--                </div>-->
+<!--              </div>-->
+
+              <div class="row">
+                <div class="col-md-6">
+                    <label class="form-control-label">Ngày đến: </label>
+
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-control-label">Ngày trả: </label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                    <label class="form-control-label"
+                    >Thời gian thuê phòng: </label>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-control-label">Trạng thái: </label>
+                </div>
+                <!--<div class="col-md-6">
+                  <div class="form-group" [ngClass]="displayFieldHasError('promotionCode')">
+                    <label class="form-control-label"
+                    >Mã khuyến mãi</label>
+                    <input type="text" formControlName="promotionCode" class="form-control"
+                           [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
+                           [readOnly]="false" maxlength="255" (blur)="getPromotion()"/>
+                  </div>
+                </div>-->
+                <!--<div class="col-md-6">
+                  <div class="form-group" [ngClass]="displayFieldHasError('promotionCode')">
+                    <label class="form-control-label">Mã khuyến mãi</label>
+                    <ng-select class="cursor-text scroll-ng-select"
+                               bindLabel="promotionName" formControlName="promotionCode" bindValue="promotionCode"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="{{ 'common.select.option.default' | translate }}"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               [items]="listPromotion"
+                               (change)="getPromotion()"
+                               [multiple]="false"
+                               [readonly]="type !== 'add' && type !== 'update'">
+                    </ng-select>
+                  </div>
+                </div>-->
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                    <label class="form-control-label"
+                    >Tiền thuê phòng: </label>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-control-label"
+                    >Tiền dịch vụ: </label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                    <label class="form-control-label"
+                    >Đã thanh toán: </label>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-control-label"
+                    >Tổng tiền: </label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                    <label class="form-control-label" jhiTranslate="user.note">ghi chú: </label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                    <label class="form-control-label">ghi chú thêm: </label>
+                </div>
+              </div>
+              <div> <h6> Thông tin danh sách phòng: </h6></div>
+
+
+
+            </form>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Số người tối đa</label>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Tầng số</label>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Loại phòng</label>
-          </div>
-        </div>
 
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label required">Tài sản</label>
-
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">nghi chú</label>
-          </div>
-        </div>
-      </div>
-    </form>
+    </perfect-scrollbar>
   </div>
   <div class="action-btn">
-    <button #cancelBtn (click)="onCancel()" class="btn btn-light alight" type="button">
-      <i aria-hidden="true" class="fa fa-times mr-2"></i><span
+    <button #cancelBtn type="button" class="btn btn-light alight" (click)="onCancel()">
+      <i class="fa fa-times mr-2" aria-hidden="true"></i><span
       jhiTranslate="{{(type !== 'detail'? 'common.button.confirm.cancel' : 'common.button.close')}}">Hủy bỏ</span>
     </button>
-    <button (click)="onpay()" *ngIf="type !== 'detail'" class="btn btn-primary" type="submit">
-      <i aria-hidden="true" class="fa fa-floppy-o mr-2"></i><span
-      jhiTranslate="common.button.confirm.save">Ghi lại</span>
+
+    <button *ngIf="type === 'pay'" type="submit" class="btn btn-primary" (click)="onPay()">
+      <i class="fa fa-credit-card-alt" aria-hidden="true"></i><span
+    >  Thanh toán</span>
+    </button>
+
+    <button *ngIf="(type === 'detail' || type === 'pay')" type="submit" class="btn btn-primary" (click)="onInvoicePrint()">
+      <i class="fa fa-print" aria-hidden="true"></i><span
+    >  In hóa đơn</span>
     </button>
   </div>
-
-
 </div>
-

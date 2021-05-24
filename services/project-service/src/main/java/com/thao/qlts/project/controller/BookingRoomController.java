@@ -72,7 +72,7 @@ public class BookingRoomController {
         logger.info("----------------search booking room-----------------");
         try {
             logger.info("----------------api search booking room Ok-----------------");
-            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO),HttpStatus.OK);
         } catch (Exception e) {
             logger.info("----------------api search booking room thất bại-----------------");
             throw e;

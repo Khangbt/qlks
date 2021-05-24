@@ -19,7 +19,7 @@ public class BookingRoomDTO extends AuditingDTO<String>{
     private Date bookingDateOut;
     private Date bookingCheckin;
     private Date bookingCheckout;
-    private Double advanceAmount;
+    private Long advanceAmount;
     private Long oldRoomCode;
     private Integer status;
     private Long roomId;
