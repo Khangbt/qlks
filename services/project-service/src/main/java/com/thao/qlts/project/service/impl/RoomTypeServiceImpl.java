@@ -113,7 +113,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Override
     public RoomTypeDTO findByIdAndType(Long id, Long type) {
-        RoomTypeDTO roomTypeDTO = roomTypeMapper.toDto(roomTypeRepository.findById(id).get());
+            RoomTypeDTO roomTypeDTO = roomTypeMapper.toDto(roomTypeRepository.findById(id).get());
         if (null != roomTypeDTO){
             if (type == 1L){
                 roomTypeDTO.setPrice(roomTypeDTO.getHourPrice());

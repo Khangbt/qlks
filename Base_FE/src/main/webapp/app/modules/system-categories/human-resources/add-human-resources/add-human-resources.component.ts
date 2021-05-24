@@ -160,7 +160,6 @@ export class AddHumanResourcesComponent implements OnInit {
     this.humanResourceService.getInfo(id).subscribe(
       res => {
         this.userDetail = res.data;
-        console.log(this.userDetail);
         this.oldEmail = this.userDetail.email ? this.userDetail.email : '';
         this.setDataDefault();
       },
@@ -294,7 +293,6 @@ export class AddHumanResourcesComponent implements OnInit {
   }
 
   onBlurUserCode() {
-    // if (this.type === 'add'&& this.userDetail.code !== this.form.value.code) {
     if (this.type === 'add') {
       this.humanResourceService.checkUserCode(this.form.value.code).subscribe(
         res => {
@@ -418,7 +416,6 @@ export class AddHumanResourcesComponent implements OnInit {
     }
     this.form.get('dateOfBirth').setValue(new Date(this.form.get('dateOfBirth').value));
     this.spinner.show();
-    // this.form.value.dateRecruitment = this.datepipe.transform(this.form.value.dateRecruitment, 'yyyy-MM-dd');
     this.binDataUsername(this.form.value.email);
     this.humanResourceService.save(this.form.value).subscribe(
       res => {

@@ -1,7 +1,6 @@
 package com.thao.qlts.project.controller;
 
 import com.thao.qlts.project.dto.CustomerDTO;
-import com.thao.qlts.project.dto.RoomDTO;
 import com.thao.qlts.project.service.CustomerService;
 import common.ErrorCode;
 import common.ResultResp;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController

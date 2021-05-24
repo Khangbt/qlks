@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 import { ServiceService } from 'app/core/services/service/service.service';
 import { HeightService } from 'app/shared/services/height.service';
 import { ToastService } from 'app/shared/services/toast.service';
@@ -34,7 +36,9 @@ export class AddServiceComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private serviceService: ServiceService,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    public bookingRoomApi: BookingRoomApi,
+    protected router: Router
   ) {}
 
   ngOnInit() {
@@ -95,7 +99,23 @@ export class AddServiceComponent implements OnInit {
     this.activeModal.dismiss();
   }
   onCancelModal(conten) {}
-  onSubmit() {}
+  onSubmit() {
+    let data = this.form.value;
+    console.log(data);
+
+    this.bookingRoomApi.addService(data).subscribe(
+      value => {
+        this.toastService.openSuccessToast('Xác nhận phiếu yêu nhập kho thành công !');
+
+        this.router.navigate(['system-categories/book-room']);
+        this.activeModal.dismiss();
+      },
+      error => {
+        this.toastService.openErrorToast('Xác nhận phiếu yêu nhập kho thất bại !');
+        this.activeModal.dismiss();
+      }
+    );
+  }
   saveDevice(i) {
     //check dk search
     // if(this.form.get("listService").value[i].idGroup==null){
@@ -106,6 +126,8 @@ export class AddServiceComponent implements OnInit {
     //   this.toastService.openErrorToast('Hãy chọn số lượng thiết bị yêu cầu');
     //   return
     //  }
+    console.warn(this.form.get('listService').value);
+
     this.checkNul[i] = !this.checkNul[i];
     this.xetTrueFal(this.form.get('listService').value);
   }
@@ -119,28 +141,38 @@ export class AddServiceComponent implements OnInit {
         p.disabled = false;
       }
       for (const c of data1) {
-        for (const p of this.listServiceDefule) {
-          if (p.id === c.idGroup) {
+        for (const p of this.listServiceShow) {
+          if (p.serviceId === c.serviceId) {
             p.disabled = true;
           }
         }
       }
-      console.warn(this.listServiceDefule);
     }
   }
-
-  getPrice(event) {
-    this.serviceService.getInfo(event.serviceId).subscribe(
-      res => {
-        if (res) {
-          alert(res.data.price);
-          this.setValueToField('price', res.data.price);
-        }
-      },
-      err => {
-        this.toastService.openErrorToast('Server Error');
-      }
-    );
+  xetGia(event, i) {
+    console.log(event.target.value);
+    this.listServiceR[i].quantity = event.target.value;
+    this.listServiceR[i].total = event.target.value > 0 ? this.listServiceR[i].price * event.target.value : null;
+    this.form.controls['listService'].setValue(this.listServiceR);
+  }
+  getPrice(event, i) {
+    console.log(event);
+    console.log(i);
+    console.log(this.checkNul);
+    if (event !== undefined) {
+      this.listServiceR[i].serviceId = event.serviceId ? event.serviceId : null;
+      this.listServiceR[i].price = event.price ? event.price : null;
+      this.listServiceR[i].quantity = event.quantity;
+      this.listServiceR[i].total = event.quantity > 0 ? event.price * event.quantity : null;
+      this.form.controls['listService'].setValue(this.listServiceR);
+    } else {
+      this.listServiceR[i].price = null;
+      this.listServiceR[i].quantity = null;
+      this.listServiceR[i].total = null;
+      this.listServiceR[i].serviceId = null;
+      this.form.controls['listService'].setValue(this.listServiceR);
+    }
+    this.xetTrueFal(this.form.controls['listService'].value);
   }
 
   onSearHuman(event) {
@@ -215,6 +247,9 @@ export class AddServiceComponent implements OnInit {
     this.listServiceR = this.form.get('listService').value;
     this.xetTrueFal(this.form.get('listService').value);
   }
+
+  addDevice(i) {}
+
   xetDataDefile(event, i) {
     if (event !== undefined) {
       this.listServiceR[i].unit = event.unit ? this.xetUntit(event.unit) : null;

@@ -23,7 +23,7 @@ import java.util.List;
 @Repository
 public class HumanResourcesCustomRepository {
     @Autowired
-    EntityManager em;
+    private EntityManager em;
     @Value("${valueDB}")
     private String valueDb;
     private final Logger log = LogManager.getLogger(HumanResourcesCustomRepository.class);

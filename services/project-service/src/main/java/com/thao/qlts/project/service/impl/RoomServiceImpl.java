@@ -4,16 +4,15 @@ import com.thao.qlts.project.dto.AppParamDTO;
 import com.thao.qlts.project.dto.RoomDTO;
 import com.thao.qlts.project.dto.DataPage;
 import com.thao.qlts.project.dto.RoomTypeDTO;
-import com.thao.qlts.project.entity.AppParamEntity;
-import com.thao.qlts.project.entity.AssetRoomEntity;
-import com.thao.qlts.project.entity.RoomEntity;
-import com.thao.qlts.project.entity.RoomTypeEntity;
+import com.thao.qlts.project.entity.*;
 import com.thao.qlts.project.repository.customreporsitory.RoomCustomRepository;
 import com.thao.qlts.project.repository.jparepository.AppParamRepository;
 import com.thao.qlts.project.repository.jparepository.AssetRoomRepository;
+import com.thao.qlts.project.repository.jparepository.BookingRoomRepository;
 import com.thao.qlts.project.repository.jparepository.RoomRepository;
 import com.thao.qlts.project.service.RoomService;
 import com.thao.qlts.project.service.mapper.RoomMapper;
+import common.CommonUtils;
 import common.ErrorCode;
 import exception.CustomExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "roomService")
@@ -28,16 +28,15 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomCustomRepository roomCustomRepository;
     @Autowired
+    private BookingRoomRepository bookingRoomRepository;
+    @Autowired
     RoomRepository roomRepository;
     @Autowired
     private RoomMapper roomMapper;
-
     @Autowired
     AppParamRepository appParamRepository;
-
     @Autowired
     AssetRoomRepository assetRoomRepository;
-
     @Override
     public DataPage<RoomDTO> searchAsser(RoomDTO dto) {
         DataPage<RoomDTO> dtoDataPage = new DataPage<>();
@@ -68,6 +67,12 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDTO> list = new ArrayList<>();
         try {
             list = roomCustomRepository.onSearch(dto);
+            for (RoomDTO roomDTO : list){
+                BookingRoomEntity bookingRoomEntity = bookingRoomRepository.getByRoomBooking(roomDTO.getRoomId(), new Date());
+                if (!CommonUtils.isEqualsNullOrEmpty(bookingRoomEntity)){
+                    roomDTO.setBookingRoomId(bookingRoomEntity.getBookingroomId());
+                }
+            }
             dtoDataPage.setData(list);
         } catch (Exception e) {
             throw e;
@@ -89,7 +94,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<AppParamDTO> getAllFloor() {
-
         List<AppParamEntity> list = appParamRepository.getAllFloor();
         List<AppParamDTO> dtos = new ArrayList<>();
         for (AppParamEntity item : list) {

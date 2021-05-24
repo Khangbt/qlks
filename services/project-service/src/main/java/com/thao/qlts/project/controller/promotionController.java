@@ -85,4 +85,15 @@ import java.util.List;
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
+    @GetMapping("/getByRoomType/{roomType}")
+    public ResultResp getByCode(@PathVariable("roomType") Long roomType) {
+        log.info("---------------- get promotion by roomType -----------------");
+        try {
+            return ResultResp.success(service.getAllByRoomType(roomType, DateUtils.formatDateTime2(new Date())));
+        } catch (CustomExceptionHandler e) {
+            log.info("---------------- get promotion by roomType fail -----------------");
+            return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
+        }
+    }
+
 }

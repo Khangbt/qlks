@@ -31,13 +31,14 @@ public class BookingRoomCustomRepository {
                 "join room_type rt on r.room_type = rt.room_type_id " +
                 "join app_params ap on r.floor_number = ap.par_code " +
                 "join customer c on b.custormer_id = c.customer_id " +
-                "where 1=1 and b.status != 4 "
+                "where 1=1 and b.status != 4 " +
+                "group by booking_room_id"
         );
         if (null != dto.getRoomId()){
             sql.append(" and r.room_id = :roomId ");
         }
         if (dto.getStatus() != null){
-            sql.append(" and r.status = :status ");
+            sql.append(" and b.status = :status ");
         }
         Query query = em.createNativeQuery(sql.toString());
         Query queryCount = em.createNativeQuery(sql.toString());

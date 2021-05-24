@@ -248,7 +248,9 @@
           "approve": "Bạn có chắc chắn muốn phê duyệt {{param}} không?",
           "acceptRisk": "Bạn có chắc chắn xác nhận bản ghi này không?",
           "": "Bạn chắc chắn từ chối vấn đề rủi ro dự án không?",
-          "declineRisk": "Bạn chắc chắn từ chối vấn đề rủi ro dự án không?"
+          "declineRisk": "Bạn chắc chắn từ chối vấn đề rủi ro dự án không?",
+          "receiveBooking": "Bạn có chắc chắn muốn nhận lịch đặt phòng vào hệ thống?",
+          "deleteBooking": "Bạn có chắc chắn muốn xóa lịch đặt phòng?"
         }
       }
     },

@@ -241,7 +241,9 @@
           "loginRequest": "Bạn cần đăng nhập để thực hiện ký hóa đơn! Nếu chưa có tài khoản, vui lòng liên lạc với nhà cung cấp để được cấp",
           "buyerNoTaxCode": "Bạn chắc chắn muốn lập hóa đơn cho người mua không có mã số thuế",
           "declineRisk": "Bạn chắc chắn từ chối vấn đề rủi ro dự án không?",
-          "acceptRisk": "Bạn có chắc chắn xác nhận bản ghi này không?"
+          "acceptRisk": "Bạn có chắc chắn xác nhận bản ghi này không?",
+          "receiveBooking": "Bạn có chắc chắn muốn nhận lịch đặt phòng vào hệ thống?",
+          "deleteBooking": "Bạn có chắc chắn muốn xóa lịch đặt phòng?"
         }
       }
     },

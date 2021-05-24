@@ -44,8 +44,10 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: buithekhang2406@gmail.com
-    password: Khang240697
+#    username: buithekhang2406@gmail.com
+#    password: Khang240697
+    username: congthao97ht@gmail.com
+    password: ct19ht123456
     properties:
       mail:
         smtp:
@@ -72,16 +74,17 @@ autoSendMail:  0 0 13 * * *
 autoNotification: 0 30 8 * * *
 
 
-urlForgotPassword: http://localhost:8080/qlts/#/forgot-password/
+urlForgotPassword: http://localhost:9003/#/forgot-password/
 #urlForgotPassword: http://192.168.100.122:8069/qlda-phase2/forgot-password/
 
 #host cross
 #hostCross: http://192.168.1.194:8080
 #host tomcat
-#hostCross: http://localhost:8080
+hostCross: http://localhost:8080
 
-hostCross: http://localhost:9003
+#hostCross: http://localhost:9003
 
+#log file
 #folder-upload
 #folderUpload: /home/iist/services/qlda-service-phase2/fileUpload/
 folderUpload: D:/fileUpload/
@@ -98,3 +101,6 @@ google:
         url: https://www.google.com/recaptcha/api/siteverify
 
 test: 1231313
+#logging:
+#  file:
+#    name: application.log

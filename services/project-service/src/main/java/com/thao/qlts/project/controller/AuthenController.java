@@ -89,9 +89,7 @@ public class AuthenController {
         if (null == email) {
             return ResultResp.badRequest(ErrorCode.EMAIL_NULL);
         }
-
         HumanResourcesEntity entity = humanResourcesRepository.findByEmail2(email);
-
         if(key.equals(entity.getVerifyKey())){
             String username = entity.getUsername();
             ResultResp rs = humanResourcesService.resetPassword(entity.getHumanResourceId(),username);

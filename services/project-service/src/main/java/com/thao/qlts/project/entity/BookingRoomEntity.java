@@ -40,11 +40,20 @@ public class BookingRoomEntity extends Auditable<String> {
     private Date bookingCheckout;
 
     @Column(name = "advance_amount")
-    private Double advanceAmount;
+    private Long advanceAmount;
 
     @Column(name = "old_room_code")
     private Long oldRoomCode;
 
+    @Column(name = "old_book_room")
+    private String oldBookRoom;
+
     @Column(name = "status")
     private Integer status;
+
+    @Column(name = "booking_type")
+    private Integer bookingType;
+
+    @Column(name = "note")
+    private String note;
 }

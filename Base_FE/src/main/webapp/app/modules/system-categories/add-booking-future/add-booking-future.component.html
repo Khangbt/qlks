@@ -125,13 +125,15 @@
                     <div class="group-action">
                       <button  class="btn btn-light" placement="top"
                                ngbTooltip="Xem chi tiết"
-                               (click)="openModalAddBookingRoom('add', item)">
+                               *ngIf="item.status !== 4"
+                               (click)="openModalAddBookingRoom('detail', item)">
                         <i class="fa fa-info-circle icon-color-blue" aria-hidden="true"></i>
                       </button>
 
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Chỉnh sửa"
+                        *ngIf="item.status === 1"
                         (click)="openModalAddBookingRoom('update',item)">
                         <i class="fa fa-pencil-square-o icon-color-blue" aria-hidden="true"></i>
                       </button>
@@ -139,14 +141,16 @@
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Nhận phòng"
-                        (click)="openModalCancel('delete',item)">
+                        *ngIf="item.status === 1"
+                        (click)="openModalReceive('receive',item)">
                         <i class="fa fa-arrow-circle-down icon-color-blue" aria-hidden="true"></i>
                       </button>
 
                       <button
                         class="btn btn-light" placement="top"
                         ngbTooltip="Hủy đặt phòng"
-                        (click)="openModalCancel('delete',item)">
+                        *ngIf="item.status === 1"
+                        (click)="openModalDelete('delete',item.bookingroomId)">
                         <i class="fa fa-times icon-color-red" aria-hidden="true"></i>
                       </button>
                     </div>

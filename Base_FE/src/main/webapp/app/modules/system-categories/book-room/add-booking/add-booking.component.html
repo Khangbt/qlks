@@ -27,7 +27,7 @@
                                [items]="listRoom"
                                (change)="getDataOnSelectRoom($event)"
                                [multiple]="false"
-                               [readonly]="false" required>
+                               [readonly]="checkActiveMaPhong()" required>
                       <ng-template ng-option-tmp let-item="item">
                         {{item.roomCode}} - {{item.roomName}} <br/>
                       </ng-template>
@@ -42,7 +42,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="form-control-label required"
-                           >Giá phòng</label>
+                    >Giá phòng</label>
                     <input type="text" formControlName="price" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
                            [readonly]="true"
@@ -62,7 +62,7 @@
                                clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
                                [items]="listCustomer"
                                [multiple]="false"
-                               [readonly]="type == 'detail'" required>
+                               [readonly]="type !== 'add' && type !== 'update'" required>
                       <ng-template ng-option-tmp let-item="item">
                         {{item.fullname}} - {{item.email}} <br/>
                       </ng-template>
@@ -85,7 +85,7 @@
                                [items]="listBookingType"
                                (change)="getDataOnSelectBookType()"
                                [multiple]="false"
-                               [readonly]="type == 'detail'">
+                               [readonly]="type !== 'add' && type !== 'update'">
                     </ng-select>
                     <jhi-error-messages *ngIf="formControl['bookingType'].hasError('required')"
                                         [displayError]="isFieldValid('bookingType')"
@@ -97,27 +97,34 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-control-label" [ngClass]="displayFieldHasError('bookingDate')"
+                  <div class="form-group" *ngIf="bookType === 'future'" [ngClass]="displayFieldHasError('bookingDate')">
+                    <label class="form-control-label"
                     >Ngày đặt phòng</label>
-                    <jhi-date-time-picker formControlName="bookingDate"
-                                     (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
-                    <jhi-error-messages *ngIf="formControl['bookingDate'].hasError('required')"
-                                        [displayError]="isFieldValid('bookingDate')"
-                                        errorMsg="Ngày đặt phòng là bắt buộc">
+                    <jhi-date-time-picker formControlName="bookingDate" [disabled]="type === 'detail'"
+                                          (ngModelChange)="validateNgayDat()"></jhi-date-time-picker>
+                    <jhi-error-messages *ngIf="requireNgayDat" [displayError]="requireNgayDat"
+                                        errorMsg="Ngày đặt là bắt buộc">
+                    </jhi-error-messages>
+                    <jhi-error-messages *ngIf="cpNgayDatNgayHt" [displayError]="cpNgayDatNgayHt"
+                                        errorMsg="Ngày đặt không được nhỏ hơn ngày hiện tại">
                     </jhi-error-messages>
                   </div>
                 </div>
 
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-control-label" [ngClass]="displayFieldHasError('bookingDateOut')"
+                  <div class="form-group" *ngIf="bookType === 'future'" [ngClass]="displayFieldHasError('bookingDateOut')">
+                    <label class="form-control-label"
                     >Ngày dự kiến đi</label>
-                    <jhi-date-time-picker formControlName="bookingDateOut"
-                                     (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
-                    <jhi-error-messages *ngIf="formControl['bookingDateOut'].hasError('required')"
-                                        [displayError]="isFieldValid('bookingDateOut')"
+                    <jhi-date-time-picker formControlName="bookingDateOut" [disabled]="type === 'detail'"
+                                          (ngModelChange)="validateNgayDuKienDi()"></jhi-date-time-picker>
+                    <jhi-error-messages *ngIf="requireNgayDKDi" [displayError]="requireNgayDKDi"
                                         errorMsg="Ngày dự kiến đi là bắt buộc">
+                    </jhi-error-messages>
+                    <jhi-error-messages *ngIf="cpNgayDKDiNgayHt" [displayError]="cpNgayDKDiNgayHt"
+                                        errorMsg="Ngày dự kiến đi không được nhỏ hơn ngày hiện tại">
+                    </jhi-error-messages>
+                    <jhi-error-messages *ngIf="cpNgayDKDiNgayDat" [displayError]="cpNgayDKDiNgayDat"
+                                        errorMsg="Ngày dự kiến đi không được nhỏ hơn ngày đặt">
                     </jhi-error-messages>
                   </div>
                 </div>
@@ -125,20 +132,29 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" *ngIf="bookType === 'current' || (bookType === 'future' && type === 'detail')">
                     <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
                     >Ngày đến</label>
-                    <jhi-date-time-picker formControlName="bookingCheckin"
-                                          (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
+                    <jhi-date-time-picker formControlName="bookingCheckin" [disabled]="true"
+                                          (ngModelChange)="validateNgayDen()"></jhi-date-time-picker>
                   </div>
                 </div>
 
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-control-label" [ngClass]="type === 'detail' ? '' : ''"
+                  <div class="form-group" *ngIf="bookType === 'current' || (bookType === 'future' && type === 'detail')" [ngClass]="displayFieldHasError('bookingCheckout')">
+                    <label class="form-control-label"
                     >Ngày trả</label>
-                    <jhi-date-time-picker formControlName="bookingCheckout"
-                                          (ngModelChange)="onCheckValidDateTime()"></jhi-date-time-picker>
+                    <jhi-date-time-picker formControlName="bookingCheckout" [disabled]="type !== 'add' && type !== 'update'"
+                                          (ngModelChange)="validateNgayTra()"></jhi-date-time-picker>
+                    <jhi-error-messages *ngIf="requireNgayTra" [displayError]="requireNgayTra"
+                                        errorMsg="Ngày trả là bắt buộc">
+                    </jhi-error-messages>
+                    <jhi-error-messages *ngIf="cpNgayTraNgayHt" [displayError]="cpNgayTraNgayHt"
+                                        errorMsg="Ngày trả đi không được nhỏ hơn ngày hiện tại">
+                    </jhi-error-messages>
+                    <jhi-error-messages *ngIf="cpNgayTraNgayDen" [displayError]="cpNgayTraNgayDen"
+                                        errorMsg="Ngày trả không được nhỏ hơn ngày đến">
+                    </jhi-error-messages>
                   </div>
                 </div>
               </div>
@@ -147,13 +163,13 @@
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('totalDate')">
                     <label class="form-control-label"
-                    >Số ngày thuê phòng</label>
+                    >Thời gian thuê phòng</label>
                     <input type="text" formControlName="totalDate" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
                            [readOnly]="true" maxlength="50"/>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('promotionCode')">
                     <label class="form-control-label"
                     >Mã khuyến mãi</label>
@@ -161,7 +177,22 @@
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
                            [readOnly]="false" maxlength="255" (blur)="getPromotion()"/>
                   </div>
-                </div>
+                </div>-->
+                <!--<div class="col-md-6">
+                  <div class="form-group" [ngClass]="displayFieldHasError('promotionCode')">
+                    <label class="form-control-label">Mã khuyến mãi</label>
+                    <ng-select class="cursor-text scroll-ng-select"
+                               bindLabel="promotionName" formControlName="promotionCode" bindValue="promotionCode"
+                               notFoundText="{{ 'common.select.notFoundText' | translate }}"
+                               placeholder="{{ 'common.select.option.default' | translate }}"
+                               clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
+                               [items]="listPromotion"
+                               (change)="getPromotion()"
+                               [multiple]="false"
+                               [readonly]="type !== 'add' && type !== 'update'">
+                    </ng-select>
+                  </div>
+                </div>-->
               </div>
 
               <div class="row">
@@ -192,7 +223,7 @@
                     >Đã thanh toán</label>
                     <input type="text" formControlName="advanceAmount" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                           [readOnly]="false" maxlength="255" (blur)="tinhTongTien()"/>
+                           [readOnly]="type !== 'add'" maxlength="255" (blur)="tinhTongTien()"/>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -234,9 +265,24 @@
                   <div class="form-group" [ngClass]="displayFieldHasError('note')">
                     <label class="form-control-label" jhiTranslate="user.note">ghi chú</label>
                     <textarea rows="4" cols="400" formControlName="note" class="form-control"
-                              type="text" [readonly]="type === 'detail'" (blur)="trimSpace('note')"
+                              type="text" [readonly]="type !== 'add' && type !== 'update'" (blur)="trimSpace('note')"
                               style="overflow: scroll"></textarea>
                     <jhi-error-messages *ngIf="formControl['note'].hasError('maxlength')"
+                                        [displayError]="isFieldValid('note')"
+                                        errorMsg="{{ 'user.validate.note.maxlength' | translate }}">
+                    </jhi-error-messages>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group" [ngClass]="displayFieldHasError('noteAddition')">
+                    <label class="form-control-label">ghi chú thêm</label>
+                    <textarea rows="4" cols="400" formControlName="noteAddition" class="form-control"
+                              type="text" [readonly]="true" (blur)="trimSpace('noteAddition')"
+                              style="overflow: scroll"></textarea>
+                    <jhi-error-messages *ngIf="formControl['noteAddition'].hasError('maxlength')"
                                         [displayError]="isFieldValid('note')"
                                         errorMsg="{{ 'user.validate.note.maxlength' | translate }}">
                     </jhi-error-messages>
@@ -255,24 +301,24 @@
       jhiTranslate="{{(type !== 'detail'? 'common.button.confirm.cancel' : 'common.button.close')}}">Hủy bỏ</span>
     </button>
 
-    <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="onSubmitData()">
+    <button *ngIf="type === 'add' || type === 'update' || type === 'foward'" type="submit" class="btn btn-primary" (click)="tinhTongTien()">
+      <i class="fa fa-location-arrow" aria-hidden="true"></i><span
+    >  Tính tổng tiền</span>
+    </button>
+
+    <button *ngIf="type === 'add' || type === 'update' || type === 'foward'" type="submit" class="btn btn-primary" (click)="onSubmitData()">
       <i class="fa fa-floppy-o mr-2" aria-hidden="true"></i><span
       jhiTranslate="common.button.confirm.save">Ghi lại</span>
     </button>
 
-    <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="tinhTongTien()">
-      <i class="fa fa-location-arrow" aria-hidden="true"></i><span
-      >  Tính tổng tiền</span>
-    </button>
-
-    <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="onPay()">
+    <button *ngIf="type === 'pay'" type="submit" class="btn btn-primary" (click)="onPay()">
       <i class="fa fa-credit-card-alt" aria-hidden="true"></i><span
-      >  Thanh toán</span>
+    >  Thanh toán</span>
     </button>
 
-    <button *ngIf="type !== 'detail'" type="submit" class="btn btn-primary" (click)="onInvoicePrint()">
+    <button *ngIf="(type === 'detail' || type === 'pay')" type="submit" class="btn btn-primary" (click)="onInvoicePrint()">
       <i class="fa fa-print" aria-hidden="true"></i><span
-      >  In hóa đơn</span>
+    >  In hóa đơn</span>
     </button>
   </div>
 </div>

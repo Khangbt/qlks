@@ -5,6 +5,7 @@ import com.thao.qlts.project.dto.DataPage;
 import com.thao.qlts.project.dto.promotionDTO;
 
 import java.util.Date;
+import java.util.List;
 
 public interface PromotionService {
     DataPage<promotionDTO> searchPromotion(promotionDTO dto);
@@ -15,4 +16,5 @@ public interface PromotionService {
     promotionDTO findById(Long Id);
     promotionDTO findByCode(String code);
     promotionDTO getByCodeAndRoomType(String code, Long roomType, String date);
+    List<promotionDTO> getAllByRoomType(Long roomType, String date);
 }

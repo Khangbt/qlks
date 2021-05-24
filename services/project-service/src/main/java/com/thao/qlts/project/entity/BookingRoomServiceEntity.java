@@ -27,5 +27,9 @@ public class BookingRoomServiceEntity extends Auditable<String> {
     private Integer quantity;
 
     @Column(name = "total")
-    private Double total;
+    private Long total;
+
+
+    @Column(name = "price")
+    private Long price;
 }
