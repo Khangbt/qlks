@@ -41,7 +41,7 @@ public class roomTypeController {
     public ResultResp createHR(@RequestBody RoomTypeDTO dto, HttpServletRequest request) {
         log.info("----------------api addRoom-----------------");
         try {
-            return ResultResp.success(ErrorCode.CREATED_HR_OK, roomTypeService.create(dto));
+            return ResultResp.success(ErrorCode.UPDATED_OK, roomTypeService.create(dto));
         } catch (CustomExceptionHandler e) {
             if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
                 return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
@@ -101,7 +101,6 @@ public class roomTypeController {
         log.info("<-- api updateAsset: start, ");
         try {
             return ResultResp.success(roomTypeService.getRomtype());
-
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
         } catch (Exception e) {
@@ -111,5 +110,6 @@ public class roomTypeController {
         }
 
     }
+
 }
 

@@ -245,10 +245,10 @@ export class AddAssetComponent implements OnInit {
 
   private buildForm() {
     if (this.type === 'add') {
-      this.title = 'Thêm mới nhân sự';
+      this.title = 'Thêm mới tài sản';
     } else if (this.type === 'update') {
-      this.title = 'Sửa nhân sự';
-    } else this.title = 'Xem chi tiết nhân sự';
+      this.title = 'Sửa tài sản';
+    } else this.title = 'Xem chi tiết tài sản';
     this.form = this.formBuilder.group({
       assetId: null,
       amount: null,

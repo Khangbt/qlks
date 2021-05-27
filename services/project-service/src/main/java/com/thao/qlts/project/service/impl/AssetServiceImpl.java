@@ -30,7 +30,7 @@ public class AssetServiceImpl implements AssetService {
 
         dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
         dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
-        List<AssetDTO> list = new ArrayList<>();
+        List<AssetDTO> list ;
         try {
             list = assetCustomRepository.searchAsser(dto);
             dtoDataPage.setData(list);
