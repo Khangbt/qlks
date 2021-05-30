@@ -28,6 +28,7 @@ public class Enums {
         public Integer value() {
             return this.value;
         }
+
     }
 
     /***Define some enums for room-type*/

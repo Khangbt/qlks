@@ -4,12 +4,10 @@ import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.dto.TimeBookDTO;
 import com.thao.qlts.project.entity.*;
-import com.thao.qlts.project.repository.jparepository.DiscountPromotionRepository;
-import com.thao.qlts.project.repository.jparepository.PayRepository;
-import com.thao.qlts.project.repository.jparepository.RoomRepository;
-import com.thao.qlts.project.repository.jparepository.RoomTypeRepository;
+import com.thao.qlts.project.repository.jparepository.*;
 import com.thao.qlts.project.service.BookingRoomService;
 import com.thao.qlts.project.service.PayService;
+import common.Enums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +28,36 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private DiscountPromotionRepository discountPromotionRepository;
 
+
+    @Autowired
+    private HumanResourcesRepository humanResourcesRepository;
     @Autowired
     private RoomTypeRepository roomTypeRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private ServiceRepository serviceRepository;
     @Override
     public PayDto getServiceRoom(Long bookRoomId) {
         PayDto payDto = new PayDto();
         BookingRoomEntity bookingRoomEntity = bookingRoomService.getIdBookRoom(bookRoomId);
+        if (bookingRoomEntity.getEmployeeId() != null && bookingRoomEntity.getEmployeeId() != 0) {
+            if (humanResourcesRepository.findById(bookingRoomEntity.getEmployeeId()).isPresent()) {
+                String name = humanResourcesRepository.findById(bookingRoomEntity.getEmployeeId()).get().getUsername();
+                payDto.setNameEmployee(name);
+            }
+        }
+        if (bookingRoomEntity.getCustomerId() != null && bookingRoomEntity.getCustomerId() != 0) {
+            if (customerRepository.findById(bookingRoomEntity.getCustomerId()).isPresent()) {
+                String name = customerRepository.findById(bookingRoomEntity.getCustomerId()).get().getFullname();
+                payDto.setCustomName(name);
+            }
+        }
 
+
+        payDto.setCustomId(bookingRoomEntity.getCustomerId());
         String listArray = bookingRoomEntity.getOldBookRoom();
         List<Long> list = new ArrayList<>();
         list.add(bookRoomId);
@@ -65,15 +85,19 @@ public class PayServiceImpl implements PayService {
             timeBookDTO.setIdBookRoom(bookingRoomEntity1.getBookingroomId());
             timeBookDTO.setTypeBook(bookingRoomEntity1.getBookingType());
             double aDouble = 0;
+
             switch (bookingRoomEntity1.getBookingType()) {
                 case 1:
-                    aDouble = (double) (time / 3600000);
+                    timeBookDTO.setNameTypeBook("Theo giờ");
+                    aDouble =  Math.ceil((double) time*100/(3600000))/100;
                     break;
                 case 2:
-                    aDouble = (double) (time / 1800000);
+                    timeBookDTO.setNameTypeBook("Theo ngày");
+                    aDouble = Math.ceil((double) time*100/(86400000))/100 ;
                     break;
                 default:
-                    aDouble = (double) (time / 6000);
+                    timeBookDTO.setNameTypeBook("Qua đêm");
+                    aDouble = Math.ceil((double) time*100/(43200000))/100 ;
                     break;
             }
             if (roomTypeRepository.getType(bookingRoomEntity1.getRoomId()).size() > 0) {
@@ -81,6 +105,12 @@ public class PayServiceImpl implements PayService {
                 timeBookDTO.setDayPrice(roomTypeEntity.getDayPrice());
                 timeBookDTO.setHourPrice(roomTypeEntity.getHourPrice());
                 timeBookDTO.setNightPrice(roomTypeEntity.getNightPrice());
+                timeBookDTO.setNameType(roomTypeEntity.getCode());
+
+            }
+            if (roomRepository.findById(bookingRoomEntity1.getRoomId()).isPresent()) {
+                RoomEntity roomEntity = roomRepository.findById(bookingRoomEntity1.getRoomId()).get();
+                timeBookDTO.setNameRoom(roomEntity.getRoomName());
             }
             timeBookDTO.setUnit(aDouble);
             timeBookDTOS.add(timeBookDTO);
@@ -94,6 +124,10 @@ public class PayServiceImpl implements PayService {
             dto.setPrice(entity.getPrice());
             dto.setServiceId(entity.getServiceId());
             dto.setBookingId(entity.getBookingId());
+            if(serviceRepository.findById(entity.getServiceId()).isPresent()){
+                ServiceEntity serviceEntity=serviceRepository.findById(entity.getServiceId()).get();
+                dto.setServiceName(serviceEntity.getServicename());
+            }
             dtos.add(dto);
         });
         payDto.setListService(dtos);
@@ -123,21 +157,23 @@ public class PayServiceImpl implements PayService {
 
         BookingRoomEntity bookingRoomEntity = bookingRoomService.getIdBookRoom(payDto.getIdBooking());
         bookingRoomEntity.setStatus(3);
-
+        RoomEntity roomEntity=new RoomEntity();
         if (roomRepository.findById(bookingRoomEntity.getRoomId()).isPresent()) {
-            RoomEntity roomEntity = roomRepository.findByID(bookingRoomEntity.getRoomId());
-            roomEntity.setStatus(1);
-            roomRepository.save(roomEntity);
+            roomEntity = roomRepository.findById(bookingRoomEntity.getRoomId()).get();
+            roomEntity.setStatus(Enums.ROOM_TYPE.CHO_DON_PHONG.value());
+
         }
         PayEntity payEntity = new PayEntity();
         Long bookRoomId = payDto.getIdBooking();
         payEntity.setIdBookingRoom(bookRoomId);
         payEntity.setAdvanceManey(payDto.getAdvanceManey());
         payEntity.setPayChang(payDto.getPayChang());
+        payEntity.setSumBookRoom(payDto.getSumBookRoom());
         payEntity.setIdDiscount(payDto.getIdDiscount());
         payEntity.setStartBook(payDto.getBookingDate());
         payEntity.setDatePay(new Date());
         try {
+            roomRepository.save(roomEntity);
             bookingRoomService.addEntity(bookingRoomEntity);
             payRepository.save(payEntity);
             return true;
@@ -148,8 +184,6 @@ public class PayServiceImpl implements PayService {
 
     @Override
     public List<?> getList(String date, Integer status) {
-
-
         return null;
     }
 }

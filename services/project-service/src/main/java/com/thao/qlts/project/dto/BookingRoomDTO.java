@@ -44,4 +44,8 @@ public class BookingRoomDTO extends AuditingDTO<String>{
     private String note;
     private String oldBookRoom;
     private String noteAddition;
+
+
+    private List<BookingRoomServiceDTO> listServiceOld;
+
 }

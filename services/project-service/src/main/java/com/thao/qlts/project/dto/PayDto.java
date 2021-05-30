@@ -10,7 +10,7 @@ public class PayDto {
     private Long idBooking;
     private List<BookingRoomServiceDTO> listService;
     private List<TimeBookDTO> timeBookDTOList;
-    private Long EmployeeId;
+    private Long employeeId;
     private String nameEmployee;
     private Date bookingDate;
     private Date bookingDateOut;
@@ -20,7 +20,6 @@ public class PayDto {
     private Long discountId;
     private Long payment;
 
-
     private Long idDiscount;
     private Long payChang;
     private Long advanceManey;
@@ -29,4 +28,6 @@ public class PayDto {
     private String codeDiscount;
 
     private Date datePay;
+    private Long customId;
+    private String customName;
 }

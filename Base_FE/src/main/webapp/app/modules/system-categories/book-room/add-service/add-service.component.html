@@ -11,14 +11,44 @@
       <form [formGroup]="form" *ngIf="form" novalidate autocomplete="off">
         <div class="row">
           <div class="col-md-6">
+            <div class="form-group" >
+              <label class="form-control-label " style="font-size: 18px;">Nhân viên xử lý : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.dataShow.nameEmployee?this.dataShow.nameEmployee:""}}</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-control-label " style="font-size: 18px;">Người đặt : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.dataShow.customName}}</label>
+            </div>  
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label ">Ngày tạo</label>
-            <input type="text" formControlName="creatDate" class="form-control" placeholder="dd/mm/yyyy"
-              [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''" [readOnly]="true" maxlength="255"
-              ngbDatepicker #d="ngbDatepicker" />
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group" >
+              <label class="form-control-label " style="font-size: 18px;">Tên phòng : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.dataRoom.roomName}}</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" >
+              <label class="form-control-label " style="font-size: 18px;">Loại phòng : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.dataRoom.roomTypeName}}</label>
+            </div>  
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group" >
+              <label class="form-control-label " style="font-size: 18px;">Thời gian nhận phòng : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.datepipe.transform(this.dataShow.bookingCheckin,"yyyy-MM-dd hh:mm")}}</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" >
+              <label class="form-control-label " style="font-size: 18px;">Thời gian trả phòng(dự kiến) : </label>
+              <label class="form-control-label " style="font-size: 18px;">{{this.datepipe.transform(this.dataShow.bookingCheckout,"yyyy-MM-dd hh:mm")}}</label>
+            </div>  
           </div>
         </div>
         <div class="row" formArrayName="listService">
@@ -64,7 +94,7 @@
                   <td>
                     <input class="form-control" placeholder="Service {{ i + 1 }}"
                       [attr.disabled]="(checkNul[i] ? true : null)||(type==='browser' ? true:null)" type="number"
-                      formControlName="price">
+                      formControlName="price" [readonly]="true">
                   </td>
                   <td>
                     <input class="form-control" placeholder="Service {{ i + 1 }}"
@@ -74,7 +104,7 @@
                   <td>
                     <input class="form-control" placeholder="Service {{ i + 1 }}"
                       [attr.disabled]="(checkNul[i] ? true : null)||(type==='browser' ? true:null)" type="number"
-                      formControlName="total">
+                      formControlName="total"  [readonly]="true">
                   </td>
                 </tr>
               </tbody>

@@ -41,4 +41,16 @@ export class RoomApiServiceService {
   getRoomFloorList(): Observable<any> {
     return this.http.get(SERVER_API + '/room/getAllFloor');
   }
+
+  getInfoBooking(Id): Observable<any> {
+    return this.http.get(SERVER_API + '/booking/getInfo/' + Id);
+  }
+
+  getPayBooking(Id): Observable<any> {
+    return this.http.get(SERVER_API + '/booking/getPay/' + Id);
+  }
+
+  updatePayBoook(Id, data): Observable<any> {
+    return this.http.post(SERVER_API + '/booking/discountPay/' + Id, data);
+  }
 }

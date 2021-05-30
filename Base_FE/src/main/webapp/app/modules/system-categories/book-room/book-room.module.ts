@@ -8,11 +8,12 @@ import { AssetResourcesRoutingModule } from 'app/modules/system-categories/asset
 import { BookRoomComponent } from './book-room.component';
 import { AddServiceComponent } from './add-service/add-service.component';
 import { AddBookingComponent } from './add-booking/add-booking.component';
+import { PayComponent } from './pay/pay.component';
 // import { AddAssetComponent } from './add-asset/add-asset.component';
 
 @NgModule({
-  declarations: [AddServiceComponent, BookRoomComponent, AddBookingComponent, AddServiceComponent, AddBookingComponent],
+  declarations: [AddServiceComponent, BookRoomComponent, AddBookingComponent, AddServiceComponent, AddBookingComponent, PayComponent],
   imports: [CommonModule, PerfectScrollbarModule, InvoiceWebappSharedModule, ChartsModule, TreeViewModule, AssetResourcesRoutingModule],
-  entryComponents: [AddServiceComponent, AddBookingComponent]
+  entryComponents: [AddServiceComponent, AddBookingComponent, PayComponent]
 })
 export class BookRoomModule {}

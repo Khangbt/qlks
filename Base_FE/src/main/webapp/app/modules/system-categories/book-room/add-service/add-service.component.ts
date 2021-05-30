@@ -3,10 +3,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
+import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { ServiceService } from 'app/core/services/service/service.service';
 import { HeightService } from 'app/shared/services/height.service';
 import { ToastService } from 'app/shared/services/toast.service';
 import { of, Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-add-book-room',
@@ -19,6 +21,7 @@ export class AddServiceComponent implements OnInit {
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   @Input() partId: any;
   @Input() status: any;
+  @Input() dataRoom: any;
   form: FormGroup;
   height: number;
   title: String;
@@ -30,7 +33,8 @@ export class AddServiceComponent implements OnInit {
   listServiceDefule = [];
   unitList = [];
   dataIdListConvet = [];
-
+  listServiceTest = [];
+  dataShow;
   constructor(
     private heightService: HeightService,
     private formBuilder: FormBuilder,
@@ -38,12 +42,14 @@ export class AddServiceComponent implements OnInit {
     private serviceService: ServiceService,
     public activeModal: NgbActiveModal,
     public bookingRoomApi: BookingRoomApi,
-    protected router: Router
+    protected router: Router,
+    private roomApiService: RoomApiServiceService,
+    public datepipe: DatePipe
   ) {}
 
-  ngOnInit() {
-    this.buildForm();
+  async ngOnInit() {
     this.getListService();
+    this.buildForm();
   }
 
   private buildForm() {
@@ -57,17 +63,82 @@ export class AddServiceComponent implements OnInit {
       nameHummer: [],
       approvedDate: [],
       listService: this.formBuilder.array([]),
-      reason: []
+      reason: [],
+      bookingroomId: [this.id]
     });
+    // this.id=1;
     if (this.id) {
       this.getDetail(this.id);
     } else {
       this.form.get('creatDate').setValue(new Date());
+      // this.setCountries(this.listServiceTest)
     }
   }
-  getDetail(id) {}
+  getDetail(id) {
+    console.log(this.dataRoom);
+
+    this.roomApiService.getInfoBooking(id).subscribe(
+      res => {
+        if (res) {
+          console.log(res.data.listService);
+          this.listServiceTest = res.data.listService;
+          this.setCountries(this.listServiceTest);
+        }
+      },
+      err => {
+        this.toastService.openErrorToast('Error from server');
+      }
+    );
+    this.roomApiService.getPayBooking(id).subscribe(res => {
+      if (res) {
+        this.dataShow = res;
+        console.log(this.dataShow);
+      }
+    });
+  }
   get formControl() {
     return this.form.controls;
+  }
+
+  setCountries(data) {
+    console.log(this.listServiceShow);
+
+    this.onResize();
+    for (const c of data) {
+      console.log(c);
+      for (const t of this.checkNul) {
+        if (!t) {
+          return;
+        }
+        this.onResize();
+      }
+
+      this.checkNul.push(true);
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      (<FormArray>this.form.get('listService')).push(
+        this.formBuilder.group({
+          serviceId: c.serviceId,
+          price: c.price,
+          quantity: c.quantity,
+          total: c.total,
+          bookingroomServiceId: c.bookingroomServiceId,
+          bookingId: this.id
+        })
+      );
+    }
+
+    setTimeout(() => {
+      for (const c of data) {
+        for (const p of this.listServiceShow) {
+          if (p.serviceId === c.serviceId) {
+            p.disabled = true;
+          }
+        }
+      }
+    }, 100);
+
+    // this.form.controls["listDeviceR"].setValue(data)
+    this.listServiceR = data;
   }
 
   onResize() {
@@ -117,27 +188,18 @@ export class AddServiceComponent implements OnInit {
     );
   }
   saveDevice(i) {
-    //check dk search
-    // if(this.form.get("listService").value[i].idGroup==null){
-    //   this.toastService.openErrorToast('Hãy chọn loại thiết bị yêu cầu');
-    //   return
-    // }
-    // if(this.form.get("listService").value[i].quantity<=0){
-    //   this.toastService.openErrorToast('Hãy chọn số lượng thiết bị yêu cầu');
-    //   return
-    //  }
-    console.warn(this.form.get('listService').value);
-
     this.checkNul[i] = !this.checkNul[i];
     this.xetTrueFal(this.form.get('listService').value);
   }
   xetTrueFal(data1) {
+    console.log(data1);
+
     if (data1.length === 0) {
       for (const p of this.listServiceDefule) {
         p.disabled = false;
       }
     } else {
-      for (const p of this.listServiceDefule) {
+      for (const p of this.listServiceShow) {
         p.disabled = false;
       }
       for (const c of data1) {
@@ -190,6 +252,7 @@ export class AddServiceComponent implements OnInit {
       res => {
         if (res) {
           this.listServiceShow = res.data;
+          console.log(this.listServiceShow);
         } else {
           this.listServiceShow = [];
         }
@@ -235,13 +298,17 @@ export class AddServiceComponent implements OnInit {
         serviceId: [],
         price: [],
         quantity: [0],
-        total: []
+        total: [],
+        bookingId: this.id,
+        bookingroomServiceId: 0
       })
     );
     this.listServiceR = this.form.get('listService').value;
   }
   deleteDevice(i) {
     this.checkNul.splice(i, 1);
+    console.log('vao day');
+
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     (<FormArray>this.form.get('listService')).removeAt(i);
     this.listServiceR = this.form.get('listService').value;

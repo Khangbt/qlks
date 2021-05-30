@@ -4,6 +4,7 @@ import com.thao.qlts.project.dto.BookingRoomDTO;
 import com.thao.qlts.project.dto.BookingRoomServiceDTO;
 import com.thao.qlts.project.dto.PayDto;
 import com.thao.qlts.project.service.BookingRoomService;
+import com.thao.qlts.project.service.PayService;
 import com.thao.qlts.project.service.impl.PayServiceImpl;
 import common.ErrorCode;
 import common.ResultResp;
@@ -26,7 +27,7 @@ public class BookingRoomController {
     private BookingRoomService bookingRoomService;
 
     @Autowired
-    private PayServiceImpl payService;
+    private PayService payService;
     @PostMapping("/add")
     public ResultResp createBooking(@RequestBody BookingRoomDTO bookingRoomDTO) {
         logger.info("Add booking room");
@@ -72,7 +73,7 @@ public class BookingRoomController {
         logger.info("----------------search booking room-----------------");
         try {
             logger.info("----------------api search booking room Ok-----------------");
-            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(bookingRoomService.onSearch(bookingRoomDTO), HttpStatus.OK);
         } catch (Exception e) {
             logger.info("----------------api search booking room thất bại-----------------");
             throw e;
@@ -115,8 +116,8 @@ public class BookingRoomController {
             return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }
     }
-    @PutMapping("/getPay/{bookingRoomId}")
-    public ResponseEntity<PayDto> billPlease(@PathVariable PayDto payDto) {
+    @PostMapping("/discountPay/{bookingRoomId}")
+    public ResponseEntity<PayDto> billPlease(@RequestBody PayDto payDto) {
         logger.info("----------------get Service by booking room Id-----------------");
         try {
             logger.info("----------------Start-----------------");
@@ -127,6 +128,17 @@ public class BookingRoomController {
         }
     }
 
+    @PutMapping("/getService/{bookingRoomId}")
+    public ResponseEntity<PayDto> getService(@PathVariable PayDto payDto) {
+        logger.info("----------------get Service by booking room Id-----------------");
+        try {
+            logger.info("----------------Start-----------------");
+            return new ResponseEntity(payService.billBookroom(payDto), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info("----------------Error-----------------");
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
 
 
 }
