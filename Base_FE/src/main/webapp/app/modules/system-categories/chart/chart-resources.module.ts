@@ -5,10 +5,21 @@ import { ChartsModule } from 'ng2-charts';
 import { InvoiceWebappSharedModule } from 'app/shared/shared.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ChartResourcesRoutingModule } from 'app/modules/system-categories/chart/chart-resources-routing.module';
+import { ChartComponentComponent } from './chart-component/chart-component.component';
+import { GoogleChartsModule, ScriptLoaderService } from 'angular-google-charts';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, PerfectScrollbarModule, InvoiceWebappSharedModule, ChartsModule, TreeViewModule, ChartResourcesRoutingModule],
-  entryComponents: []
+  declarations: [ChartComponentComponent],
+  imports: [
+    CommonModule,
+    PerfectScrollbarModule,
+    InvoiceWebappSharedModule,
+    TreeViewModule,
+    ChartResourcesRoutingModule,
+    ChartsModule,
+    GoogleChartsModule
+  ],
+  entryComponents: [],
+  providers: [ScriptLoaderService]
 })
 export class ChartResourcesModule {}

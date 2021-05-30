@@ -49,6 +49,7 @@ import { ChartResourcesModule } from 'app/modules/system-categories/chart/chart-
     AddBookingFutureComponent,
     PromotionComponent,
     AddCustomerComponent
+
     // ChartComponent
     // CustomerComponent,
   ],
@@ -66,7 +67,8 @@ import { ChartResourcesModule } from 'app/modules/system-categories/chart/chart-
     ServiceResourcesModule,
     BookRoomModule,
     PromotionResourcesModule,
-    CustomerResourcesModule
+    CustomerResourcesModule,
+    ChartResourcesModule
   ],
   entryComponents: [ImportExcelHumanResourceComponent],
   exports: [],

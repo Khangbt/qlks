@@ -26,6 +26,7 @@ import { Room } from 'app/core/models/room/room';
 import { RoomTypeApiServiceService } from 'app/core/services/room-type/room-type-api-service.service';
 import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 import { AddBookingComponent } from 'app/modules/system-categories/book-room/add-booking/add-booking.component';
+import { PayComponent } from './pay/pay.component';
 @Component({
   selector: 'jhi-book-room',
   templateUrl: './book-room.component.html',
@@ -124,14 +125,17 @@ export class BookRoomComponent implements OnInit {
       keyboard: false
     });
     modalRef.componentInstance.type = type;
-    modalRef.componentInstance.id = data ? data.roomId : null;
+    modalRef.componentInstance.id = data ? data.bookingRoomId : null;
+    modalRef.componentInstance.dataRoom = data;
     modalRef.result
       .then(result => {
         if (result) {
           this.loadAll();
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        this.loadAll();
+      });
   }
   permissionCheck(permission?: string) {
     return this.commonService.havePermission(permission);
@@ -609,6 +613,27 @@ export class BookRoomComponent implements OnInit {
     modalRef.componentInstance.id = data ? data.roomId : null;
     modalRef.componentInstance.bookType = 'current';
     modalRef.componentInstance.bookingRoomId = data ? data.bookingRoomId : null;
+    modalRef.result
+      .then(result => {
+        if (result) {
+          this.loadAll();
+        }
+      })
+      .catch(() => {
+        this.loadAll();
+      });
+  }
+
+  openPayRoom(type?: string, data?: any) {
+    const modalRef = this.modalService.open(PayComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.componentInstance.type = type;
+    modalRef.componentInstance.id = data ? data.bookingRoomId : null;
+    modalRef.componentInstance.bookType = 'current';
+    modalRef.componentInstance.data = data;
     modalRef.result
       .then(result => {
         if (result) {

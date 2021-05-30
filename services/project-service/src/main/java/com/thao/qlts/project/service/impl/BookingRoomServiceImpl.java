@@ -17,6 +17,8 @@ import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -234,12 +236,11 @@ public class BookingRoomServiceImpl implements BookingRoomService {
         if (CommonUtils.isEqualsNullOrEmpty(dto.getBookingroomId())) {
             return ResultResp.badRequest(new ObjectError("BK001", "Lỗi không tìm thấy mã đặt phòng"));
         } else {
-            BookingRoomEntity curr = bookingRoomRepository.findById(dto.getRoomId()).get();
-            List<BookingRoomServiceEntity> listBookingService = bookingRoomServiceRepository.findByBookingId(curr.getBookingroomId());
-            if (CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0) {
+            List<BookingRoomServiceEntity> listBookingService = bookingRoomServiceRepository.findByBookingId(dto.getBookingroomId());
+            if (!CommonUtils.isEqualsNullOrEmpty(listBookingService) && listBookingService.size() > 0) {
                 bookingRoomServiceRepository.deleteAll(listBookingService);
             }
-            if (CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0) {
+            if (!CommonUtils.isEqualsNullOrEmpty(dto.getListService()) && dto.getListService().size() > 0) {
                 bookingRoomServiceRepository.saveAll(bookingRoomServiceMapper.toEntity(dto.getListService()));
             }
             return ResultResp.success("Thêm mới dịch vụ thành công");
@@ -312,12 +313,22 @@ public class BookingRoomServiceImpl implements BookingRoomService {
             RoomTypeEntity roomType = roomTypeRepository.findById(roomTypeId).get();
             List<BookingRoomServiceEntity> bookingService = bookingRoomServiceRepository.findByBookingId(dto.getBookingroomId());
             double priceService = 0L;
+            List<BookingRoomServiceDTO> dtos=new ArrayList<>();
             if (!CommonUtils.isEqualsNullOrEmpty(bookingService)){
                 for (BookingRoomServiceEntity bks : bookingService){
+                    BookingRoomServiceDTO serviceDTO=new BookingRoomServiceDTO();
                     ServiceEntity serviceEntity = serviceRepository.findById(bks.getServiceId()).get();
                     priceService = priceService + (bks.getQuantity())*(serviceEntity.getPrice());
+                    serviceDTO.setBookingId(bks.getBookingId());
+                    serviceDTO.setServiceId(bks.getServiceId());
+                    serviceDTO.setPrice(bks.getPrice());
+                    serviceDTO.setQuantity(bks.getQuantity());
+                    serviceDTO.setTotal(bks.getTotal());
+                    serviceDTO.setBookingroomServiceId(bks.getBookingroomServiceId());
+                    dtos.add(serviceDTO);
                 }
             }
+            dto.setListService(dtos);
             if (dto.getBookingType().equals(Enums.ADD_BOOKING_TYPE.THEO_GIO.value())){
                 DateTime start = null;
                 DateTime end = null;
@@ -390,7 +401,27 @@ public class BookingRoomServiceImpl implements BookingRoomService {
                     }
                 }
                 dto.setNoteAddition(message);
+                String listArray = bookingEntity.getOldBookRoom();
+                List<Long> list = new ArrayList<>();
+                if (listArray != null) {
+                    String[] s = listArray.split(",");
+                    Arrays.asList(s).forEach(s1 -> list.add(Long.valueOf(s1)));
+                }
+                List<BookingRoomServiceEntity> entityList = getListService(list);
+                List<BookingRoomServiceDTO> dtoList=new ArrayList<>();
+                entityList.forEach(entity -> {
+                    BookingRoomServiceDTO serviceDTO=new BookingRoomServiceDTO();
+                    serviceDTO.setBookingroomServiceId(entity.getBookingroomServiceId());
+                    serviceDTO.setQuantity(entity.getQuantity());
+                    serviceDTO.setPrice(entity.getPrice());
+                    serviceDTO.setServiceId(entity.getServiceId());
+                    serviceDTO.setBookingId(entity.getBookingId());
+                    serviceDTO.setTotal(entity.getTotal());
+                    dtoList.add(serviceDTO);
+                });
+                dto.setListServiceOld(dtoList);
             }
+
             return dto;
         }
         return null;

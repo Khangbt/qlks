@@ -15,7 +15,7 @@ public class BookingRoomServiceDTO extends AuditingDTO<String> {
 
     private Integer quantity;
 
-    private Double total;
+    private Long total;
     private Long price;
-
+    private String serviceName;
 }

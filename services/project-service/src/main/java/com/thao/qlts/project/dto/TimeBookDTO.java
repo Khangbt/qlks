@@ -16,5 +16,9 @@ public class TimeBookDTO {
     private Long hourPrice;
     private Double unit;
 
+    private String nameType;
+    private String nameRoom;
     private Integer typeBook;
+
+    private String nameTypeBook;
 }

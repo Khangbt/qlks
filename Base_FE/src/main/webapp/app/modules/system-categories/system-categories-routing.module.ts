@@ -10,9 +10,22 @@ import { AssetResuorceComponent } from 'app/modules/system-categories/asset-resu
 import { CustomerComponent } from 'app/modules/system-categories/customer/customer.component';
 import { PromotionComponent } from 'app/modules/system-categories/promotion/promotion.component';
 import { AddBookingFutureComponent } from 'app/modules/system-categories/add-booking-future/add-booking-future.component';
+import { ChartComponentComponent } from './chart/chart-component/chart-component.component';
 // import { ChartComponent } from 'app/modules/system-categories/chart/chart.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: BookRoomComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/book-room'
+    }
+  },
   {
     path: 'human-resources',
     component: HumanResourcesComponent,
@@ -73,18 +86,18 @@ const routes: Routes = [
       url: 'system-categories/customer-resource'
     }
   },
-  // {
-  //   path: 'chart-resources',
-  //   component: ChartComponent,
-  //   canActivate: [],
-  //   resolve: {
-  //     pagingParams: JhiResolvePagingParams
-  //   },
-  //   data: {
-  //     pageTitle: 'organizationCategories.title',
-  //     url: 'system-categories/chart-resources'
-  //   }
-  // },
+  {
+    path: 'chart-resources',
+    component: ChartComponentComponent,
+    canActivate: [],
+    resolve: {
+      pagingParams: JhiResolvePagingParams
+    },
+    data: {
+      pageTitle: 'organizationCategories.title',
+      url: 'system-categories/chart-resources'
+    }
+  },
   {
     path: 'promotion-resources',
     component: PromotionComponent,
