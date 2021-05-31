@@ -134,9 +134,9 @@
 
                     </div>
                   </td>
-                  <td *ngIf="this.columns[0]?.isShow">{{item.assetCode}}</td>
+                  <td *ngIf="this.columns[0]?.isShow" >{{item.assetCode}}</td>
                   <td *ngIf="this.columns[1]?.isShow">{{item.assetname}}</td>
-                  <td *ngIf="this.columns[2]?.isShow">{{item.amount}}</td>
+                  <td *ngIf="this.columns[2]?.isShow" class="text-center">{{item.amount}}</td>
                   <td *ngIf="this.columns[3]?.isShow" style="text-align: left">{{item.note}}</td>
                 </tr>
                 </tbody>
