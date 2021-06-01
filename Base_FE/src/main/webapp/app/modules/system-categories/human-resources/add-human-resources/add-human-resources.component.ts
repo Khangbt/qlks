@@ -462,12 +462,10 @@ export class AddHumanResourcesComponent implements OnInit {
 
   binDataUsername(email) {
     if (this.form.get('email').valid) {
-      if (email.includes('.iist@gmail.com')) {
-        this.form.value.username = email.slice(0, email.indexOf('.iist@gmail.com'));
-      } else if (email.includes('@iist.vn')) {
-        this.form.value.username = email.slice(0, email.indexOf('@iist.vn'));
+      if (email.includes('@actvn.edu.vn')) {
+        this.form.value.username = email.slice(0, email.indexOf('@actvn.edu.vn'));
       } else {
-        this.form.value.username = email.slice(0, email.indexOf('@iist.com.vn'));
+        this.form.value.username = email.slice(0, email.indexOf('@gmail.com'));
       }
     }
   }
