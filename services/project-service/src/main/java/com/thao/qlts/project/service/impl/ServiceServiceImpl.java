@@ -64,7 +64,7 @@ public class ServiceServiceImpl implements ServiceService {
         }
         else if (null != entity) {
             //TODO: Update  phong
-            entity.setServiceId(Long.valueOf(dto.getDepartmentId()));
+            entity.setServiceId(Long.valueOf(dto.getServiceId()));
             entity.setServicecode(dto.getServicecode());
             entity.setServicename(dto.getServicename());
             entity.setPrice(dto.getPrice());
