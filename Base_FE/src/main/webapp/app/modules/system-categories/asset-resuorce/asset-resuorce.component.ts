@@ -11,6 +11,7 @@ import { ConfirmModalComponent } from 'app/shared/components/confirm-modal/confi
 import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height.constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITEMS_PER_PAGE, MAX_SIZE_PAGE } from 'app/shared/constants/pagination.constants';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-asset-resuorce',
@@ -25,6 +26,7 @@ export class AssetResuorceComponent implements OnInit {
     { key: 2, value: 'Giá', isShow: true },
     { key: 3, value: 'Ghi chú', isShow: true }
   ];
+  quyen = QUYEN;
   form: FormGroup;
   height: number;
   itemsPerPage: any;

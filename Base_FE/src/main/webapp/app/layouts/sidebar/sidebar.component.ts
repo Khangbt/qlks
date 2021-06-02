@@ -14,6 +14,7 @@ import { MENU_TITLE } from 'app/shared/constants/sidebar-menu.constants';
 import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
 import { STATUS } from 'app/shared/constants/app-params.constants';
 import { ProjectManagementService } from 'app/core/services/project-management/project-management.service';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-sidebar',
@@ -30,6 +31,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   hasPermission = false;
   categories: any[] = [];
   reports: any[] = [];
+  quyen = QUYEN;
   supplier = {
     name: MENU_TITLE.HRM.SUPPLIER,
     url: '/system-categories/supplier-resources',

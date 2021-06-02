@@ -45,7 +45,7 @@
 <!--        </ul>-->
 <!--      </li>-->
 <!--      -->
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.NHANSU">
         <a [routerLink]="humanResources.url" routerLinkActive="active-link, text-white">
           <span class="title">{{humanResources.name}}</span>
         </a>
@@ -55,7 +55,7 @@
       </li>
 
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.TAISAN">
         <a [routerLink]="asset.url" routerLinkActive="active-link, text-white">
           <span class="title">{{asset.name}}</span>
         </a>
@@ -64,7 +64,7 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.KHACHHANG">
         <a [routerLink]="customer.url" routerLinkActive="active-link, text-white">
           <span class="title">{{customer.name}}</span>
         </a>
@@ -73,7 +73,7 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.KHUYENMAI">
         <a [routerLink]="promotion.url" routerLinkActive="active-link, text-white">
           <span class="title">{{promotion.name}}</span>
         </a>
@@ -82,7 +82,7 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.PHONG">
         <a [routerLink]="room.url" routerLinkActive="active-link, text-white">
           <span class="title">{{room.name}}</span>
         </a>
@@ -90,7 +90,7 @@
           <i class="fa" [ngClass]="room.class"></i>
         </span>
       </li>
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.LOAIPHONG">
         <a [routerLink]="roomType.url" routerLinkActive="active-link, text-white">
           <span class="title">{{roomType.name}}</span>
         </a>
@@ -99,7 +99,7 @@
         </span>
       </li>
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.DICHVU">
         <a [routerLink]="service.url" routerLinkActive="active-link, text-white">
           <span class="title">{{service.name}}</span>
         </a>
@@ -110,7 +110,7 @@
 
 
 
-      <li *jhiHasPermission="1">
+      <li *jhiHasPermission="quyen.BIEUDO">
         <a [routerLink]="chart.url" routerLinkActive="active-link, text-white">
           <span class="title">{{chart.name}}</span>
         </a>
@@ -120,7 +120,7 @@
       </li>
 
 
-      <li>
+      <li *jhiHasPermission="quyen.PHONGTRUOC">
         <a [routerLink]="bookRoom.url" routerLinkActive="active-link, text-white">
           <span class="title">{{bookRoom.name}}</span>
         </a>
@@ -129,7 +129,7 @@
         </span>
       </li>
 
-      <li>
+      <li *jhiHasPermission="quyen.PHONGLE">
         <a [routerLink]="bookRoomFuture.url" routerLinkActive="active-link, text-white">
           <span class="title">{{bookRoomFuture.name}}</span>
         </a>

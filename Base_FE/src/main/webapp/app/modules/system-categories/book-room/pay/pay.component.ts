@@ -2,13 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { ServiceService } from 'app/core/services/service/service.service';
 import { HeightService } from 'app/shared/services/height.service';
 import { ToastService } from 'app/shared/services/toast.service';
 import { PromotionService } from 'app/core/services/promotionService/promotion.service';
+import { PrintPayComponent } from '../print-pay/print-pay.component';
 
 @Component({
   selector: 'jhi-pay',
@@ -34,6 +35,7 @@ export class PayComponent implements OnInit {
   sumbookRoom = 0;
   listdiscount = [];
   idDiscount = '';
+  dataDiscount: any;
   constructor(
     private heightService: HeightService,
     private formBuilder: FormBuilder,
@@ -44,7 +46,8 @@ export class PayComponent implements OnInit {
     protected router: Router,
     private roomApiService: RoomApiServiceService,
     public datepipe: DatePipe,
-    private promotionService: PromotionService
+    private promotionService: PromotionService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -53,10 +56,12 @@ export class PayComponent implements OnInit {
   onSubmit() {
     this.dataShow.advanceManey = this.bookRoomShow.advanceAmount;
     this.dataShow.idDiscount = this.idDiscount;
+    this.dataShow.payService = this.sumService;
+    this.dataShow.payBook = this.sumBoooking;
 
     this.dataShow.sumBookRoom = this.sumBoooking + this.sumService;
     this.dataShow.payChang = this.sumbookRoom;
-    this.roomApiService.updatePayBoook(this.id, this.dataShow).subscribe(
+    this.bookingRoomApi.updatePayBoook(this.id, this.dataShow).subscribe(
       res => {
         this.toastService.openSuccessToast('Xác nhận thanh toán  thành công !');
 
@@ -110,7 +115,7 @@ export class PayComponent implements OnInit {
     }
   }
   getDetail(id) {
-    this.roomApiService.getPayBooking(id).subscribe(res => {
+    this.bookingRoomApi.getPayBooking(id).subscribe(res => {
       if (res) {
         console.log(res);
         this.listService = res.listService;
@@ -120,7 +125,7 @@ export class PayComponent implements OnInit {
         this.getSumBook();
       }
     });
-    this.roomApiService.getInfoBooking(id).subscribe(res => {
+    this.bookingRoomApi.getInfoBooking(id).subscribe(res => {
       if (res) {
         this.bookRoomShow = res.data;
       }
@@ -162,14 +167,33 @@ export class PayComponent implements OnInit {
 
   xetDiscoon(e) {
     if (e) {
+      this.dataDiscount = e;
       this.idDiscount = e.promotionId;
       this.sumbookRoom = (this.sumBoooking * e.percentPromotion) / 100 + this.sumService;
     } else {
+      this.dataDiscount = null;
       this.idDiscount = '';
       this.sumbookRoom = this.sumBoooking + this.sumService;
     }
   }
   convent(data) {
     return Math.floor(data);
+  }
+  print() {
+    const modalRef = this.modalService.open(PrintPayComponent, {
+      size: 'sm',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    modalRef.componentInstance.dataService = this.listService;
+    modalRef.componentInstance.dataBook = this.timeBookDTOList;
+    modalRef.componentInstance.dataDiscount = this.dataDiscount;
+    modalRef.result
+      .then(result => {
+        if (result) {
+        }
+      })
+      .catch(() => {});
   }
 }
