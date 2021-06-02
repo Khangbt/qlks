@@ -11,6 +11,7 @@ import { ConfirmModalComponent } from 'app/shared/components/confirm-modal/confi
 import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height.constants';
 import { RoomApiServiceService } from 'app/core/services/room-api/room-api-service.service';
 import { RoomModel } from 'app/core/models/room-model/room-model';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-room',
@@ -28,6 +29,7 @@ export class RoomComponent implements OnInit {
     { key: 6, value: 'Loại phòng', isShow: true },
     { key: 7, value: 'Ghi chú', isShow: true }
   ];
+  quyen = QUYEN;
   form: FormGroup;
   height: number;
   itemsPerPage: any;

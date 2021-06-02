@@ -30,4 +30,7 @@ public class PayDto {
     private Date datePay;
     private Long customId;
     private String customName;
+
+    private Long payService;
+    private Long payBook;
 }

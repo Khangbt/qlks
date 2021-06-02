@@ -9,6 +9,7 @@ import com.thao.qlts.project.service.impl.PayServiceImpl;
 import common.ErrorCode;
 import common.ResultResp;
 import exception.CustomExceptionHandler;
+import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +140,22 @@ public class BookingRoomController {
             return ResultResp.serverError(ErrorCode.SERVER_ERROR);
         }
     }
+    @PostMapping("/getChart")
 
+    public ResponseEntity<?> getDataChart(@RequestBody Char aChar){
+        logger.info("----------------get Service by booking room Id-----------------");
+        try {
+            logger.info("----------------Start-----------------");
+            return new ResponseEntity(payService.getList(aChar.quy,aChar.nam), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info("----------------Error-----------------");
+            return ResultResp.serverError(ErrorCode.SERVER_ERROR);
+        }
+    }
+}
 
+@Data
+class Char{
+    List<Integer> quy;
+    Integer nam;
 }

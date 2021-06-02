@@ -1,8 +1,8 @@
-import {Directive, ElementRef, Input, OnInit, Output, TemplateRef, ViewContainerRef} from '@angular/core';
-import {CommonService} from "app/shared/services/common.service";
-import {STORAGE_KEYS} from "app/shared/constants/storage-keys.constants";
-import {FormStoringService} from "app/shared/services/form-storing.service";
-
+import { Directive, ElementRef, Input, OnInit, Output, TemplateRef, ViewContainerRef } from '@angular/core';
+import { CommonService } from 'app/shared/services/common.service';
+import { STORAGE_KEYS } from 'app/shared/constants/storage-keys.constants';
+import { FormStoringService } from 'app/shared/services/form-storing.service';
+import { AUTHEN, QUYEN } from 'app/shared/constants/authen';
 @Directive({
   selector: '[jhiHasPermission]'
 })
@@ -17,82 +17,117 @@ export class HasPermissionDirective implements OnInit {
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
     private commonService: CommonService,
-    private formStoringService: FormStoringService,
-  ) {
-
-  }
+    private formStoringService: FormStoringService
+  ) {}
 
   @Input()
   set jhiHasPermission(value) {
     this._value1 = value;
-    this.updateViewAll(this._value1)
+    this.updateViewAll(this._value1);
   }
 
-
-  private updateViewAll(vale) {
+  private updateViewAll(value) {
     const userToken: any = this.formStoringService.get(STORAGE_KEYS.USER);
-    if (vale === 1) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
+    // if(userToken.positionId===AUTHEN.GIAMDOC){
+    //   this.viewContainer.createEmbeddedView(this.templateRef);
+    // }
 
-    } else if (vale === 2) {
-      if (userToken.role === 'ROLE_ALL' || userToken.role === 'ROLE_ADMINPART') {
+    if (value === QUYEN.BIEUDO) {
+      if (userToken.positionId === AUTHEN.GIAMDOC) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    } else if (vale === 3) {
-      if (userToken.role === 'ROLE_ALL') {
-        this.viewContainer.createEmbeddedView(this.templateRef);
-      } else {
-        this.viewContainer.clear();
-      }
-    }
-    else if(vale === 4){
-
-      if (userToken.role === 'ROLE_ADMINPART') {
+    } else if (value === QUYEN.NHANSU) {
+      if (userToken.positionId === AUTHEN.GIAMDOC || userToken.positionId === AUTHEN.NHANSU) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
     }
 
-    else {
-      if(vale.tyleDto==="DEVICE"){
-        if(vale.status===1){
-          if ((userToken.role === 'ROLE_ALL')){
-            this.viewContainer.createEmbeddedView(this.templateRef);
-          }
-          else if (  userToken.role === 'ROLE_ADMINPART'&& (userToken.partId === vale.partId)) {
-            this.viewContainer.createEmbeddedView(this.templateRef);
-          } else {
-            this.viewContainer.clear();
-          }
-        }else {
-          this.viewContainer.clear();
-        }
+    if (value === QUYEN.TAISAN) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
       }
-      if(vale.tyleDto==="REQUEST"){
-        if(vale.status===1){
-          if (userToken.humanResourceId === vale.creatHummerId){
-            this.viewContainer.createEmbeddedView(this.templateRef);
-          }
-        }else {
-          this.viewContainer.clear();
-        }
-      }
-      if(vale.tyleDto==="HUMMER"){
-        if (userToken.role === 'ROLE_ALL') {
-          this.viewContainer.createEmbeddedView(this.templateRef);
-        } else if (userToken.humanResourceId === vale.humanResourceId&&userToken.role === 'ROLE_USER'){
-            this.viewContainer.createEmbeddedView(this.templateRef);
-        }else {
-          if(userToken.role==='ROLE_ADMINPART'&& (userToken.partId === vale.partId)){
-            this.viewContainer.createEmbeddedView(this.templateRef);
-          }else {
-            this.viewContainer.clear();
-          }
+    }
 
-        }
+    if (value === QUYEN.KHACHHANG) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.KHUYENMAI) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.PHONG) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.DICHVU) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.PHONGLE) {
+      if (userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.PHONGTRUOC) {
+      if (userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.LOAIPHONG) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+    if (
+      value === QUYEN.THEMSUADICHVU ||
+      value === QUYEN.THEMSUAKHUYENMAI ||
+      value === QUYEN.THEMSUALOAIPHONG ||
+      value === QUYEN.THEMSUAPHONG ||
+      value === QUYEN.THEMSUATAISAN
+    ) {
+      if (userToken.positionId === AUTHEN.QUANLY) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    }
+
+    if (value === QUYEN.THEMSUAKHACHHANG) {
+      if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
       }
     }
   }
@@ -107,6 +142,5 @@ export class HasPermissionDirective implements OnInit {
     // }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

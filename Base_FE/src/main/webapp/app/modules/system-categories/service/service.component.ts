@@ -11,6 +11,7 @@ import { ConfirmModalComponent } from 'app/shared/components/confirm-modal/confi
 import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height.constants';
 import { ServiceService } from 'app/core/services/service/service.service';
 import { ServiceModel } from 'app/core/models/service-model/service-model';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-service',
@@ -26,6 +27,7 @@ export class ServiceComponent implements OnInit {
     { key: 4, value: 'Unit', isShow: true },
     { key: 5, value: 'Ghi chú', isShow: true }
   ];
+  quyen = QUYEN;
   form: FormGroup;
   height: number;
   itemsPerPage: any;

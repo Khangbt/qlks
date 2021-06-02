@@ -12,6 +12,7 @@ import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height
 import { AddPromotionComponent } from 'app/modules/system-categories/promotion/add-promotion/add-promotion.component';
 import { PromotionService } from 'app/core/services/promotionService/promotion.service';
 import { PromotionModel } from 'app/core/models/promotion-model/promotion-model';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-promotion',
@@ -29,6 +30,7 @@ export class PromotionComponent implements OnInit {
     { key: 5, value: 'Loại phòng', isShow: true },
     { key: 6, value: 'Ghi chú', isShow: true }
   ];
+  quyen = QUYEN;
   form: FormGroup;
   height: number;
   itemsPerPage: any;

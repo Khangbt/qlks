@@ -14,6 +14,7 @@ import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height
 import { CustomerModel } from 'app/core/models/Customer_Model/customer-model';
 import { CustomerApiService } from 'app/core/services/customer-api/customer-api.service.service';
 import { AddCustomerComponent } from 'app/modules/system-categories/customer/add-customer/add-customer.component';
+import { QUYEN } from 'app/shared/constants/authen';
 
 @Component({
   selector: 'jhi-customer',
@@ -29,6 +30,7 @@ export class CustomerComponent implements OnInit {
     { key: 4, value: 'Email', isShow: true },
     { key: 5, value: 'Đia chỉ', isShow: true }
   ];
+  quyen = QUYEN;
   form: FormGroup;
   height: number;
   itemsPerPage: any;

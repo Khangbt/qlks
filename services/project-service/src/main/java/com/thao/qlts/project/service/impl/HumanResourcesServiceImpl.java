@@ -329,7 +329,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
             throw new CustomExceptionHandler(ErrorCode.USERNAME_NOT_FOUND.getCode(), HttpStatus.UNAUTHORIZED);
         }
         List<GrantedAuthority> roleList = new ArrayList<>();
-        roleList.add(new SimpleGrantedAuthority(humanResourcesEntity.getRole()));
+//        roleList.add(new SimpleGrantedAuthority(humanResourcesEntity.getRole()));
         humanResourcesEntity.setAuthorities(roleList);
         return new org.springframework.security.core.userdetails.User(humanResourcesEntity.getEmail(), humanResourcesEntity.getPassword(), humanResourcesEntity.getAuthorities());
     }

@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="col-md-6"><p style="font-size: 20px;padding-top: 2%;font-family: Open+Sans; text-align: center">BIỂU
-        ĐỒ NỖ LỰC THANH TOÁN THEO DỰ ÁN - {{this.xetQuy()}} Năm {{object.nam}}</p></div>
+        ĐỒ DOANH SỐ THEO -{{this.xetQuy()}}  Năm {{this.form.get("lstQuy").value[0]?this.form.get("lstQuy").value[0]:this.form.get("lstQuy").value}}</p></div>
       <div class="col-md-1">
         <span style="font-size: 2.4rem; color: #0893e1; margin-right: 10px;padding-left: 50%;">
           <i class="fa fa-angle-right" (click)="next()"></i></span>
@@ -65,11 +65,10 @@
           <div class="col-md-12">
             <div class="form-group row" style="display: flex;">
               <div class="col-sm-1"></div>
-              <div class="col-sm-1" style="text-align: center;">
+              <!-- <div class="col-sm-1" style="text-align: center;">
                 <span style="font-size: 1.6rem; color: #0893e1; margin-right: 10px;"><i class="fa fa-filter"
                                                                                         (click)="handleClickNam()"></i></span>
-                <!--<button><img src="../../../../assets/img/icon/loc.png" (click)="handleClickNam()"/></button>-->
-              </div>
+              </div> -->
               <div class="col-sm-3" style="display: inherit;">
                 <div class="col-sm-1" style="display: flex;align-items: center;justify-content: flex-end;">Quý</div>
                 <ng-select class="cursor-text scroll-ng-select col-md-10" style=" padding-left: 2%;"
@@ -79,6 +78,7 @@
                            clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
                            [items]="dataQuy"
                            [multiple]="true"
+                           (change)="getDataChart()"
                 >
                   <!--          (change)="handleClick($event)"-->
                 </ng-select>
@@ -96,6 +96,7 @@
                            clearAllText="{{ 'common.tooltip.action.clearNgSelect' | translate }}"
                            [items]="nam"
                            [multiple]="false"
+                           (change)="getDataChart()"
                 >
                 </ng-select>
               </div>
