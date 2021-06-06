@@ -33,35 +33,27 @@ export class PrintPayComponent implements OnInit {
   }
 
   xetDataShow() {
-    for (let c of this.dataService) {
-      let data = { name: '', quantity: '', price: '', sum: 0 };
+    for (const c of this.dataService) {
+      const data = { name: '', quantity: '', price: '', sum: 0 };
       data.name = c.serviceName;
       data.quantity = c.quantity;
       data.price = c.price;
       data.sum = c.quantity * c.price;
-      console.log(data);
       if (!c.sum) {
         this.dataShowTable.push(data);
       } else {
         this.sumService = c.sum;
       }
     }
-    for (let c of this.dataBook) {
-      console.log(c);
-
+    for (const c of this.dataBook) {
       if (c.sum) {
         this.sumBook = c.sum;
       }
     }
-    console.log('aaa', this.sumService);
-    let c = this.dataDiscount ? (this.sumBook * this.dataDiscount.percentPromotion) / 100 : this.sumBook;
+    const c = this.dataDiscount ? (this.sumBook * this.dataDiscount.percentPromotion) / 100 : this.sumBook;
     this.sumbill = this.sumService + c;
-    console.log(c);
-    console.log(this.sumService + c);
   }
   sumBile() {
-    console.log(this.sumService);
-
     return this.sumService + this.dataDiscount ? (this.sumBook * this.dataDiscount.percentPromotion) / 100 : this.sumBook;
   }
 }

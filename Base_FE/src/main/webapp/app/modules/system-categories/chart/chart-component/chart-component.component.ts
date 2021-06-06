@@ -1,13 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchChart } from 'app/core/models/chart/searchChart';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeightService } from 'app/shared/services/height.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonService } from 'app/shared/services/common.service';
-import { doc } from 'prettier';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
 import { BookingRoomApi } from 'app/core/services/booking-room-api/booking-room-api';
 
 @Component({
