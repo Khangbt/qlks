@@ -591,10 +591,14 @@ export class AddBookingComponent implements OnInit {
         this.activeModal.dismiss();
       },
       err => {
+        this.activeModal.dismiss();
+
         this.toastService.openErrorToast(err.error.msgCode);
         this.spinner.hide();
       },
       () => {
+        this.activeModal.dismiss();
+
         this.spinner.hide();
       }
     );

@@ -44,72 +44,55 @@ export class HasPermissionDirective implements OnInit {
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.TAISAN) {
+    } else if (value === QUYEN.TAISAN) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.KHACHHANG) {
+    } else if (value === QUYEN.KHACHHANG) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.KHUYENMAI) {
+    } else if (value === QUYEN.KHUYENMAI) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.PHONG) {
+    } else if (value === QUYEN.PHONG) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.DICHVU) {
+    } else if (value === QUYEN.DICHVU) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.PHONGLE) {
+    } else if (value === QUYEN.PHONGLE) {
       if (userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.PHONGTRUOC) {
+    } else if (value === QUYEN.PHONGTRUOC) {
       if (userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.LOAIPHONG) {
+    } else if (value === QUYEN.LOAIPHONG) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {
         this.viewContainer.clear();
       }
-    }
-    if (
+    } else if (
       value === QUYEN.THEMSUADICHVU ||
       value === QUYEN.THEMSUAKHUYENMAI ||
       value === QUYEN.THEMSUALOAIPHONG ||
@@ -121,9 +104,7 @@ export class HasPermissionDirective implements OnInit {
       } else {
         this.viewContainer.clear();
       }
-    }
-
-    if (value === QUYEN.THEMSUAKHACHHANG) {
+    } else if (value === QUYEN.THEMSUAKHACHHANG) {
       if (userToken.positionId === AUTHEN.QUANLY || userToken.positionId === AUTHEN.LETAN) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       } else {

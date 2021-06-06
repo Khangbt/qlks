@@ -47,7 +47,7 @@ public class PayServiceImpl implements PayService {
         BookingRoomEntity bookingRoomEntity = bookingRoomService.getIdBookRoom(bookRoomId);
         if (bookingRoomEntity.getEmployeeId() != null && bookingRoomEntity.getEmployeeId() != 0) {
             if (humanResourcesRepository.findById(bookingRoomEntity.getEmployeeId()).isPresent()) {
-                String name = humanResourcesRepository.findById(bookingRoomEntity.getEmployeeId()).get().getUsername();
+                String name = humanResourcesRepository.findById(bookingRoomEntity.getEmployeeId()).get().getFullName();
                 payDto.setNameEmployee(name);
             }
         }

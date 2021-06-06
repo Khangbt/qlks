@@ -127,7 +127,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
       },
       err => {
         this.spinner.hide();
-        console.log(err);
         if (err.status === 302) {
           this.errorMsg = 'Tài khoản đang hiện tại bị khóa vui lòng đợi 10p đăng nhập lại';
         } else {
