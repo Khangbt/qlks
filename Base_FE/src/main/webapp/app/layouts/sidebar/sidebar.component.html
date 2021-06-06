@@ -20,6 +20,23 @@
   <div class="sidebar-menu">
     <!-- BEGIN SIDEBAR MENU ITEMS-->
     <ul class="menu-items">
+      <li>
+        <a [routerLink]="bookRoom.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{bookRoom.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="bookRoom.class"></i>
+        </span>
+      </li>
+
+      <li>
+        <a [routerLink]="bookRoomFuture.url" routerLinkActive="active-link, text-white">
+          <span class="title">{{bookRoomFuture.name}}</span>
+        </a>
+        <span class="icon-thumbnail">
+          <i class="fa" [ngClass]="bookRoomFuture.class"></i>
+        </span>
+      </li>
 
 <!--      <li *jhiHasPermission="['resource.qlda']">-->
 <!--        <a href="javascript:;" [routerLink]="projectManager.url" routerLinkActive="active-link, text-white">-->
@@ -60,7 +77,7 @@
           <span class="title">{{asset.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="asset.class"></i>
+          <i class="fa" [ngClass]="customer.class"></i>
         </span>
       </li>
 
@@ -69,7 +86,7 @@
           <span class="title">{{customer.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="customer.class"></i>
+          <i class="fa" [ngClass]="roomType.class"></i>
         </span>
       </li>
 
@@ -78,7 +95,7 @@
           <span class="title">{{promotion.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="promotion.class"></i>
+          <i class="fa" [ngClass]="asset.class"></i>
         </span>
       </li>
 
@@ -95,7 +112,7 @@
           <span class="title">{{roomType.name}}</span>
         </a>
         <span class="icon-thumbnail">
-          <i class="fa" [ngClass]="roomType.class"></i>
+          <i class="fa" [ngClass]="promotion.class"></i>
         </span>
       </li>
 

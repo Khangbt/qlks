@@ -5,9 +5,9 @@ export const MENU_TITLE = {
     WAREHOUSE: 'Kho',
     ASSET: ' Quản lý tài Sản',
     ROOM: 'Quản lý phòng',
-    ROOM_TYPE: 'Quản lý lọai phong',
+    ROOM_TYPE: 'Quản lý lọai phòng',
     SERVICE: 'Quản lý dịch vụ',
-    CHART: 'Biểu đồ',
+    CHART: 'Thống kê',
 
     PROJECT_MANAGEMENT: 'Quản lý dự án',
     ADD_PROJECT: 'Thêm mới thông tin dự án',
@@ -17,7 +17,7 @@ export const MENU_TITLE = {
     VIEWS_USER: 'Xem thông tin nhân sự',
     USER_OF_PROJECT: 'Nguồn lực nhân sự dự án',
     CUSTOMER: 'Quản lý khách hàng',
-    PROMOTION: 'Quản lý khuyến mại'
+    PROMOTION: 'Quản lý khuyến mãi'
   },
   AUTHORITIES: {
     VIEW_LIST: 'Phân quyền hệ thống',
