@@ -12,7 +12,7 @@ import { SHOW_HIDE_COL_HEIGHT } from 'app/shared/constants/perfect-scroll-height
 import { ServiceService } from 'app/core/services/service/service.service';
 import { ServiceModel } from 'app/core/models/service-model/service-model';
 import { QUYEN } from 'app/shared/constants/authen';
-
+import { Authen } from 'app/shared/util/authen';
 @Component({
   selector: 'jhi-service',
   templateUrl: './service.component.html',
@@ -50,7 +50,8 @@ export class ServiceComponent implements OnInit {
     private toastService: ToastService,
     private formBuilder: FormBuilder,
     protected router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authen: Authen
   ) {
     this.itemsPerPage = ITEMS_PER_PAGE;
     this.maxSizePage = MAX_SIZE_PAGE;
@@ -65,6 +66,7 @@ export class ServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authen.checkAuthen(QUYEN.DICHVU);
     this.buidForm();
     this.searchForm = {};
     this.loadAll();
