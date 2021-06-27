@@ -27,14 +27,12 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public DataPage<AssetDTO> searchAsser(AssetDTO dto) {
         DataPage<AssetDTO> dtoDataPage = new DataPage<>();
-
         dto.setPage(null != dto.getPage() ? dto.getPage().intValue() : 1);
         dto.setPageSize(null != dto.getPageSize() ? dto.getPageSize().intValue() : 10);
         List<AssetDTO> list = new ArrayList<>();
         try {
             list = assetCustomRepository.searchAsser(dto);
             dtoDataPage.setData(list);
-
         }catch (Exception e){
             throw e;
         }
@@ -97,10 +95,6 @@ public class AssetServiceImpl implements AssetService {
         }else{
             AssetEntity assetEntity = new AssetEntity();
             assetEntity.setAssetId(Long.valueOf(dto.getAssetId()));
-//            assetEntity.setAssetname(dto.getAssetname());
-//            assetEntity.setAssetCode(dto.getAssetCode());
-//            assetEntity.setAmount(dto.getAmount());
-//            assetEntity.setNote(dto.getNote());
             assetEntity.setStatus(0);
             assetRepository.save(assetEntity);
             return dto;

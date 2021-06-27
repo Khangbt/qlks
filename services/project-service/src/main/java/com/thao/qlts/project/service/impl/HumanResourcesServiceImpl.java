@@ -67,8 +67,13 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
         return humanResourcesDTO;
     }
     @Override
-    public List<IPositionDTO> position() {
-        return positionRepository.getPosition();
+    public List<IPositionDTO> position(Long pid) {
+        if (pid.equals(3L)){
+            return positionRepository.getPosition();
+        }else if (pid.equals(4L)){
+            return positionRepository.getPositionGD();
+        }
+        return null;
     }
     @Override
     public ResultResp create(String username, HumanResourcesDTO humanResourcesDTO) {
@@ -166,7 +171,7 @@ public class HumanResourcesServiceImpl implements HumanResourcesService, UserDet
 
     @Override
     public HumanResourcesDTO getByEmail(String email) {
-        return null;
+        return humanResourcesMapper.toDto(repository.findByEmail2(email));
     }
 
     @Override

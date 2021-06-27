@@ -59,6 +59,6 @@ public interface HumanResourcesService {
 
     List<ICusTomDto> listAll();
 
-    List<IPositionDTO> position();
+    List<IPositionDTO> position(Long pid);
 
 }

@@ -151,6 +151,12 @@ public class HumanResourcesCustomRepository {
         if (null != dto.getPositionId()) {
             sql.append(" and( hr.POSITION_ID = :positionId )");
         }
+        if (dto.getRole().equals(3L)){
+            sql.append(" and hr.POSITION_ID not in (2,3,4)");
+        }
+        if (dto.getRole().equals(4L)){
+            sql.append(" and hr.POSITION_ID in (2,3,4)");
+        }
         sql.append(" GROUP BY HUMAN_RESOURCE_ID ");
         sql.append(" ORDER BY hr.HUMAN_RESOURCE_ID DESC ");
         Query query = em.createNativeQuery(sql.toString());

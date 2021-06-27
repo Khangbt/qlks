@@ -91,7 +91,7 @@ export class ServiceComponent implements OnInit {
       err => {
         this.spinner.hide();
         // this.toastService.openErrorToast(this.translateService.instant('common.toastr.messages.error.load'));
-        this.toastService.openErrorToast('loi');
+        this.toastService.openErrorToast('Có lỗi phía server, vui lòng liên hệ bộ phận hỗ trợ để biết thêm chi tiết');
       }
     );
   }

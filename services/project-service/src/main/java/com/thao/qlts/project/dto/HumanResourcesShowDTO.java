@@ -54,4 +54,6 @@ public class HumanResourcesShowDTO {
     private String address;
 
     private String phone;
+
+    private Long role;
 }
