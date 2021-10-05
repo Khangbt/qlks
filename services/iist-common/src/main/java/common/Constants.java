@@ -76,12 +76,14 @@ public class Constants {
     /*TanNV*/
 
     public static final String EMAIL_IS_EXIST = "email đã tồn tại";
+    public static final String CREATE_NEW_SUCCESS = "Thêm mới bản ghi thành công";
 
     public static final String CREATE_HR_OK = "Them nhan su thanh cong!";
     public static final String CREATE_CUSTOMER_OK = "Thêm khách hàng thành công";
     public static final String HR_CODE_EXIST = "Ma nhan su da ton tai";
     public static final String CUSTOMER_CODE_EXIST = "Mã khách hàng đã tồn tại";
     public static final String CREATE_HR_FALSE = "Them moi nhan su that bai";
+    public static final String CREATE_NEW_FALSE = "Thêm mới bản ghi không thành công!";
     public static final String CREATE_CUSTOMER_FALSE = "Thêm mới khách hàng thành công";
 
     public static final String UPDATED_ROOM_OK = "Cap nhap thanh cong!";
@@ -91,6 +93,7 @@ public class Constants {
     public static final String DELETE_CUSTOMER_OK = "Xóa khách hàng thành công!";
     public static final String UNLOCK_HR_OK = "Mở khóa nhân sự thành công!";
     public static final String DELETE_HR_FALI = "Khóa nhân sự thất bại, có rằng buộc dữ liệu";
+    public static final String DELETE_FALSE = "Xóa bản ghi thất bại!";
 
     public static final String DELETE_CUSTOMER_FAIL = "Xóa khách hàng thành công!";
 

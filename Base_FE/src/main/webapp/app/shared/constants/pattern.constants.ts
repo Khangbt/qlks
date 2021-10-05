@@ -4,6 +4,7 @@ export const REGEX_PATTERN = {
   EXCHANGE_RATE: /^[\d]{1,11}([,]\d{0,6})?$/,
   IP: /^[0-9.]*$/,
   NUMBER: /^[0-9]*$/,
+  PHONE: /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
 
   /*IIST - LongPC - CREATED 200514*/
   FLOAT: /^[0-9]*[.0-9]{0,3}$/,
@@ -36,5 +37,5 @@ export const REGEX_REPLACE_PATTERN = {
   // ThucDV modifily end 27/05/2020
   PARTNER_CODE: /[^A-Za-z0-9_]*/g,
   // TanNV 28/9/2020
-  INTEGER: /[^0-9]*$/,
+  INTEGER: /[^0-9]*$/
 };

@@ -65,13 +65,14 @@ public class HumanResourcesController {
     }
 
     @PostMapping("/searchHumanResources")
-    public ResponseEntity<List<HumanResourcesShowDTO>> searchHumanResources(@RequestBody HumanResourcesShowDTO dto) {
-        log.info("----------------api searchHumanResources nhan su-----------------");
+    public ResponseEntity<List<HumanResourcesShowDTO>> searchHumanResources(@RequestBody HumanResourcesShowDTO dto, HttpServletRequest request) {
         try {
-            log.info("----------------api searchHumanResources nhan su Ok-----------------");
+            String email = authenService.getEmailCurrentlyLogged(request);
+            HumanResourcesDTO hm = resourcesService.getByEmail(email);
+            Long pid = hm.getPositionId();
+            dto.setRole(pid);
             return new ResponseEntity(resourcesService.getPageHumanResourcesSeach(dto), HttpStatus.OK);
         } catch (Exception e) {
-            log.info("----------------api searchHumanResources nhan su fail-----------------");
             throw e;
         }
     }
@@ -130,8 +131,11 @@ public class HumanResourcesController {
     }
 
     @GetMapping("/getPosition")
-    public ResultResp getHumanPosition() {
-        return ResultResp.success(resourcesService.position());
+    public ResultResp getHumanPosition(HttpServletRequest request) {
+        String email = authenService.getEmailCurrentlyLogged(request);
+        HumanResourcesDTO dto = resourcesService.getByEmail(email);
+        Long pid = dto.getPositionId();
+        return ResultResp.success(resourcesService.position(pid));
     }
 
     // get thong tin nhan su

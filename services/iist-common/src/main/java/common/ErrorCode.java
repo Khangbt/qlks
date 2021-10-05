@@ -44,12 +44,14 @@ public class ErrorCode {
     public static final ObjectError EMAIL_IS_EXIST = new ObjectError("BK010", Constants.EMAIL_IS_EXIST);
 
     public static final ObjectError CREATED_HR_OK = new ObjectError("BK006", Constants.CREATE_HR_OK);
+    public static final ObjectError CREATED_SUCCESS = new ObjectError("CRS", Constants.CREATE_NEW_SUCCESS);
     public static final ObjectError CREATED_CUSTOMER_OK = new ObjectError("BK006", Constants.CREATE_CUSTOMER_OK);
 
     public static final ObjectError CREATED_HR_EXIST = new ObjectError("BK001", Constants.HR_CODE_EXIST);
     public static final ObjectError CREATED_CUSTOMER_EXIST = new ObjectError("BK001", Constants.CUSTOMER_CODE_EXIST);
 
     public static final ObjectError CREATED_HR_FALSE = new ObjectError("BK001", Constants.CREATE_HR_FALSE);
+    public static final ObjectError CREATED_FALSE = new ObjectError("CRF", Constants.CREATE_NEW_FALSE);
     public static final ObjectError CREATED_CUSTOMER_FALSE = new ObjectError("BK001", Constants.CREATE_CUSTOMER_FALSE);
 
     public static final ObjectError UPDATED_HR_OK = new ObjectError("BK002", Constants.UPDATED_ROOM_OK);
@@ -57,6 +59,7 @@ public class ErrorCode {
     public static final ObjectError UPDATED_HR_FAIL = new ObjectError("BK001", Constants.UPDATED_ROOM_FAILE);
 
     public static final ObjectError DELETE_HR_FAIL = new ObjectError("BK008", Constants.DELETE_HR_FALI);
+    public static final ObjectError DELETE_FAIL = new ObjectError("DLF", Constants.DELETE_FALSE);
 
     public static final ObjectError DELETE_HR_OK = new ObjectError("BK009", Constants.DELETE_HR_OK);
 

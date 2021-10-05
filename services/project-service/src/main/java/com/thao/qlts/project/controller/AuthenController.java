@@ -58,10 +58,6 @@ public class AuthenController {
     }
 
 
-
-
-
-
     @GetMapping("/test")
     public ResponseEntity test() {
         User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -85,7 +81,7 @@ public class AuthenController {
     @GetMapping("/verify-email-forgot-password")
     public ResultResp verifyEmailForgotPassword(@RequestParam("email") String email,
                                                 @RequestParam("key") String key) {
-            log.info("Start verify ");
+        log.info("Start verify ");
         if (null == email) {
             return ResultResp.badRequest(ErrorCode.EMAIL_NULL);
         }

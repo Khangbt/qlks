@@ -27,10 +27,9 @@ public class CustomerController {
     private ResultResp getAllCustomer(){
         log.info("get all customer");
         try {
-            return ResultResp.success(ErrorCode.CREATED_HR_OK, customerService.getAllCustomer());
+            return ResultResp.success(ErrorCode.CREATED_SUCCESS, customerService.getAllCustomer());
         } catch (Exception e) {
-            log.error("<--- api find AssetResources: error, ");
-            e.printStackTrace();
+            log.error("Get all customer fail by error, "+e.getMessage());
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }
@@ -44,28 +43,24 @@ public class CustomerController {
         }
     }
     @PostMapping("/add")
-    public ResultResp createHR(@RequestBody CustomerDTO dto, HttpServletRequest request) {
-        log.info("----------------api Customer-----------------");
+    public ResultResp createCustomer(@RequestBody CustomerDTO dto, HttpServletRequest request) {
         try {
-            return ResultResp.success(ErrorCode.CREATED_HR_OK, customerService.create(dto));
+            log.info("Add customer "+dto.getCustomerId()+" sucess");
+            return ResultResp.success(ErrorCode.CREATED_SUCCESS, customerService.create(dto));
         } catch (CustomExceptionHandler e) {
-            if (e.getMsgCode().equalsIgnoreCase(ErrorCode.CREATED_HR_EXIST.getCode()))
-                return ResultResp.badRequest(ErrorCode.CREATED_HR_EXIST);
+            log.error("Add customer "+dto.getCustomerId()+" fail by error: "+e.getMessage());
         }
-        return ResultResp.badRequest(ErrorCode.CREATED_HR_FALSE);
+        return ResultResp.badRequest(ErrorCode.CREATED_FALSE);
     }
 
     @GetMapping("/getCustomerById/{id}")
     public ResultResp getOneById(@PathVariable("id") Long id) {
-        log.info("<-- api updateRoom: start, ", id);
         try {
             return ResultResp.success(customerService.findById(id));
-
         } catch (CustomExceptionHandler e) {
             return ResultResp.badRequest(ErrorCode.USERNAME_NOT_FOUND);
         } catch (Exception e) {
             log.error("<--- api find AssetResources: error, ");
-            e.printStackTrace();
             return ResultResp.badRequest(ErrorCode.SERVER_ERROR);
         }
     }

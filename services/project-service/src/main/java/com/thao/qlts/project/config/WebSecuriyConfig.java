@@ -73,10 +73,10 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-//                .antMatchers("/authen/**","/img/**","/test/**","/socket/**","/swagger-ui/**","/humanResources/getUserInfo").permitAll()
-                .antMatchers("**/**").permitAll()
-//                .anyRequest().authenticated();
-                 .anyRequest().permitAll();
+                .antMatchers("/authen/**","/img/**","/test/**","/socket/**","/swagger-ui/**","/humanResources/getUserInfo").permitAll()
+//                .antMatchers("**/**").permitAll()
+                .anyRequest().authenticated();
+//                 .anyRequest().permitAll();
 
         http.addFilterBefore(jwtAuthorizaionFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(crosFilter, ChannelProcessingFilter.class);

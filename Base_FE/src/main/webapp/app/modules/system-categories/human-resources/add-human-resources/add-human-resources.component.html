@@ -174,21 +174,18 @@
                     >Số điện thoại</label>
                     <input type="number" formControlName="phone" class="form-control"
                            [ngClass]="type === 'add' || type === 'update' ? 'form-control' : ''"
-                           [readOnly]="type === 'detail'" maxlength="255" (blur)="trimSpace('phone')"/>
-                    <jhi-error-messages *ngIf="formControl['phone'].hasError('required')"
-                                        [displayError]="isFieldValid('phone')"
-                                        errorMsg="{{ 'user.validate.fullName.required' | translate }}">
-                    </jhi-error-messages>
-                    <jhi-error-messages *ngIf="formControl['phone'].hasError('maxlength')"
-                                        [displayError]="isFieldValid('phone')"
-                                        errorMsg="{{ 'user.validate.fullName.maxlength' | translate }}">
+                           [readOnly]="type === 'detail'" maxlength="255" (blur)="onBlurPhone('phone')"/>
+                    <jhi-error-messages
+                      *ngIf="formControl['phone'].hasError('invalid')"
+                      [displayError]="isFieldValid('phone')"
+                      errorMsg="Số điện thoại không đúng định dạng">
                     </jhi-error-messages>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group" [ngClass]="displayFieldHasError('dateOfBirth')">
                     <label class="form-control-label required">Ngày Sinh</label>
-                    <jhi-date-picker formControlName="dateOfBirth"></jhi-date-picker>
+                    <jhi-date-picker formControlName="dateOfBirth" readonly="type == 'detail'"></jhi-date-picker>
                     <jhi-error-messages *ngIf="formControl['dateOfBirth'].hasError('required')"
                                         [displayError]="isFieldValid('dateOfBirth')"
                                         errorMsg="Ngày sinh là bắt buộc chọn">

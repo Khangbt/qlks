@@ -294,14 +294,16 @@ export class AddHumanResourcesComponent implements OnInit {
 
   onBlurUserCode() {
     if (this.type === 'add') {
-      this.humanResourceService.checkUserCode(this.form.value.code).subscribe(
-        res => {
-          this.isDuplicateUserCode = false;
-        },
-        err => {
-          this.isDuplicateUserCode = true;
-        }
-      );
+      if (this.getValueOfField('code') != '') {
+        this.humanResourceService.checkUserCode(this.form.value.code).subscribe(
+          res => {
+            this.isDuplicateUserCode = false;
+          },
+          err => {
+            this.isDuplicateUserCode = true;
+          }
+        );
+      }
     }
   }
 
@@ -484,6 +486,15 @@ export class AddHumanResourcesComponent implements OnInit {
 
   isFieldValid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+
+  onBlurPhone(field) {
+    this.setValueToField(field, this.getValueOfField(field).trim());
+    if (!REGEX_PATTERN.PHONE.test(this.getValueOfField(field))) {
+      if (this.getValueOfField(field) !== '') {
+        this.form.controls[field].setErrors({ invalid: true });
+      }
+    }
   }
 
   trimSpace(element) {
